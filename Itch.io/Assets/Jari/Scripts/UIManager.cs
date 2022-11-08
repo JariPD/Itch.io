@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Text Objects")]
     [SerializeField] private TextMeshProUGUI userCardValueText;
+    [SerializeField] private TextMeshProUGUI opponentCardValueText;
     [SerializeField] private TextMeshProUGUI pulledCardText;
 
     private void Awake()
@@ -35,5 +36,10 @@ public class UIManager : MonoBehaviour
     public void UpdatePulledCardText(int cardValue)
     {
         pulledCardText.text = "You pulled: " + cardValue.ToString();
+    }
+
+    public void UpdateOpponentPulledCardText(int opponentValue)
+    {
+        opponentCardValueText.text = "Opponent Got: " + opponentValue.ToString();
     }
 }
