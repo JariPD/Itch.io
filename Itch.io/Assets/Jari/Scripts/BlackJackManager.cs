@@ -57,21 +57,15 @@ public class BlackJackManager : MonoBehaviour
         //print called card
         print("you pulled: " + deck.ElementAt(random));
 
+        //calculates the sum of the user his cards
         userTotalCardValue = usersCards.Sum();
 
         //remove card from deck
         deck.RemoveAt(random);
-        
-        CalculateTotalCardValue();
     }
 
     public void Fold()
     {
         //skips users turn
-    }
-
-    public void CalculateTotalCardValue()
-    {
-        
     }
 }
