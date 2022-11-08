@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class BlackJackManager : MonoBehaviour
@@ -12,6 +13,7 @@ public class BlackJackManager : MonoBehaviour
     [Header("Card Lists")]
     [SerializeField] private List<int> deck;
     [SerializeField] private List<int> usersCards;
+    [SerializeField] private List<int> opponentsCards;
     
     [Header("Card Settings")]
     [SerializeField] private int amountOfCardsInPlay = 52;
@@ -23,13 +25,18 @@ public class BlackJackManager : MonoBehaviour
     [SerializeField] private GameObject retryButton;
 
     [Header("State Info")]
+    [SerializeField] private Button call;
+    [SerializeField] private Button fold;
     [SerializeField] private GameObject win;
     [SerializeField] private GameObject lose;
     [SerializeField] private GameObject draw;
 
     [Header("User Stats")]
     public int UserTotalCardValue;
-   
+
+    [Header("Opponent Stats")]
+    public int OpponentTotalCardValue;
+
     void Start()
     {
         FillList();
@@ -37,12 +44,11 @@ public class BlackJackManager : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //    CallCard();
-
-        //lose check
+        //state lose/win check
         if (UserTotalCardValue > totalMaxValue)
             Lose();
+        if (OpponentTotalCardValue > totalMaxValue)
+            Win();
     }
 
     private void FillList()
@@ -60,10 +66,27 @@ public class BlackJackManager : MonoBehaviour
         }        
     }
 
+    public void Call()
+    {
+        //turn based button first player then opponent(AI)
+        fold.interactable = true;
+        StartCoroutine(TurnBase());
+    }
+
+    private void PlayerTurn()
+    {
+        CallCard();
+    }
+
+    private void OpponentTurn()
+    {
+        CallOpponentCard(10, 0, 0.1f);
+    }
+
     public void CallCard()
     {
         //get random card
-        var random = Random.Range(0, deck.Count -1);
+        var random = Random.Range(0, deck.Count);
 
         //give card to user
         usersCards.Add(deck.ElementAt(random));
@@ -85,7 +108,36 @@ public class BlackJackManager : MonoBehaviour
         deck.RemoveAt(random);
     }
 
-    private void Win()
+    public void CallOpponentCard(float x, float y, float z)
+    {
+        //get random card
+        var random = Random.Range(0, deck.Count);
+
+        //give card to user
+        opponentsCards.Add(deck.ElementAt(random));
+
+        //upates pulled card UI
+        UIManager.instance.UpdateOpponentPulledCardText(deck.ElementAt(random));
+
+        //calculates the sum of the user his cards
+        OpponentTotalCardValue = opponentsCards.Sum();
+
+        //add Card To Game With Value
+        GameObject card = Instantiate(Card);
+        for (int i = 0; i < opponentsCards.Count; i++)
+            card.transform.position = new Vector3(x - i - 5, y, z + i);
+
+        card.GetComponent<BlackJackCard>().cardNumber = deck.ElementAt(random);
+
+        //remove card from deck
+        deck.RemoveAt(random);
+
+        //opponent always wins if max value is reached
+        if (OpponentTotalCardValue == totalMaxValue)
+            Lose();
+    }
+
+    public void Win()
     {
         win.SetActive(true);
         ButtonSwitch();
@@ -105,6 +157,7 @@ public class BlackJackManager : MonoBehaviour
 
     private void ButtonSwitch()
     {
+        //end of the game retry button pops up
         callButton.SetActive(false);
         foldButton.SetActive(false);
         retryButton.SetActive(true);
@@ -113,40 +166,89 @@ public class BlackJackManager : MonoBehaviour
     public void Fold()
     {
         print("You folded");
-        callButton.SetActive(false);
-        foldButton.SetActive(false);
+        ButtonSwitch();
         
-        int opponentValue = Random.Range(18, 24);
-        UIManager.instance.UpdateOpponentPulledCardText(opponentValue);
-        if (opponentValue > totalMaxValue)
-            Win();
-        else if (opponentValue == UserTotalCardValue)
-            Draw();
-        else if (opponentValue < UserTotalCardValue)
-            Win();
-        else
-            CheckWhoWins(opponentValue);
+        UIManager.instance.UpdateOpponentPulledCardText(OpponentTotalCardValue);
 
-        if (opponentValue != UserTotalCardValue)
+        //if opponent has more then 17 total points he choses if he plays on after player has folded out
+        if (OpponentTotalCardValue > 17)
         {
-            if (opponentValue == totalMaxValue)
-                Lose();
+            int change = Random.Range(0, 2);
+            if (change == 0)
+                StartCoroutine(OpponentPlaysOn());
+            else if (change == 1)
+                CheckWhoWins();
         }
+        else if (OpponentTotalCardValue <= 17)
+            StartCoroutine(OpponentPlaysOn());
     }
 
-    private void CheckWhoWins(int _opponentValue)
+    private void CheckWhoWins()
     {
-        if (_opponentValue < totalMaxValue && UserTotalCardValue < totalMaxValue)
+        //if player and opponent both have the max value opponent always wins: player loses 
+        if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue == totalMaxValue)
+            Lose();
+        if (OpponentTotalCardValue == totalMaxValue)
+            Lose();
+
+        //if player has equal points as opponent: draw match
+        if (UserTotalCardValue == OpponentTotalCardValue)
+            Draw();
+
+        //check if opponent and player are below max value
+        if (OpponentTotalCardValue < totalMaxValue && UserTotalCardValue < totalMaxValue)
         {
-            if (_opponentValue > UserTotalCardValue)
+            //check if opponent has more points below max value then player: player loses
+            //else player wins but first check if opponent doesn't have the same points as player
+            if (OpponentTotalCardValue > UserTotalCardValue)
                 Lose();
-            else
+            else if (OpponentTotalCardValue != UserTotalCardValue)
                 Win();
+        }
+        else if (OpponentTotalCardValue > totalMaxValue && UserTotalCardValue < totalMaxValue)
+        {
+            //check if opponent is above max value and player below: player wins
+            Win();
         }
     }
 
     public void Retry()
     {
         SceneManager.LoadScene(0);
+    }
+
+    private void InteractableSwitch()
+    {
+        //switching state to opposite
+        fold.interactable = !fold.interactable;
+        call.interactable = !call.interactable;
+    }
+
+    private IEnumerator OpponentPlaysOn()
+    {
+        //if player isn't above opponent opponent get calls more cards else check if opponent wins
+        if (UserTotalCardValue !> OpponentTotalCardValue)
+            CallOpponentCard(10, 0, 0.1f);
+        if (OpponentTotalCardValue >= UserTotalCardValue)
+            CheckWhoWins();
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(OpponentPlaysOn());
+    }
+
+    public IEnumerator TurnBase()
+    {
+        //first call card for player and then if AI wants he can also call a card
+        InteractableSwitch();
+        PlayerTurn();
+        yield return new WaitForSeconds(0.7f);
+        if (OpponentTotalCardValue <= 18 && UserTotalCardValue < 21)
+        {
+            OpponentTurn();
+            InteractableSwitch();
+        }
+        else
+        {
+            InteractableSwitch();
+        }
     }
 }

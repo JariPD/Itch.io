@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI userCardValueText;
     [SerializeField] private TextMeshProUGUI opponentCardValueText;
     [SerializeField] private TextMeshProUGUI pulledCardText;
+    [SerializeField] private TextMeshProUGUI opponentpulledCardText;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
+        opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
     }
     
     public void UpdatePulledCardText(int cardValue)
@@ -40,6 +42,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateOpponentPulledCardText(int opponentValue)
     {
-        opponentCardValueText.text = "Opponent Got: " + opponentValue.ToString();
+        opponentpulledCardText.text = "Opponent Got: " + opponentValue.ToString();
     }
 }
