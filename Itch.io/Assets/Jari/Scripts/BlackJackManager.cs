@@ -1,24 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BlackJackManager : MonoBehaviour
 {
-    public static BlackJackManager instance;
-
-    [Header("Card Settings")]
+    [Header("Card Lists")]
     [SerializeField] private List<int> deck;
     [SerializeField] private List<int> usersCards;
+    
+    [Header("Card Settings")]
     [SerializeField] private int amountOfCardsInPlay = 52;
-    [SerializeField] private int userTotalCardValue;
     [SerializeField] private int totalMaxValue;
-    private void Awake()
-    {
-        instance = this;
-    }
-
+    
+    [Header("User Stats")]
+    public int UserTotalCardValue;
+   
     void Start()
     {
         FillList();
@@ -30,7 +27,7 @@ public class BlackJackManager : MonoBehaviour
             CallCard();
 
         //lose check
-        if (userTotalCardValue > totalMaxValue)
+        if (UserTotalCardValue > totalMaxValue)
             print("You lost, card value exceeded 21");
     }
 
@@ -39,11 +36,16 @@ public class BlackJackManager : MonoBehaviour
         for (int a = 0; a < 4; a++)
         {
             //fills the deck
-            for (int b = 0; b < 13; b++)
+            for (int b = 0; b < 10; b++)
             {
                 deck.Add(b + 1);
             }
+
+            for (int i = 0; i < 3; i++)
+                deck.Add(10);
         }
+
+        
     }
 
     public void CallCard()
@@ -54,11 +56,11 @@ public class BlackJackManager : MonoBehaviour
         //give card to user
         usersCards.Add(deck.ElementAt(random));
 
-        //print called card
-        print("you pulled: " + deck.ElementAt(random));
+        //upates pulled card UI
+        UIManager.instance.UpdatePulledCardText(deck.ElementAt(random));
 
         //calculates the sum of the user his cards
-        userTotalCardValue = usersCards.Sum();
+        UserTotalCardValue = usersCards.Sum();
 
         //remove card from deck
         deck.RemoveAt(random);
@@ -66,6 +68,6 @@ public class BlackJackManager : MonoBehaviour
 
     public void Fold()
     {
-        //skips users turn
+        print("You folded");
     }
 }
