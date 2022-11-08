@@ -39,7 +39,7 @@ public class BlackJackManager : MonoBehaviour
 
     void Start()
     {
-        FillList();
+        CreateDeck();
     }
 
     void Update()
@@ -51,7 +51,7 @@ public class BlackJackManager : MonoBehaviour
             Win();
     }
 
-    private void FillList()
+    private void CreateDeck()
     {
         for (int a = 0; a < 4; a++)
         {

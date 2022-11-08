@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -23,12 +21,7 @@ public class UIManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-
-    void Start()
-    {
-        
-    }
-
+    
     void Update()
     {
         userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
