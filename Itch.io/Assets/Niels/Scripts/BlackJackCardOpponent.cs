@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class BlackJackCard : MonoBehaviour
+public class BlackJackCardOpponent : MonoBehaviour
 {
     [Header("Player Info")]
-    [SerializeField] private PlayerDeck playerDeck;
+    [SerializeField] private BlackJackOpponent opponentDeck;
 
     [Header("Card Info")]
     public int cardNumber = 0;
@@ -14,12 +14,12 @@ public class BlackJackCard : MonoBehaviour
 
     private void Start()
     {
-        playerDeck = FindObjectOfType<PlayerDeck>();
+        opponentDeck = FindObjectOfType<BlackJackOpponent>();
         GetComponentInChildren<TextMeshProUGUI>().text = cardNumber.ToString();
     }
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, playerDeck.cardPos[ownNumber].transform.position, 1 * Time.maximumDeltaTime);        
+        transform.position = Vector3.Lerp(transform.position, opponentDeck.cardPos[ownNumber].transform.position, 1 * Time.maximumDeltaTime);
     }
 }

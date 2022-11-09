@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
-public class BlackJackOpponent : MonoBehaviour
+public class PlayerDeck : MonoBehaviour
 {
-    public static BlackJackOpponent instance;
+    public static PlayerDeck instance;
 
     public BlackJackManager blackJackManager;
 

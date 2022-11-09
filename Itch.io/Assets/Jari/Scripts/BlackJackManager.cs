@@ -7,8 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class BlackJackManager : MonoBehaviour
 {
-    [Header("Card info")]
+    [Header("Game Info")]
+    [SerializeField] private int playerPoints = 0;
+    [SerializeField] private int OpponentPoints = 0;
+
+    [Header("Card Info")]
     [SerializeField] private GameObject Card;
+    [SerializeField] private GameObject opponentCard;
+    private int cardAmount = 0;
+    private int opponentCardAmount = 0;
 
     [Header("Card Lists")]
     [SerializeField] private List<int> deck;
@@ -18,6 +25,8 @@ public class BlackJackManager : MonoBehaviour
     [Header("Card Settings")]
     //[SerializeField] private int amountOfCardsInPlay = 52;
     [SerializeField] private int totalMaxValue;
+    [SerializeField] private PlayerDeck playerDeck;
+    [SerializeField] private BlackJackOpponent opponentDeck;
 
     [Header("Button Info")]
     [SerializeField] private GameObject callButton;
@@ -99,7 +108,9 @@ public class BlackJackManager : MonoBehaviour
         //add Card To Game With Value
         GameObject card = Instantiate(Card);
         for (int i = 0; i < usersCards.Count; i++)
-            card.transform.position = new Vector3(-10f + i + 5, 0, 0.1f + i);
+            card.GetComponent<BlackJackCard>().ownNumber = cardAmount;
+
+        cardAmount++;
 
         card.GetComponent<BlackJackCard>().cardNumber = deck.ElementAt(random);
 
@@ -122,11 +133,13 @@ public class BlackJackManager : MonoBehaviour
         OpponentTotalCardValue = opponentsCards.Sum();
 
         //add Card To Game With Value
-        GameObject card = Instantiate(Card);
+        GameObject card = Instantiate(opponentCard);
         for (int i = 0; i < opponentsCards.Count; i++)
-            card.transform.position = new Vector3(x - i - 5, y, z + i);
+            card.GetComponent<BlackJackCardOpponent>().ownNumber = opponentCardAmount;
 
-        card.GetComponent<BlackJackCard>().cardNumber = deck.ElementAt(random);
+        opponentCardAmount++;
+
+        card.GetComponent<BlackJackCardOpponent>().cardNumber = deck.ElementAt(random);
 
         //remove card from deck
         deck.RemoveAt(random);
@@ -138,6 +151,7 @@ public class BlackJackManager : MonoBehaviour
 
     public void Win()
     {
+        playerPoints++;
         win.SetActive(true);
         ButtonSwitch();
     }
@@ -150,6 +164,7 @@ public class BlackJackManager : MonoBehaviour
 
     private void Lose()
     {
+        OpponentPoints++;
         lose.SetActive(true);
         ButtonSwitch();
     }
@@ -230,7 +245,10 @@ public class BlackJackManager : MonoBehaviour
     {
         //if player isn't above opponent opponent get calls more cards else check if opponent wins
         if (UserTotalCardValue !> OpponentTotalCardValue)
+        {
+            opponentDeck.AddCard();
             CallOpponentCard(10, 0, 0.1f);
+        }
         if (OpponentTotalCardValue >= UserTotalCardValue)
             WinCheck();
         yield return new WaitForSeconds(0.5f);
@@ -242,11 +260,13 @@ public class BlackJackManager : MonoBehaviour
         //first call card for player and then if AI wants he can also call a card
         InteractableSwitch();
         CallCard();
+        playerDeck.AddCard();
         yield return new WaitForSeconds(0.7f);
         if (OpponentTotalCardValue <= 18 && UserTotalCardValue < 22)
         {
             OpponentTurn();
             InteractableSwitch();
+            opponentDeck.AddCard();
         }
         else
         {
