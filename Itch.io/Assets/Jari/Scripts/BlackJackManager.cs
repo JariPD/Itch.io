@@ -192,7 +192,7 @@ public class BlackJackManager : MonoBehaviour
             Lose();
 
         //if player has equal points as opponent: draw match
-        if (UserTotalCardValue == OpponentTotalCardValue)
+        if (UserTotalCardValue == OpponentTotalCardValue && UserTotalCardValue < totalMaxValue && OpponentTotalCardValue < totalMaxValue)
             Draw();
 
         //check if opponent and player are below max value
