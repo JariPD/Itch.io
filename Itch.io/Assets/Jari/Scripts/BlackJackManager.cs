@@ -16,7 +16,7 @@ public class BlackJackManager : MonoBehaviour
     [SerializeField] private List<int> opponentsCards;
     
     [Header("Card Settings")]
-    [SerializeField] private int amountOfCardsInPlay = 52;
+    //[SerializeField] private int amountOfCardsInPlay = 52;
     [SerializeField] private int totalMaxValue;
 
     [Header("Button Info")]
@@ -51,31 +51,30 @@ public class BlackJackManager : MonoBehaviour
             Win();
     }
 
+    /// <summary>
+    /// function to create a deck
+    /// </summary>
     private void CreateDeck()
     {
+        //fills deck with cards
         for (int a = 0; a < 4; a++)
         {
-            //fills the deck
             for (int b = 0; b < 10; b++)
-            {
                 deck.Add(b + 1);
-            }
 
             for (int i = 0; i < 3; i++)
                 deck.Add(10);
         }        
     }
 
+    /// <summary>
+    /// function to be called from a button for calling a card
+    /// </summary>
     public void Call()
     {
         //turn based button first player then opponent(AI)
         fold.interactable = true;
         StartCoroutine(TurnBase());
-    }
-
-    private void PlayerTurn()
-    {
-        CallCard();
     }
 
     private void OpponentTurn()
@@ -177,13 +176,16 @@ public class BlackJackManager : MonoBehaviour
             if (change == 0)
                 StartCoroutine(OpponentPlaysOn());
             else if (change == 1)
-                CheckWhoWins();
+                WinCheck();
         }
         else if (OpponentTotalCardValue <= 17)
             StartCoroutine(OpponentPlaysOn());
     }
 
-    private void CheckWhoWins()
+    /// <summary>
+    /// function to check who won
+    /// </summary>
+    private void WinCheck()
     {
         //if player and opponent both have the max value opponent always wins: player loses 
         if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue == totalMaxValue)
@@ -230,7 +232,7 @@ public class BlackJackManager : MonoBehaviour
         if (UserTotalCardValue !> OpponentTotalCardValue)
             CallOpponentCard(10, 0, 0.1f);
         if (OpponentTotalCardValue >= UserTotalCardValue)
-            CheckWhoWins();
+            WinCheck();
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(OpponentPlaysOn());
     }
@@ -239,7 +241,7 @@ public class BlackJackManager : MonoBehaviour
     {
         //first call card for player and then if AI wants he can also call a card
         InteractableSwitch();
-        PlayerTurn();
+        CallCard();
         yield return new WaitForSeconds(0.7f);
         if (OpponentTotalCardValue <= 18 && UserTotalCardValue < 22)
         {
