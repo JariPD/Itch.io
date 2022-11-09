@@ -241,7 +241,7 @@ public class BlackJackManager : MonoBehaviour
         InteractableSwitch();
         PlayerTurn();
         yield return new WaitForSeconds(0.7f);
-        if (OpponentTotalCardValue <= 18 && UserTotalCardValue < 21)
+        if (OpponentTotalCardValue <= 18 && UserTotalCardValue < 22)
         {
             OpponentTurn();
             InteractableSwitch();
