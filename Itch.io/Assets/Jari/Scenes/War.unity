@@ -692,10 +692,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceRoll: 0
-  isPlayerTurn: 0
   usersCards: []
   opponentsCards: []
-  card: {fileID: 0}
+  card: {fileID: 1498674024420648602, guid: 80858b235152988428edc6d8cd6e0628, type: 3}
 --- !u!4 &867475897
 Transform:
   m_ObjectHideFlags: 0
