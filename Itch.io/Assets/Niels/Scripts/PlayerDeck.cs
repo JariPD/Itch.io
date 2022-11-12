@@ -14,13 +14,11 @@ public class PlayerDeck : MonoBehaviour
     [SerializeField] private int cardState = 0;
 
     [SerializeField] private Animator deckAnim;
+    public Animator PlayerDeckAnim;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
-
-        if (deckAnim != null)
-            deckAnim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -31,5 +29,9 @@ public class PlayerDeck : MonoBehaviour
     public void AddCard()
     {
         cardState += 1;
+    }
+    public void ResetState()
+    {
+        cardState = 0;
     }
 }

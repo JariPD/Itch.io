@@ -31,4 +31,8 @@ public class BlackJackOpponent : MonoBehaviour
     {
         cardState += 1;
     }
+    public void ResetState()
+    {
+        cardState = 0;
+    }
 }

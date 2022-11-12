@@ -20,6 +20,7 @@ public class BlackJackCardOpponent : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, opponentDeck.cardPos[ownNumber].transform.position, 1 * Time.maximumDeltaTime);
+        transform.position = Vector3.Slerp(transform.position, opponentDeck.cardPos[ownNumber].transform.position, 0.1f * Time.maximumDeltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, opponentDeck.cardPos[ownNumber].transform.rotation, 0.1f * Time.maximumDeltaTime);
     }
 }

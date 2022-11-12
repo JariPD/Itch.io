@@ -14,8 +14,17 @@ public class BlackJackManager : MonoBehaviour
     [Header("Card Info")]
     [SerializeField] private GameObject Card;
     [SerializeField] private GameObject opponentCard;
+    [SerializeField] private Transform cardDeckSpawn;
+    [SerializeField] private Transform cardSpawn;
+
+    [SerializeField] private Animator deckAnim;
+
     private int cardAmount = 0;
     private int opponentCardAmount = 0;
+
+    [Header("Deck info")]
+    [SerializeField] private List<GameObject> playerDeckObj;
+    [SerializeField] private List<GameObject> OpponentDeckDeckObj;
 
     [Header("Card Lists")]
     [SerializeField] private List<int> deck;
@@ -31,7 +40,6 @@ public class BlackJackManager : MonoBehaviour
     [Header("Button Info")]
     [SerializeField] private GameObject callButton;
     [SerializeField] private GameObject foldButton;
-    [SerializeField] private GameObject retryButton;
 
     [Header("State Info")]
     [SerializeField] private Button call;
@@ -73,7 +81,65 @@ public class BlackJackManager : MonoBehaviour
 
             for (int i = 0; i < 3; i++)
                 deck.Add(10);
-        }        
+        }
+    }
+
+    /// <summary>
+    /// another update for the lists because coroutine didn't update the forloops right
+    /// </summary>
+    private void ResetAgain()
+    {
+        if (playerDeckObj != null)
+        {
+            for (int i = 0; i < playerDeckObj.Count; i++)
+            {
+                Destroy(playerDeckObj[i]);
+                playerDeckObj.Remove(playerDeckObj[i]);
+            }
+        }
+
+        if (OpponentDeckDeckObj != null)
+        {
+            for (int i = 0; i < OpponentDeckDeckObj.Count; i++)
+            {
+                Destroy(OpponentDeckDeckObj[i]);
+                OpponentDeckDeckObj.Remove(OpponentDeckDeckObj[i]);
+            }
+        }
+
+        if (usersCards != null)
+            for (int i = 0; i < usersCards.Count; i++)
+                usersCards.Remove(usersCards[i]);
+
+        if (opponentsCards != null)
+            for (int i = 0; i < opponentsCards.Count; i++)
+                opponentsCards.Remove(opponentsCards[i]);
+    }
+
+    /// <summary>
+    /// resets all buttons, interactables, cards and lists for a new round
+    /// </summary>
+    private void ResetRound()
+    {
+        ResetAgain();
+
+        PlayerDeck.instance.ResetState();
+        BlackJackOpponent.instance.ResetState();
+
+        cardAmount = 0;
+        opponentCardAmount = 0;
+
+        UserTotalCardValue = 0; 
+        OpponentTotalCardValue = 0; 
+        callButton.SetActive(true);
+        foldButton.SetActive(true);
+
+        win.SetActive(false);
+        lose.SetActive(false);
+        draw.SetActive(false);
+
+        fold.interactable = false;
+        call.interactable = true;
     }
 
     /// <summary>
@@ -86,11 +152,9 @@ public class BlackJackManager : MonoBehaviour
         StartCoroutine(TurnBase());
     }
 
-    private void OpponentTurn()
-    {
-        CallOpponentCard(10, 0, 0.1f);
-    }
-
+    /// <summary>
+    /// calls card for player deck
+    /// </summary>
     public void CallCard()
     {
         //get random card
@@ -106,7 +170,8 @@ public class BlackJackManager : MonoBehaviour
         UserTotalCardValue = usersCards.Sum();
 
         //add Card To Game With Value
-        GameObject card = Instantiate(Card);
+        GameObject card = Instantiate(Card, cardSpawn.transform.position, cardSpawn.transform.rotation);
+        playerDeckObj.Add(card);
         for (int i = 0; i < usersCards.Count; i++)
             card.GetComponent<BlackJackCard>().ownNumber = cardAmount;
 
@@ -118,7 +183,10 @@ public class BlackJackManager : MonoBehaviour
         deck.RemoveAt(random);
     }
 
-    public void CallOpponentCard(float x, float y, float z)
+    /// <summary>
+    /// call card for opponent deck
+    /// </summary>
+    public void CallOpponentCard()
     {
         //get random card
         var random = Random.Range(0, deck.Count);
@@ -133,7 +201,8 @@ public class BlackJackManager : MonoBehaviour
         OpponentTotalCardValue = opponentsCards.Sum();
 
         //add Card To Game With Value
-        GameObject card = Instantiate(opponentCard);
+        GameObject card = Instantiate(opponentCard, cardSpawn.transform.position, cardSpawn.transform.rotation);
+        OpponentDeckDeckObj.Add(card);
         for (int i = 0; i < opponentsCards.Count; i++)
             card.GetComponent<BlackJackCardOpponent>().ownNumber = opponentCardAmount;
 
@@ -149,21 +218,50 @@ public class BlackJackManager : MonoBehaviour
             Lose();
     }
 
+    /// <summary>
+    /// puts all cards back to GameDeck
+    /// </summary>
+    private void BackToDeck()
+    {
+        for (int i = 0; i < opponentsCards.Count; i++)
+        {
+            deck.Add(opponentsCards[i]);
+            opponentsCards.Remove(opponentsCards[i]);
+        }        
+        for (int i = 0; i < usersCards.Count; i++)
+        {
+            deck.Add(usersCards[i]);
+            usersCards.Remove(usersCards[i]);
+        }
+    }
+
+    /// <summary>
+    /// win match
+    /// </summary>
     public void Win()
     {
+        StartCoroutine(RestartGame());
         playerPoints++;
         win.SetActive(true);
         ButtonSwitch();
     }
 
+    /// <summary>
+    /// draw match
+    /// </summary>
     private void Draw()
     {
+        StartCoroutine(RestartGame());
         draw.SetActive(true);
         ButtonSwitch();
     }
 
+    /// <summary>
+    /// lose match
+    /// </summary>
     private void Lose()
     {
+        StartCoroutine(RestartGame());
         OpponentPoints++;
         lose.SetActive(true);
         ButtonSwitch();
@@ -174,7 +272,6 @@ public class BlackJackManager : MonoBehaviour
         //end of the game retry button pops up
         callButton.SetActive(false);
         foldButton.SetActive(false);
-        retryButton.SetActive(true);
     }
 
     public void Fold()
@@ -182,8 +279,6 @@ public class BlackJackManager : MonoBehaviour
         print("You folded");
         ButtonSwitch();
         
-        UIManager.instance.UpdateOpponentPulledCardText(OpponentTotalCardValue);
-
         //if opponent has more then 17 total points he choses if he plays on after player has folded out
         if (OpponentTotalCardValue > 17)
         {
@@ -202,6 +297,7 @@ public class BlackJackManager : MonoBehaviour
     /// </summary>
     private void WinCheck()
     {
+        Debug.Log("WinCheck");
         //if player and opponent both have the max value opponent always wins: player loses 
         if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue == totalMaxValue)
             Lose();
@@ -229,11 +325,7 @@ public class BlackJackManager : MonoBehaviour
         }
     }
 
-    public void Retry()
-    {
-        SceneManager.LoadScene(0);
-    }
-
+    //switches interactables to the state they are not
     private void InteractableSwitch()
     {
         //switching state to opposite
@@ -241,30 +333,92 @@ public class BlackJackManager : MonoBehaviour
         call.interactable = !call.interactable;
     }
 
+    /// <summary>
+    /// makes cards dissolve and removed from table and list
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Dissolver()
+    {
+        Debug.Log("Dissolve");
+        for (int i = 0; i < playerDeckObj.Count; i++)
+            playerDeckObj[i].GetComponent<CardShaderDissolve>().DissolveCard();
+
+        for (int i = 0; i < OpponentDeckDeckObj.Count; i++)
+            OpponentDeckDeckObj[i].GetComponent<CardShaderDissolve>().DissolveCard();
+        
+        yield return new WaitForSeconds(1);
+
+        for (int i = 0; i < playerDeckObj.Count; i++)
+        {
+            Destroy(playerDeckObj[i]);
+            playerDeckObj.Remove(playerDeckObj[i]);
+        }
+
+        for (int i = 0; i < OpponentDeckDeckObj.Count; i++)
+        {
+            Destroy(OpponentDeckDeckObj[i]);
+            OpponentDeckDeckObj.Remove(OpponentDeckDeckObj[i]);
+        }
+    }
+
+    /// <summary>
+    /// restarts round with dissolve effect en removes decks
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RestartGame()
+    {
+        yield return new WaitForSeconds(1.1f);
+        StartCoroutine(Dissolver());
+        BackToDeck();
+        yield return new WaitForSeconds(1);
+        ResetRound();
+    }
+
     private IEnumerator OpponentPlaysOn()
     {
         //if player isn't above opponent opponent get calls more cards else check if opponent wins
         if (UserTotalCardValue !> OpponentTotalCardValue)
         {
+            deckAnim.Play("Deck");
+            yield return new WaitForSeconds(0.7f);
+
             opponentDeck.AddCard();
-            CallOpponentCard(10, 0, 0.1f);
+            CallOpponentCard();
         }
         if (OpponentTotalCardValue >= UserTotalCardValue)
             WinCheck();
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(OpponentPlaysOn());
+
+        //check if possible to play again
+        if (!win.activeInHierarchy || !lose.activeInHierarchy || !draw.activeInHierarchy)
+        {
+            yield return new WaitForSeconds(Random.Range(2, 6));
+            if (OpponentTotalCardValue < UserTotalCardValue)
+                StartCoroutine(OpponentPlaysOn());
+        }
     }
 
     public IEnumerator TurnBase()
     {
-        //first call card for player and then if AI wants he can also call a card
+        //plays animation for picking up a card and switches buttons off
+        PlayerDeck.instance.PlayerDeckAnim.Play("PlayerDeck");
         InteractableSwitch();
+        yield return new WaitForSeconds(1);
+
+        deckAnim.Play("Deck");
+        yield return new WaitForSeconds(0.7f);
+
+        //first call card for player and then if AI wants he can also call a card
         CallCard();
         playerDeck.AddCard();
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1.5f);
+        PlayerDeck.instance.PlayerDeckAnim.Play("PlayerDeckBack");
+
+        yield return new WaitForSeconds(Random.Range(2, 4));
         if (OpponentTotalCardValue <= 18 && UserTotalCardValue < 22)
         {
-            OpponentTurn();
+            deckAnim.Play("Deck");
+            yield return new WaitForSeconds(0.7f);
+            CallOpponentCard();
             InteractableSwitch();
             opponentDeck.AddCard();
         }
