@@ -7,12 +7,17 @@ public class UIManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private BlackJackManager blackJackManager;
+    [SerializeField] private WarManager warManager;
 
-    [Header("Text Objects")]
+    [Header("Black Jack Text Objects")]
     [SerializeField] private TextMeshProUGUI userCardValueText;
     [SerializeField] private TextMeshProUGUI opponentCardValueText;
     [SerializeField] private TextMeshProUGUI pulledCardText;
     [SerializeField] private TextMeshProUGUI opponentpulledCardText;
+
+    [Header("War Text Objects")]
+    [SerializeField] private TextMeshProUGUI diceRollText;
+    [SerializeField] private TextMeshProUGUI opponentDiceRollText;
 
     private void Awake()
     {
@@ -25,8 +30,16 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         //updates total card values text
-        userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
-        opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
+        if (blackJackManager != null)
+        {
+            userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
+            opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
+        }
+
+        if (warManager != null)
+        {
+            diceRollText.text = "Dice Roll: " + warManager.diceRoll.ToString();
+        }
     }
     
     public void UpdatePulledCardText(int cardValue)
@@ -37,5 +50,15 @@ public class UIManager : MonoBehaviour
     public void UpdateOpponentPulledCardText(int opponentValue)
     {
         opponentpulledCardText.text = "Opponent Got: " + opponentValue.ToString();
+    }
+
+    public void UpdateDiceRollText(int diceValue)
+    {
+        diceRollText.text = "You threw a: " + diceValue.ToString();
+    }
+
+    public void UpdateOpponentDiceRollText(int diceValue)
+    {
+        opponentDiceRollText.text = "Opponent threw a: " + diceValue.ToString();
     }
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
-public class BlackJackOpponent : MonoBehaviour
+public class PlayerDeck : MonoBehaviour
 {
-    public static BlackJackOpponent instance;
+    public static PlayerDeck instance;
 
     public BlackJackManager blackJackManager;
 
@@ -13,13 +14,11 @@ public class BlackJackOpponent : MonoBehaviour
     [SerializeField] private int cardState = 0;
 
     [SerializeField] private Animator deckAnim;
+    public Animator PlayerDeckAnim;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
-
-        if (deckAnim != null)
-            deckAnim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
