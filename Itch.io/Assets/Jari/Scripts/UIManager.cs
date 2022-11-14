@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
 
+    [Header("War Buttons")]
+    [SerializeField] private Button warButton;
+
     private void Awake()
     {
         if (instance == null)
@@ -34,11 +38,6 @@ public class UIManager : MonoBehaviour
         {
             userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
             opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
-        }
-
-        if (warManager != null)
-        {
-            diceRollText.text = "Dice Roll: " + warManager.diceRoll.ToString();
         }
     }
     
@@ -60,5 +59,10 @@ public class UIManager : MonoBehaviour
     public void UpdateOpponentDiceRollText(int diceValue)
     {
         opponentDiceRollText.text = "Opponent threw a: " + diceValue.ToString();
+    }
+
+    public void DisableThrowDiceButton()
+    {
+        Destroy(warButton.gameObject);
     }
 }
