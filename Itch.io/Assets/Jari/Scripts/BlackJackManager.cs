@@ -376,6 +376,7 @@ public class BlackJackManager : MonoBehaviour
 
     private IEnumerator OpponentPlaysOn()
     {
+        Debug.Log("OpponentPlays");
         //if player isn't above opponent opponent get calls more cards else check if opponent wins
         if (UserTotalCardValue !> OpponentTotalCardValue)
         {
