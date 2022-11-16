@@ -5,6 +5,9 @@ using UnityEngine.Animations;
 
 public class WarCard : MonoBehaviour
 {
+    [Header("References")]
+    private Animator anim;
+
     [Header("Card Info")]
     private int attack = 2;
     private int health = 3;
@@ -12,7 +15,6 @@ public class WarCard : MonoBehaviour
     [Header("Card Settings")]
     private Vector3 startPos;
     [SerializeField] private bool cardSelected;
-    private bool validSpot = false;
 
     [Header("Card Follow")]
     [SerializeField] private float offset;
@@ -23,6 +25,7 @@ public class WarCard : MonoBehaviour
 
     private void Start()
     {
+        anim = GetComponent<Animator>();
         startPos = transform.position;
     }
 
@@ -30,21 +33,19 @@ public class WarCard : MonoBehaviour
     {
         if (cardSelected)
         {
-            pos = Input.mousePosition;
+            //card hover
+            /*pos = Input.mousePosition;
             pos.z = offset;
-            transform.position = Camera.main.ScreenToWorldPoint(pos);
-            //transform.position = new Vector3(Camera.main.ScreenToWorldPoint(pos).x, Camera.main.ScreenToWorldPoint(pos).y, transform.position.z);
+            //transform.position = Camera.main.ScreenToWorldPoint(pos);
+            transform.position = new Vector3(Camera.main.ScreenToWorldPoint(pos).x, 0.75f, Camera.main.ScreenToWorldPoint(pos).y);*/
         }
 
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) && !validSpot && cardSelected)
+        if (Input.GetMouseButtonDown(1) && cardSelected)
+            ResetCardPosition(true);
+
+        if (WarManager.instance.PlacingCard)
         {
-            t++;
-            if (t >= 2)
-            {
-                t = 0;
-                cardSelected = false;
-                transform.position = startPos;
-            }
+            ResetCardPosition(false);
         }
     }
 
@@ -53,6 +54,30 @@ public class WarCard : MonoBehaviour
         if (!cardSelected)
         {
             cardSelected = true;
+
+            //set reference to current selected card
+            WarManager.instance.CurrentSelectedCard = gameObject;
+
+            //set animation states
+            anim.SetBool("CardSelected", true);
+
+            //move up the card to indicate it being selected
+            transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
+    }
+
+    private void ResetCardPosition(bool resetPos)
+    {
+        cardSelected = false;
+
+        //set animation state
+        anim.SetBool("CardSelected", false);
+
+        //sets card back to default position
+        if (resetPos)
+            transform.position = startPos;
+
+        //clear selected card
+        //WarManager.instance.CurrentSelectedCard = null;
     }
 }

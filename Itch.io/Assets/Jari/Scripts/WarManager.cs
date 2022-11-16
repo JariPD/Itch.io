@@ -20,14 +20,34 @@ public class WarManager : MonoBehaviour
     //[SerializeField] private GameObject dice;
     //[SerializeField] private DiceThrow diceThrow;
 
+    [Header("Card Placement")]
+    public GameObject CurrentSelectedCard;
+    public bool PlacingCard = false;
+
+    [Header("Grid")]
+    [SerializeField] private GameObject gridParent;
+    private WarGrid grid;
+    
+
     private void Awake()
     {
         instance = this;
+
+        grid = FindObjectOfType<WarGrid>();
     }
 
     public void StartDiceThrow()
     {
+        //grid.CreateGrid();
+        gridParent.SetActive(true);
         StartCoroutine(ThrowDice());
+    }
+
+    public void PlaceCard(Vector3 pos)
+    {
+        PlacingCard = true;
+        
+        CurrentSelectedCard.transform.position = pos;
     }
 
     IEnumerator ThrowDice()
@@ -49,7 +69,7 @@ public class WarManager : MonoBehaviour
             }
 
             //updates the dice roll text
-            UIManager.instance.UpdateDiceRollText(diceRoll);
+            UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
 
             //updates throw dice button
             UIManager.instance.DisableThrowDiceButton();
@@ -63,7 +83,7 @@ public class WarManager : MonoBehaviour
             }
 
             //updates the dice roll text
-            UIManager.instance.UpdateOpponentDiceRollText(diceRoll);
+            UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
         }
 
         yield return new WaitForSeconds(3);
