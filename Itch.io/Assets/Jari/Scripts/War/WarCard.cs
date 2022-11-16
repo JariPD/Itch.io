@@ -34,19 +34,26 @@ public class WarCard : MonoBehaviour
         if (cardSelected)
         {
             //card hover
-            /*pos = Input.mousePosition;
+            /*Cursor.visible = false;
+            pos = Input.mousePosition;
             pos.z = offset;
             //transform.position = Camera.main.ScreenToWorldPoint(pos);
             transform.position = new Vector3(Camera.main.ScreenToWorldPoint(pos).x, 0.75f, Camera.main.ScreenToWorldPoint(pos).y);*/
         }
 
+        /*if (Input.GetKeyDown(KeyCode.Q))
+        {
+            //drop card
+            cardSelected = false;
+            Cursor.visible = true;
+            Physic.rasycast(transform.position, transform.up, 0.25f);
+        }*/
+
         if (Input.GetMouseButtonDown(1) && cardSelected)
             ResetCardPosition(true);
 
         if (WarManager.instance.PlacingCard)
-        {
             ResetCardPosition(false);
-        }
     }
 
     private void OnMouseDown()
@@ -68,6 +75,8 @@ public class WarCard : MonoBehaviour
 
     private void ResetCardPosition(bool resetPos)
     {
+        Cursor.visible = true;
+
         cardSelected = false;
 
         //set animation state

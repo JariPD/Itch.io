@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WarManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class WarManager : MonoBehaviour
     [SerializeField] private List<GameObject> usersCards;
     [SerializeField] private List<GameObject> opponentsCards;
 
-    [SerializeField] private GameObject card;
+    [SerializeField] private GameObject card, opponentCard;
     [SerializeField] private Transform[] cardSpawnPos;
     [SerializeField] private Transform[] opponentCardSpawnPos;
     //[SerializeField] private GameObject dice;
@@ -34,6 +35,14 @@ public class WarManager : MonoBehaviour
         instance = this;
 
         grid = FindObjectOfType<WarGrid>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            
+        }
     }
 
     public void StartDiceThrow()
@@ -79,7 +88,7 @@ public class WarManager : MonoBehaviour
             for (int i = 0; i < diceRoll; i++)
             {
                 opponentsCards.Add(card);
-                Instantiate(card, opponentCardSpawnPos[i].position, opponentCardSpawnPos[i].rotation);
+                Instantiate(opponentCard, opponentCardSpawnPos[i].position, opponentCardSpawnPos[i].rotation);
             }
 
             //updates the dice roll text
