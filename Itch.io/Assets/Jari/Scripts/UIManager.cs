@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,6 +21,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
 
+    [Header("War Buttons")]
+    [SerializeField] private Button warButton;
+
     private void Awake()
     {
         if (instance == null)
@@ -26,7 +31,7 @@ public class UIManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-    
+
     void Update()
     {
         //updates total card values text
@@ -35,13 +40,8 @@ public class UIManager : MonoBehaviour
             userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
             opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
         }
-
-        if (warManager != null)
-        {
-            diceRollText.text = "Dice Roll: " + warManager.diceRoll.ToString();
-        }
     }
-    
+
     public void UpdatePulledCardText(int cardValue)
     {
         pulledCardText.text = "You pulled: " + cardValue.ToString();
@@ -52,13 +52,29 @@ public class UIManager : MonoBehaviour
         opponentpulledCardText.text = "Opponent Got: " + opponentValue.ToString();
     }
 
-    public void UpdateDiceRollText(int diceValue)
+    public void UpdateDiceRollText(int diceValue, bool isPlayerTurn)
     {
-        diceRollText.text = "You threw a: " + diceValue.ToString();
+
+        if (isPlayerTurn)
+        {
+            StartCoroutine(TurnOffText(diceRollText, 3));
+            diceRollText.text = "You rolled: " + diceValue.ToString();
+        }
+        else
+        {
+            StartCoroutine(TurnOffText(opponentDiceRollText, 3));
+            opponentDiceRollText.text = "Opponent rolled: " + diceValue.ToString();
+        }
     }
 
-    public void UpdateOpponentDiceRollText(int diceValue)
+    private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
     {
-        opponentDiceRollText.text = "Opponent threw a: " + diceValue.ToString();
+        yield return new WaitForSeconds(time);
+        text.enabled = false;
+    }
+
+    public void DisableThrowDiceButton()
+    {
+        Destroy(warButton.gameObject);
     }
 }
