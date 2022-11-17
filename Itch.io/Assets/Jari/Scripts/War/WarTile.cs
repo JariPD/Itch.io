@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WarTile : MonoBehaviour
 {
-    [SerializeField] private bool hasCard = false;
+    public bool hasCard = false;
 
     private void Update()
     {
