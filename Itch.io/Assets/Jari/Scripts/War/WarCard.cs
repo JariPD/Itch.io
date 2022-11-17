@@ -14,13 +14,11 @@ public class WarCard : MonoBehaviour
 
     [Header("Card Settings")]
     private Vector3 startPos;
-    [SerializeField] private bool cardSelected;
+    [SerializeField] private bool cardInField;
 
     [Header("Card Follow")]
     [SerializeField] private float offset;
     private Vector3 pos;
-
-    private float t;
 
 
     private void Start()
@@ -31,25 +29,26 @@ public class WarCard : MonoBehaviour
 
     private void Update()
     {
-        if (cardSelected)
+
+        /*if (cardSelected)
         {
             //card hover
-            /*Cursor.visible = false;
+            Cursor.visible = false;
             pos = Input.mousePosition;
             pos.z = offset;
             //transform.position = Camera.main.ScreenToWorldPoint(pos);
-            transform.position = new Vector3(Camera.main.ScreenToWorldPoint(pos).x, 0.75f, Camera.main.ScreenToWorldPoint(pos).y);*/
-        }
+            transform.position = new Vector3(Camera.main.ScreenToWorldPoint(pos).x, 0.75f, Camera.main.ScreenToWorldPoint(pos).y);
+        }*/
 
         /*if (Input.GetKeyDown(KeyCode.Q))
         {
             //drop card
             cardSelected = false;
             Cursor.visible = true;
-            Physic.rasycast(transform.position, transform.up, 0.25f);
+            Physic.rasycast(transform.position, transform.down, 0.25f);
         }*/
 
-        if (Input.GetMouseButtonDown(1) && cardSelected)
+        if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
             ResetCardPosition(true);
 
         if (WarManager.instance.PlacingCard)
@@ -58,9 +57,9 @@ public class WarCard : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!cardSelected)
+        if (!WarManager.instance.CardSelected)
         {
-            cardSelected = true;
+            WarManager.instance.CardSelected = true;
 
             //set reference to current selected card
             WarManager.instance.CurrentSelectedCard = gameObject;
@@ -77,7 +76,7 @@ public class WarCard : MonoBehaviour
     {
         Cursor.visible = true;
 
-        cardSelected = false;
+        WarManager.instance.CardSelected = false;
 
         //set animation state
         anim.SetBool("CardSelected", false);

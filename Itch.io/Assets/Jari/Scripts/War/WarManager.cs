@@ -24,9 +24,11 @@ public class WarManager : MonoBehaviour
     [Header("Card Placement")]
     public GameObject CurrentSelectedCard;
     public bool PlacingCard = false;
+    public bool CardSelected;
 
     [Header("Grid")]
     [SerializeField] private GameObject gridParent;
+    [SerializeField] private GameObject[] playerGrid, enemyGrid;
     private WarGrid grid;
     
 
@@ -35,14 +37,6 @@ public class WarManager : MonoBehaviour
         instance = this;
 
         grid = FindObjectOfType<WarGrid>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            
-        }
     }
 
     public void StartDiceThrow()
