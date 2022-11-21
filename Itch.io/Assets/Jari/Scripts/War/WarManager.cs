@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +12,6 @@ public class WarManager : MonoBehaviour
     private bool isPlayerTurn = true;
     private int turnCount = 0;
 
-    [SerializeField] private List<GameObject> usersCards;
     [SerializeField] private GameObject card, opponentCard;
     [SerializeField] private Transform[] cardSpawnPos;
 
@@ -28,19 +28,47 @@ public class WarManager : MonoBehaviour
     [SerializeField] private GameObject[] playerGrid;
     //private WarGrid grid;
 
-    [Header("AI")]
-    [SerializeField] private Transform[] opponentCardSpawnPos;
-    [SerializeField] private List<GameObject> opponentsCards;
-    [SerializeField] private GameObject[] enemyDefendingRow, enemyAttackingRow;
-    [SerializeField] private bool canPlaceOnDefendingRow;
-    [SerializeField] private bool canPlaceOnAttackingRow;
-    [SerializeField] private int amountOnDefendingRow = 0;
-    [SerializeField] private int amountOnAttackingRow = 0;
+    [Header("Battling")]
+    private int maxPlayerHealth = 10, maxOpponentHealth = 10;
+    [SerializeField] private int playerHealth, opponentHealth;
 
+    [Header("AI")]
+    [SerializeField] private Transform[] opponentHandSpawnPos;
+    [SerializeField] private List<GameObject> opponentsHand;
+    [SerializeField] private GameObject[] enemyGrid;
+    [SerializeField] private GameObject[] enemyDefendingRow, enemyAttackingRow;
+    [SerializeField] private GameObject[] playerDefendingRow, playerAttackingRow;
+    [SerializeField] private int amountOnEnemyDefendingRow, amountOnEnemyAttackingRow;
+    [SerializeField] private int amountOnPlayerDefendingRow, amountOnPlayerAttackingRow;
     private void Awake()
     {
         instance = this;
         //grid = FindObjectOfType<WarGrid>();
+
+        playerHealth = maxPlayerHealth;
+        opponentHealth = maxOpponentHealth;
+    }
+    private void Update()
+    {
+        //healthchecks
+        if (opponentHealth <= 0)
+        {
+            opponentHealth = 0;
+
+            //player won
+        }
+
+        if (playerHealth <= 0)
+        {
+            playerHealth = 0;
+
+            //AI won
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Attack(true, 1);
+        }
     }
 
     /// <summary>
@@ -57,18 +85,20 @@ public class WarManager : MonoBehaviour
     /// function that places a selected card on a tile in the grid
     /// </summary>
     /// <param name="pos"></param>
-    public void PlaceCard(Vector3 pos)
+    public void PlacePlayerCard(Vector3 pos)
     {
         PlacingCard = true;
         CurrentSelectedCard.transform.position = pos;
+        CurrentSelectedCard = null;
     }
 
-    public void Turn()
+    public void SwitchTurn()
     {
         UIManager.instance.TurnButton(false);
 
         //logic for enemy turn
-        AICardPlacement();
+        StartCoroutine(AICardPlacement());
+        CheckForCardsOnField();
     }
 
     IEnumerator ThrowDice()
@@ -84,10 +114,7 @@ public class WarManager : MonoBehaviour
         if (isPlayerTurn)
         {
             for (int i = 0; i < diceRoll; i++)
-            {
-                usersCards.Add(card);
                 Instantiate(card, cardSpawnPos[i].position, cardSpawnPos[i].rotation);
-            }
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -97,11 +124,9 @@ public class WarManager : MonoBehaviour
         }
         else
         {
+            //instantiates the cards for the enemy
             for (int i = 0; i < diceRoll; i++)
-            {
-                opponentsCards.Add(card);
-                Instantiate(opponentCard, opponentCardSpawnPos[i].position, opponentCardSpawnPos[i].rotation);
-            }
+                opponentsHand.Add(Instantiate(opponentCard, opponentHandSpawnPos[i].position, opponentHandSpawnPos[i].rotation));
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -120,47 +145,70 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
-    public void AICardPlacement()
+    private void Attack(bool playerAttack, int amount)
     {
+        if (playerAttack)
+            opponentHealth -= amount;
+        else
+            playerHealth -= amount;
+    }
 
-        
-
-        
-        //code for second turn - not working yet
-        /*for (int i = 0; i < enemyDefendingRow.Length; i++)
+    IEnumerator AICardPlacement()
+    {
+        for (int i = 0; i < opponentsHand.Count; i++)
         {
-            //check how many cards are on defending row
-            if (enemyDefendingRow[i].GetComponent<WarTile>().hasCard)
-                amountOnDefendingRow++;
+            int randomTile = Random.Range(0, enemyGrid.Length);
+            print(randomTile);
 
-            //max defending cards check
-            if (enemyDefendingRow[i].GetComponent<WarTile>().hasCard)
-                canPlaceOnDefendingRow = false;
+            yield return new WaitForSeconds(.2f);
+
+            //check if tile is empty
+            if (!enemyGrid[randomTile].GetComponent<OpponentWarTile>().HasCard)
+            {
+                //places cards on a random tile on the enemy grid
+                opponentsHand[i].transform.position = new Vector3(enemyGrid[randomTile].transform.position.x, .1f, enemyGrid[randomTile].transform.position.z);
+            }
+            else
+            {
+                //if the tile has a card on it, it will check the next tile
+                randomTile++;
+
+                opponentsHand[i].transform.position = new Vector3(enemyGrid[randomTile].transform.position.x, .1f, enemyGrid[randomTile].transform.position.z);
+            }
+        }
+    }
+
+    private void CheckForCardsOnField()
+    {
+        #region PlayerCheck
+        for (int i = 0; i < playerAttackingRow.Length; i++)
+        {
+            if (playerAttackingRow[i].GetComponent<WarTile>().HasCard)
+                amountOnPlayerAttackingRow++;
         }
 
+        for (int i = 0; i < playerDefendingRow.Length; i++)
+        {
+            if (playerDefendingRow[i].GetComponent<WarTile>().HasCard)
+                amountOnPlayerDefendingRow++;
+        }
+        #endregion
+
+        #region AiCheck
         for (int i = 0; i < enemyAttackingRow.Length; i++)
         {
-            //check how many cards are on attacking row
-            if (enemyAttackingRow[i].GetComponent<WarTile>().hasCard)
-                amountOnAttackingRow++;
+            if (enemyAttackingRow[i].GetComponent<OpponentWarTile>().HasCard)
+                amountOnEnemyAttackingRow++;
+        }
 
-            //max attacking cards check
-            if (enemyAttackingRow[i].GetComponent<WarTile>().hasCard)
-            {
-                //cant place on attacking row
-                canPlaceOnAttackingRow = false;
-            }
-        }*/
-
-        //check AI's grid
-        //check how many are on defending row
-        //check how many are on attacking row
-
-        //if defending row is full, place on attacking row
-
-        //if attacking row is full, place on defending row
-
-        //place cards accordingly
+        for (int i = 0; i < enemyDefendingRow.Length; i++)
+        {
+            if (enemyDefendingRow[i].GetComponent<OpponentWarTile>().HasCard)
+                amountOnEnemyDefendingRow++;
+        }
+        #endregion
     }
 }
+
+
 

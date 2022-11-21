@@ -5,22 +5,22 @@ using UnityEngine;
 
 public class WarTile : MonoBehaviour
 {
-    public bool hasCard = false;
+    public bool HasCard = false;
 
     private void Update()
     {
         if (Physics.Raycast(transform.position, transform.up, 0.25f))
-            hasCard = true;
+            HasCard = true;
         else 
-            hasCard = false;
+            HasCard = false;
     }
 
     private void OnMouseDown()
     {
-        if (!hasCard)
+        if (!HasCard)
         {
             //place selected card on tile
-            WarManager.instance.PlaceCard(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
+            WarManager.instance.PlacePlayerCard(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
 
             StartCoroutine(ResetPlacingCard());
         }

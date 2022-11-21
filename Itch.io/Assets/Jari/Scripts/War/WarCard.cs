@@ -10,7 +10,7 @@ public class WarCard : MonoBehaviour
 
     [Header("Card Info")]
     private int attack = 2;
-    private int health = 3;
+    private int health = 1;
 
     [Header("Card Settings")]
     private Vector3 startPos;
@@ -38,14 +38,6 @@ public class WarCard : MonoBehaviour
             pos.z = offset;
             //transform.position = Camera.main.ScreenToWorldPoint(pos);
             transform.position = new Vector3(Camera.main.ScreenToWorldPoint(pos).x, 0.75f, Camera.main.ScreenToWorldPoint(pos).y);
-        }*/
-
-        /*if (Input.GetKeyDown(KeyCode.Q))
-        {
-            //drop card
-            cardSelected = false;
-            Cursor.visible = true;
-            Physic.rasycast(transform.position, transform.down, 0.25f);
         }*/
 
         if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
