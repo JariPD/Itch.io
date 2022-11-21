@@ -2196,34 +2196,6 @@ MonoBehaviour:
   - {fileID: 1969446110}
   - {fileID: 348605798}
   - {fileID: 1858565169}
-  enemyDefendingRow:
-  - {fileID: 957855257}
-  - {fileID: 1822699840}
-  - {fileID: 1969446110}
-  - {fileID: 348605798}
-  - {fileID: 1858565169}
-  enemyAttackingRow:
-  - {fileID: 228025981}
-  - {fileID: 834638858}
-  - {fileID: 899439582}
-  - {fileID: 2021608352}
-  - {fileID: 395665440}
-  playerDefendingRow:
-  - {fileID: 1974876835}
-  - {fileID: 2000058297}
-  - {fileID: 2084318138}
-  - {fileID: 1327247351}
-  - {fileID: 1540041021}
-  playerAttackingRow:
-  - {fileID: 336851526}
-  - {fileID: 593632816}
-  - {fileID: 368060029}
-  - {fileID: 1478686391}
-  - {fileID: 255270436}
-  amountOnEnemyDefendingRow: 0
-  amountOnEnemyAttackingRow: 0
-  amountOnPlayerDefendingRow: 0
-  amountOnPlayerAttackingRow: 0
 --- !u!4 &867475897
 Transform:
   m_ObjectHideFlags: 0
@@ -2248,17 +2220,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 867475895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a707dcf2abf9dd45b3f31b1375987ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 90720ebba2298134487a93cf231569a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 8252918151691640327, guid: 7d5c8dc7d26d4f348915a44b47d61753, type: 3}
-  gridParent: {fileID: 388989964}
-  collumLength: 5
-  rowLength: 4
-  xStart: -4.25
-  yStart: -3.25
-  xSpace: 2
-  ySpace: 2.5
+  AIDefendingRow:
+  - {fileID: 957855257}
+  - {fileID: 1822699840}
+  - {fileID: 1969446110}
+  - {fileID: 348605798}
+  - {fileID: 1858565169}
+  AIAttackingRow:
+  - {fileID: 228025981}
+  - {fileID: 834638858}
+  - {fileID: 899439582}
+  - {fileID: 2021608352}
+  - {fileID: 395665440}
+  PlayerDefendingRow:
+  - {fileID: 1974876835}
+  - {fileID: 2000058297}
+  - {fileID: 2084318138}
+  - {fileID: 1327247351}
+  - {fileID: 1540041021}
+  PlayerAttackingRow:
+  - {fileID: 336851526}
+  - {fileID: 593632816}
+  - {fileID: 368060029}
+  - {fileID: 1478686391}
+  - {fileID: 255270436}
+  AIDefendingCount: 0
+  AIAttackingCount: 0
+  DefendingCount: 0
+  AttackingCount: 0
 --- !u!1 &899439582
 GameObject:
   m_ObjectHideFlags: 0

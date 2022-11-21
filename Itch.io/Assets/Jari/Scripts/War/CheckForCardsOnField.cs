@@ -1,44 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckForCardsOnField : MonoBehaviour
 {
-    public GameObject[] enemyDefendingRow, enemyAttackingRow;
-    public GameObject[] playerDefendingRow, playerAttackingRow;
-    public int amountOnEnemyDefendingRow, amountOnEnemyAttackingRow;
-    public int amountOnPlayerDefendingRow, amountOnPlayerAttackingRow;
+    public static CheckForCardsOnField instance;
 
-    
+    public GameObject[] AIDefendingRow, AIAttackingRow;
+    public GameObject[] PlayerDefendingRow, PlayerAttackingRow;
+    public int AIDefendingCount, AIAttackingCount;
+    public int DefendingCount, AttackingCount;
 
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void CheckForPlayer()
     {
-        for (int i = 0; i < playerAttackingRow.Length; i++)
+        for (int i = 0; i < PlayerAttackingRow.Length; i++)
         {
-            if (playerAttackingRow[i].GetComponent<WarTile>().HasCard)
-                amountOnPlayerAttackingRow++;
+            if (PlayerAttackingRow[i].GetComponent<WarTile>().HasCard)
+                AttackingCount++;
         }
 
-        for (int i = 0; i < playerDefendingRow.Length; i++)
+        for (int i = 0; i < PlayerDefendingRow.Length; i++)
         {
-            if (playerDefendingRow[i].GetComponent<WarTile>().HasCard)
-                amountOnPlayerDefendingRow++;
+            if (PlayerDefendingRow[i].GetComponent<WarTile>().HasCard)
+                DefendingCount++;
         }
     }
 
     public void CheckForAI()
     {
-        for (int i = 0; i < enemyAttackingRow.Length; i++)
+        for (int i = 0; i < AIAttackingRow.Length; i++)
         {
-            if (enemyAttackingRow[i].GetComponent<OpponentWarTile>().HasCard)
-                amountOnEnemyAttackingRow++;
+            if (AIAttackingRow[i].GetComponent<OpponentWarTile>().HasCard)
+                AIAttackingCount++;
         }
 
-        for (int i = 0; i < enemyDefendingRow.Length; i++)
+        for (int i = 0; i < AIDefendingRow.Length; i++)
         {
-            if (enemyDefendingRow[i].GetComponent<OpponentWarTile>().HasCard)
-                amountOnEnemyDefendingRow++;
+            if (AIDefendingRow[i].GetComponent<OpponentWarTile>().HasCard)
+                AIDefendingCount++;
         }
     }
 }
