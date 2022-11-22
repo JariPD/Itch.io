@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class OpponentCard : MonoBehaviour
 {
+    [Header("Card Info")]
+    public int attack = 1;
+    public int health = 2;
+
+    /*private void Update()
+    {
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void OnMouseDown()
     {
@@ -13,5 +24,5 @@ public class OpponentCard : MonoBehaviour
             WarManager.instance.CurrentFocussedCard = gameObject;
             GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         }
-    }
+    }*/
 }

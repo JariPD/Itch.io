@@ -175,7 +175,10 @@ public class WarManager : MonoBehaviour
         int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
         int opponentDefendingPower = checkForCardsOnField.AIDefendingCount * 2;
 
-
+        ///attack focused enemy card
+        /*int randomEnemyCard = Random.Range(0, warAI.opponentsHand.Count);
+        warAI.opponentsHand[randomEnemyCard].GetComponent<OpponentCard>().health -= playerAttackPower;
+*/
         if (playerAttackPower > opponentDefendingPower)
         {
             ChangeHealth(false, playerAttackPower);
