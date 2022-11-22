@@ -9,8 +9,8 @@ public class WarCard : MonoBehaviour
     private Animator anim;
 
     [Header("Card Info")]
-    private int attack = 2;
-    private int health = 1;
+    private int attack = 1;
+    private int health = 2;
 
     [Header("Card Settings")]
     private Vector3 startPos;
@@ -29,17 +29,6 @@ public class WarCard : MonoBehaviour
 
     private void Update()
     {
-
-        /*if (cardSelected)
-        {
-            //card hover
-            Cursor.visible = false;
-            pos = Input.mousePosition;
-            pos.z = offset;
-            //transform.position = Camera.main.ScreenToWorldPoint(pos);
-            transform.position = new Vector3(Camera.main.ScreenToWorldPoint(pos).x, 0.75f, Camera.main.ScreenToWorldPoint(pos).y);
-        }*/
-
         if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
             ResetCardPosition(true);
 
@@ -76,8 +65,5 @@ public class WarCard : MonoBehaviour
         //sets card back to default position
         if (resetPos)
             transform.position = startPos;
-
-        //clear selected card
-        //WarManager.instance.CurrentSelectedCard = null;
     }
 }

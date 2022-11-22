@@ -31,10 +31,11 @@ public class WarManager : MonoBehaviour
     [SerializeField] private GameObject[] playerGrid;
 
     [Header("Battling")]
+    public bool FocussingACard;
     private int maxPlayerHealth = 10, maxOpponentHealth = 10;
     [SerializeField] private int playerHealth, opponentHealth;
 
-    
+
 
     private void Awake()
     {
@@ -61,11 +62,6 @@ public class WarManager : MonoBehaviour
             playerHealth = 0;
 
             //AI won
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //Attack(true, 1);
         }
     }
 
@@ -152,7 +148,7 @@ public class WarManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3);
-        
+
         isPlayerTurn = false;
 
         if (turnCount == 2)
@@ -161,20 +157,19 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
-    private void Attack(bool playerAttack, int amount)
+    private void Attack()
     {
-        if (checkForCardsOnField)
+        //player power
+        int playerAttackPower = checkForCardsOnField.AttackingCount;
+        int playerDefendingPower = checkForCardsOnField.DefendingCount * 2;
+
+        //AI power
+        int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
+        int opponentDefendingPower = checkForCardsOnField.AIDefendingCount * 2;
+
+        if (playerAttackPower > opponentDefendingPower)
         {
-
+            
         }
-
-
-
-
-        
-        if (playerAttack)
-            opponentHealth -= amount;
-        else
-            playerHealth -= amount;
     }
 }
