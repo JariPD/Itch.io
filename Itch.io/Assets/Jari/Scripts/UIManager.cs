@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI opponentCardValueText;
     [SerializeField] private TextMeshProUGUI pulledCardText;
     [SerializeField] private TextMeshProUGUI opponentpulledCardText;
+    [SerializeField] private TextMeshProUGUI opponentMatchPoints;
+    [SerializeField] private TextMeshProUGUI playerMatchPoints;
 
     [Header("War Text Objects")]
     [SerializeField] private TextMeshProUGUI diceRollText;
@@ -40,6 +42,12 @@ public class UIManager : MonoBehaviour
         {
             userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
             opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
+        }
+
+        if (opponentMatchPoints != null && playerMatchPoints != null)
+        {
+            opponentMatchPoints.text = "Opponent Points: " + blackJackManager.OpponentPoints;
+            playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
         }
     }
 
