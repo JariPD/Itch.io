@@ -54,6 +54,9 @@ public class BlackJackManager : MonoBehaviour
     [Header("Opponent Stats")]
     public int OpponentTotalCardValue;
 
+    private bool userOverMaxValue = false;
+    private bool opponentOverMaxValue = false;
+
     void Start()
     {
         CreateDeck();
@@ -62,10 +65,6 @@ public class BlackJackManager : MonoBehaviour
     void Update()
     {
         //state lose/win check
-        if (UserTotalCardValue > totalMaxValue)
-            Lose();
-        if (OpponentTotalCardValue > totalMaxValue)
-            Win();
     }
 
     /// <summary>
@@ -140,6 +139,9 @@ public class BlackJackManager : MonoBehaviour
 
         fold.interactable = false;
         call.interactable = true;
+
+        userOverMaxValue = false;
+        opponentOverMaxValue = false;
     }
 
     /// <summary>
@@ -410,7 +412,11 @@ public class BlackJackManager : MonoBehaviour
 
         //first call card for player and then if AI wants he can also call a card
         CallCard();
+
         playerDeck.AddCard();
+
+        if (UserTotalCardValue > totalMaxValue)
+            userOverMaxValue = true;
         yield return new WaitForSeconds(1.5f);
         PlayerDeck.instance.PlayerDeckAnim.Play("PlayerDeckBack");
 
@@ -422,10 +428,19 @@ public class BlackJackManager : MonoBehaviour
             CallOpponentCard();
             InteractableSwitch();
             opponentDeck.AddCard();
+            if (OpponentTotalCardValue > totalMaxValue)
+                opponentOverMaxValue = true;
         }
         else
         {
             InteractableSwitch();
         }
+        yield return new WaitForSeconds(0.1f);
+        if (userOverMaxValue && opponentOverMaxValue)
+            Draw();
+        else if (userOverMaxValue && opponentOverMaxValue == false)
+            Lose();
+        else if (userOverMaxValue == false && opponentOverMaxValue)
+            Win();
     }
 }
