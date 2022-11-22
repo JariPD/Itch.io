@@ -576,10 +576,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackJackManager: {fileID: 1148896275}
+  warManager: {fileID: 0}
   userCardValueText: {fileID: 894911454}
   opponentCardValueText: {fileID: 602561551}
   pulledCardText: {fileID: 1812514706}
   opponentpulledCardText: {fileID: 964431700}
+  opponentMatchPoints: {fileID: 1940056786}
+  playerMatchPoints: {fileID: 818096075}
+  diceRollText: {fileID: 0}
+  opponentDiceRollText: {fileID: 0}
+  throwDiceButton: {fileID: 0}
+  turnButton: {fileID: 0}
 --- !u!4 &112597655
 Transform:
   m_ObjectHideFlags: 0
@@ -1475,7 +1482,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312588573}
-  m_LocalRotation: {x: 0.023381758, y: 0.8176109, z: 0.5750382, w: -0.017226364}
+  m_LocalRotation: {x: 0.023383632, y: 0.81761086, z: 0.5750382, w: -0.017227741}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3413,7 +3420,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982195262}
-  m_LocalRotation: {x: 0.022876747, y: 0.83385015, z: 0.55122626, w: -0.017894402}
+  m_LocalRotation: {x: 0.0228765, y: 0.83385015, z: 0.55122626, w: -0.017894208}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3901,7 +3908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74854dfb0ba19b644933c87c4994af8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPoints: 0
+  PlayerPoints: 0
   OpponentPoints: 0
   Card: {fileID: 1498674024420648602, guid: 573ebdf5887ba574f8195f2c414bdb15, type: 3}
   opponentCard: {fileID: 1498674024420648602, guid: 514f27a5aa7533d48a8e8dcf351d0f20,
@@ -3910,7 +3917,7 @@ MonoBehaviour:
   cardSpawn: {fileID: 248650649}
   deckAnim: {fileID: 1541734023}
   playerDeckObj: []
-  OpponentDeckDeckObj: []
+  OpponentDeckObj: []
   deck: 
   usersCards: 
   opponentsCards: 
@@ -3924,6 +3931,7 @@ MonoBehaviour:
   win: {fileID: 1252614536}
   lose: {fileID: 1173324618}
   draw: {fileID: 1026238065}
+  concluded: 0
   UserTotalCardValue: 0
   OpponentTotalCardValue: 0
 --- !u!4 &1148896276
@@ -5801,7 +5809,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790039937}
-  m_LocalRotation: {x: 0.023422407, y: 0.81629705, z: 0.5769018, w: -0.017174015}
+  m_LocalRotation: {x: 0.023419227, y: 0.8162972, z: 0.5769018, w: -0.01717169}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
