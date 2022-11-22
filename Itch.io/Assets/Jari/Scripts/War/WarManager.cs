@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,40 +12,62 @@ public class WarManager : MonoBehaviour
     private bool isPlayerTurn = true;
     private int turnCount = 0;
 
-    [Header("Card Lists")]
-    [SerializeField] private List<GameObject> usersCards;
-    [SerializeField] private List<GameObject> opponentsCards;
-
+    [Header("References")]
     [SerializeField] private GameObject card, opponentCard;
     [SerializeField] private Transform[] cardSpawnPos;
-    [SerializeField] private Transform[] opponentCardSpawnPos;
+    private WarAI warAI;
+    private CheckForCardsOnField checkForCardsOnField;
+
     //[SerializeField] private GameObject dice;
     //[SerializeField] private DiceThrow diceThrow;
 
     [Header("Card Placement")]
     public GameObject CurrentSelectedCard;
     public bool PlacingCard = false;
+    public bool CardSelected;
 
     [Header("Grid")]
     [SerializeField] private GameObject gridParent;
-    private WarGrid grid;
-    
+    [SerializeField] private GameObject[] playerGrid;
+
+    [Header("Battling")]
+    public bool FocussingACard;
+    private int maxPlayerHealth = 10, maxOpponentHealth = 10;
+    [SerializeField] private int playerHealth, opponentHealth;
+
+
 
     private void Awake()
     {
         instance = this;
+        warAI = GetComponent<WarAI>();
+        checkForCardsOnField = GetComponent<CheckForCardsOnField>();
 
-        grid = FindObjectOfType<WarGrid>();
+        playerHealth = maxPlayerHealth;
+        opponentHealth = maxOpponentHealth;
     }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        //healthchecks
+        if (opponentHealth <= 0)
         {
-            
+            opponentHealth = 0;
+
+            //player won
+            print("player won");
+        }
+
+        if (playerHealth <= 0)
+        {
+            playerHealth = 0;
+
+            //AI won
         }
     }
 
+    /// <summary>
+    /// function to be called from a button - starts the dice throw
+    /// </summary>
     public void StartDiceThrow()
     {
         //grid.CreateGrid();
@@ -52,11 +75,42 @@ public class WarManager : MonoBehaviour
         StartCoroutine(ThrowDice());
     }
 
-    public void PlaceCard(Vector3 pos)
+    /// <summary>
+    /// function that places a selected card on a tile in the grid
+    /// </summary>
+    /// <param name="pos"></param>
+    public void PlacePlayerCard(Vector3 pos)
     {
         PlacingCard = true;
-        
         CurrentSelectedCard.transform.position = pos;
+        CurrentSelectedCard = null;
+    }
+
+    public void StartTurn()
+    {
+        StartCoroutine(TurnSystem());
+    }
+
+    IEnumerator TurnSystem()
+    {
+        UIManager.instance.TurnButton(false);
+
+        //logic for enemy turn
+        //starts card placement
+        StartCoroutine(warAI.AICardPlacement());
+
+        //checks players card for later calculations
+        checkForCardsOnField.CheckForPlayer();
+
+        yield return new WaitForSeconds(1f);
+
+        isPlayerTurn = true;
+
+        if (isPlayerTurn)
+        {
+            UIManager.instance.TurnButton(true);
+            checkForCardsOnField.CheckForAI();
+        }
     }
 
     IEnumerator ThrowDice()
@@ -72,10 +126,7 @@ public class WarManager : MonoBehaviour
         if (isPlayerTurn)
         {
             for (int i = 0; i < diceRoll; i++)
-            {
-                usersCards.Add(card);
                 Instantiate(card, cardSpawnPos[i].position, cardSpawnPos[i].rotation);
-            }
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -85,14 +136,15 @@ public class WarManager : MonoBehaviour
         }
         else
         {
+            //instantiates the cards for the enemy
             for (int i = 0; i < diceRoll; i++)
-            {
-                opponentsCards.Add(card);
-                Instantiate(opponentCard, opponentCardSpawnPos[i].position, opponentCardSpawnPos[i].rotation);
-            }
+                warAI.opponentsHand.Add(Instantiate(opponentCard, warAI.opponentHandSpawnPos[i].position, warAI.opponentHandSpawnPos[i].rotation));
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
+
+            //turns on "Next Turn" button
+            UIManager.instance.TurnButton(true);
         }
 
         yield return new WaitForSeconds(3);
@@ -102,8 +154,22 @@ public class WarManager : MonoBehaviour
         if (turnCount == 2)
             yield return null;
         else
-        {
             StartCoroutine(ThrowDice());
+    }
+
+    private void Attack()
+    {
+        //player power
+        int playerAttackPower = checkForCardsOnField.AttackingCount;
+        int playerDefendingPower = checkForCardsOnField.DefendingCount * 2;
+
+        //AI power
+        int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
+        int opponentDefendingPower = checkForCardsOnField.AIDefendingCount * 2;
+
+        if (playerAttackPower > opponentDefendingPower)
+        {
+            
         }
     }
 }

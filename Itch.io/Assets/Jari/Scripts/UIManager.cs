@@ -21,8 +21,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
 
-    [Header("War Buttons")]
-    [SerializeField] private Button warButton;
+    [Header("Buttons")]
+    [SerializeField] private Button throwDiceButton;
+    [SerializeField] private Button turnButton;
 
     private void Awake()
     {
@@ -54,7 +55,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateDiceRollText(int diceValue, bool isPlayerTurn)
     {
-
         if (isPlayerTurn)
         {
             StartCoroutine(TurnOffText(diceRollText, 3));
@@ -73,8 +73,13 @@ public class UIManager : MonoBehaviour
         text.enabled = false;
     }
 
+    public void TurnButton(bool active)
+    {
+        turnButton.gameObject.SetActive(active);
+    }
+
     public void DisableThrowDiceButton()
     {
-        Destroy(warButton.gameObject);
+        Destroy(throwDiceButton.gameObject);
     }
 }
