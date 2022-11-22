@@ -2130,6 +2130,7 @@ GameObject:
   - component: {fileID: 867475897}
   - component: {fileID: 867475896}
   - component: {fileID: 867475898}
+  - component: {fileID: 867475899}
   m_Layer: 0
   m_Name: War Manager
   m_TagString: Untagged
@@ -2177,25 +2178,6 @@ MonoBehaviour:
   - {fileID: 255270436}
   playerHealth: 0
   opponentHealth: 0
-  opponentHandSpawnPos:
-  - {fileID: 1663558092}
-  - {fileID: 1481264375}
-  - {fileID: 397655898}
-  - {fileID: 197340188}
-  - {fileID: 500482133}
-  - {fileID: 1049503503}
-  opponentsHand: []
-  enemyGrid:
-  - {fileID: 228025981}
-  - {fileID: 834638858}
-  - {fileID: 899439582}
-  - {fileID: 2021608352}
-  - {fileID: 395665440}
-  - {fileID: 957855257}
-  - {fileID: 1822699840}
-  - {fileID: 1969446110}
-  - {fileID: 348605798}
-  - {fileID: 1858565169}
 --- !u!4 &867475897
 Transform:
   m_ObjectHideFlags: 0
@@ -2251,6 +2233,37 @@ MonoBehaviour:
   AIAttackingCount: 0
   DefendingCount: 0
   AttackingCount: 0
+--- !u!114 &867475899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867475895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 497095a74a5b14c4889389e0b4a390bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  opponentHandSpawnPos:
+  - {fileID: 1663558092}
+  - {fileID: 1481264375}
+  - {fileID: 397655898}
+  - {fileID: 197340188}
+  - {fileID: 500482133}
+  - {fileID: 1049503503}
+  enemyGrid:
+  - {fileID: 228025981}
+  - {fileID: 834638858}
+  - {fileID: 899439582}
+  - {fileID: 2021608352}
+  - {fileID: 395665440}
+  - {fileID: 957855257}
+  - {fileID: 1822699840}
+  - {fileID: 1969446110}
+  - {fileID: 348605798}
+  - {fileID: 1858565169}
+  opponentsHand: []
 --- !u!1 &899439582
 GameObject:
   m_ObjectHideFlags: 0
@@ -3475,7 +3488,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 867475896}
         m_TargetAssemblyTypeName: WarManager, Assembly-CSharp
-        m_MethodName: SwitchTurn
+        m_MethodName: StartTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

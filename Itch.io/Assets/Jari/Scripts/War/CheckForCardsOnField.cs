@@ -2,20 +2,16 @@ using UnityEngine;
 
 public class CheckForCardsOnField : MonoBehaviour
 {
-    public static CheckForCardsOnField instance;
-
     public GameObject[] AIDefendingRow, AIAttackingRow;
     public GameObject[] PlayerDefendingRow, PlayerAttackingRow;
     public int AIDefendingCount, AIAttackingCount;
     public int DefendingCount, AttackingCount;
 
-    private void Awake()
-    {
-        instance = this;
-    }
-
     public void CheckForPlayer()
     {
+        DefendingCount = 0;
+        AttackingCount = 0;
+
         for (int i = 0; i < PlayerAttackingRow.Length; i++)
         {
             if (PlayerAttackingRow[i].GetComponent<WarTile>().HasCard)
@@ -31,6 +27,9 @@ public class CheckForCardsOnField : MonoBehaviour
 
     public void CheckForAI()
     {
+        AIDefendingCount = 0;
+        AIAttackingCount = 0;
+
         for (int i = 0; i < AIAttackingRow.Length; i++)
         {
             if (AIAttackingRow[i].GetComponent<OpponentWarTile>().HasCard)

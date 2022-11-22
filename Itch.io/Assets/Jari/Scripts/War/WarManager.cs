@@ -12,8 +12,11 @@ public class WarManager : MonoBehaviour
     private bool isPlayerTurn = true;
     private int turnCount = 0;
 
+    [Header("References")]
     [SerializeField] private GameObject card, opponentCard;
     [SerializeField] private Transform[] cardSpawnPos;
+    private WarAI warAI;
+    private CheckForCardsOnField checkForCardsOnField;
 
     //[SerializeField] private GameObject dice;
     //[SerializeField] private DiceThrow diceThrow;
@@ -31,15 +34,13 @@ public class WarManager : MonoBehaviour
     private int maxPlayerHealth = 10, maxOpponentHealth = 10;
     [SerializeField] private int playerHealth, opponentHealth;
 
-    [Header("AI")]
-    [SerializeField] private Transform[] opponentHandSpawnPos;
-    [SerializeField] private List<GameObject> opponentsHand;
-    [SerializeField] private GameObject[] enemyGrid;
+    
 
     private void Awake()
     {
         instance = this;
-        //grid = FindObjectOfType<WarGrid>();
+        warAI = GetComponent<WarAI>();
+        checkForCardsOnField = GetComponent<CheckForCardsOnField>();
 
         playerHealth = maxPlayerHealth;
         opponentHealth = maxOpponentHealth;
@@ -52,6 +53,7 @@ public class WarManager : MonoBehaviour
             opponentHealth = 0;
 
             //player won
+            print("player won");
         }
 
         if (playerHealth <= 0)
@@ -63,7 +65,7 @@ public class WarManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Attack(true, 1);
+            //Attack(true, 1);
         }
     }
 
@@ -88,13 +90,31 @@ public class WarManager : MonoBehaviour
         CurrentSelectedCard = null;
     }
 
-    public void SwitchTurn()
+    public void StartTurn()
+    {
+        StartCoroutine(TurnSystem());
+    }
+
+    IEnumerator TurnSystem()
     {
         UIManager.instance.TurnButton(false);
 
         //logic for enemy turn
-        StartCoroutine(AICardPlacement());
-        CheckForCardsOnField.instance.CheckForPlayer();
+        //starts card placement
+        StartCoroutine(warAI.AICardPlacement());
+
+        //checks players card for later calculations
+        checkForCardsOnField.CheckForPlayer();
+
+        yield return new WaitForSeconds(1f);
+
+        isPlayerTurn = true;
+
+        if (isPlayerTurn)
+        {
+            UIManager.instance.TurnButton(true);
+            checkForCardsOnField.CheckForAI();
+        }
     }
 
     IEnumerator ThrowDice()
@@ -122,7 +142,7 @@ public class WarManager : MonoBehaviour
         {
             //instantiates the cards for the enemy
             for (int i = 0; i < diceRoll; i++)
-                opponentsHand.Add(Instantiate(opponentCard, opponentHandSpawnPos[i].position, opponentHandSpawnPos[i].rotation));
+                warAI.opponentsHand.Add(Instantiate(opponentCard, warAI.opponentHandSpawnPos[i].position, warAI.opponentHandSpawnPos[i].rotation));
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -132,7 +152,7 @@ public class WarManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3);
-
+        
         isPlayerTurn = false;
 
         if (turnCount == 2)
@@ -143,40 +163,18 @@ public class WarManager : MonoBehaviour
 
     private void Attack(bool playerAttack, int amount)
     {
+        if (checkForCardsOnField)
+        {
+
+        }
+
+
+
+
+        
         if (playerAttack)
             opponentHealth -= amount;
         else
             playerHealth -= amount;
     }
-
-    IEnumerator AICardPlacement()
-    {
-        for (int i = 0; i < opponentsHand.Count; i++)
-        {
-            //gets random tile from the grid
-            int randomTile = Random.Range(0, enemyGrid.Length);
-
-            yield return new WaitForSeconds(.2f);
-
-            //check if tile is empty
-            if (!enemyGrid[randomTile].GetComponent<OpponentWarTile>().HasCard)
-            {
-                //places cards on a random tile on the enemy grid
-                opponentsHand[i].transform.position = new Vector3(enemyGrid[randomTile].transform.position.x, .1f, enemyGrid[randomTile].transform.position.z);
-
-            }
-            else
-            {
-                //if the tile has a card on it, it will check the next tile
-                randomTile++;
-
-                opponentsHand[i].transform.position = new Vector3(enemyGrid[randomTile].transform.position.x, .1f, enemyGrid[randomTile].transform.position.z);
-            }
-        }
-        
-        CheckForCardsOnField.instance.CheckForAI();
-    }
 }
-
-
-
