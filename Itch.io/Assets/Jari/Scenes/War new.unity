@@ -485,7 +485,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player Health
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1260,8 +1260,12 @@ MonoBehaviour:
   opponentCardValueText: {fileID: 0}
   pulledCardText: {fileID: 0}
   opponentpulledCardText: {fileID: 0}
+  opponentMatchPoints: {fileID: 0}
+  playerMatchPoints: {fileID: 0}
   diceRollText: {fileID: 1022183010}
   opponentDiceRollText: {fileID: 1903560657}
+  playerHealthText: {fileID: 99752726}
+  AIHealthText: {fileID: 1854803907}
   throwDiceButton: {fileID: 1771100085}
   turnButton: {fileID: 520675710}
 --- !u!4 &378249492
@@ -4261,7 +4265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AI Health
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

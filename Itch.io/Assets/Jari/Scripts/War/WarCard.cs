@@ -9,8 +9,8 @@ public class WarCard : MonoBehaviour
     private Animator anim;
 
     [Header("Card Info")]
-    private int attack = 1;
-    private int health = 2;
+    public int attack = 1;
+    public int health = 2;
 
     [Header("Card Settings")]
     private Vector3 startPos;

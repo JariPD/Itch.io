@@ -33,8 +33,9 @@ public class WarManager : MonoBehaviour
     [Header("Battling")]
     public GameObject CurrentFocussedCard;
     public bool FocussingACard;
+    public int playerHealth, opponentHealth;
     private int maxPlayerHealth = 10, maxOpponentHealth = 10;
-    [SerializeField] private int playerHealth, opponentHealth;
+    [SerializeField]private List<GameObject> playersHand;
 
 
 
@@ -85,7 +86,9 @@ public class WarManager : MonoBehaviour
         //checks players card for later calculations
         checkForCardsOnField.CheckForPlayer();
 
-        yield return new WaitForSeconds(1f);
+        StartCoroutine(Attack());
+
+        yield return new WaitForSeconds(1.5f);
 
         isPlayerTurn = true;
 
@@ -93,8 +96,9 @@ public class WarManager : MonoBehaviour
         {
             UIManager.instance.TurnButton(true);
             checkForCardsOnField.CheckForAI();
-            Attack();
         }
+
+        UIManager.instance.UpdateWarHealthText();
     }
 
     IEnumerator ThrowDice()
@@ -110,7 +114,7 @@ public class WarManager : MonoBehaviour
         if (isPlayerTurn)
         {
             for (int i = 0; i < diceRoll; i++)
-                Instantiate(card, cardSpawnPos[i].position, cardSpawnPos[i].rotation);
+                playersHand.Add(Instantiate(card, cardSpawnPos[i].position, cardSpawnPos[i].rotation));
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -165,7 +169,7 @@ public class WarManager : MonoBehaviour
         }
     }
 
-    private void Attack()
+    IEnumerator Attack()
     {
         //player power
         int playerAttackPower = checkForCardsOnField.AttackingCount;
@@ -175,11 +179,18 @@ public class WarManager : MonoBehaviour
         int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
         int opponentDefendingPower = checkForCardsOnField.AIDefendingCount * 2;
 
-        ///attack focused enemy card
-        /*int randomEnemyCard = Random.Range(0, warAI.opponentsHand.Count);
-        warAI.opponentsHand[randomEnemyCard].GetComponent<OpponentCard>().health -= playerAttackPower;
-*/
-        if (playerAttackPower > opponentDefendingPower)
+        if (CurrentFocussedCard != null)
+        {
+            CurrentFocussedCard.GetComponent<OpponentCard>().health -= playerAttackPower;
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        //enemy turn
+        int randomPlayerCard = Random.Range(0, playersHand.Count);
+        playersHand[randomPlayerCard].GetComponent<WarCard>().health -= opponentAttackPower;
+
+        /*if (playerAttackPower > opponentDefendingPower)
         {
             ChangeHealth(false, playerAttackPower);
         }
@@ -187,6 +198,6 @@ public class WarManager : MonoBehaviour
         if (opponentAttackPower > playerDefendingPower)
         {
             ChangeHealth(true, opponentAttackPower);
-        }
+        }*/
     }
 }

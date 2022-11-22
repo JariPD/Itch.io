@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     [Header("War Text Objects")]
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
+    [SerializeField] private TextMeshProUGUI playerHealthText, AIHealthText;
 
     [Header("Buttons")]
     [SerializeField] private Button throwDiceButton;
@@ -74,7 +75,15 @@ public class UIManager : MonoBehaviour
             opponentDiceRollText.text = "Opponent rolled: " + diceValue.ToString();
         }
     }
-
+    
+    public void UpdateWarHealthText()
+    {
+        {
+            playerHealthText.text = "Player Health: " + warManager.playerHealth;
+            AIHealthText.text = "Opponent Health: " + warManager.opponentHealth;
+        }
+    }
+    
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
     {
         yield return new WaitForSeconds(time);
