@@ -5,17 +5,13 @@ using UnityEngine;
 public class OpponentCard : MonoBehaviour
 {
 
-    private void Update()
-    {
-        if (WarManager.instance.FocussingACard)
-        {
-            GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-        }
-    }
-
     private void OnMouseDown()
     {
-        WarManager.instance.FocussingACard = true;
-        
+        if (!WarManager.instance.FocussingACard)
+        {
+            WarManager.instance.FocussingACard = true;
+            WarManager.instance.CurrentFocussedCard = gameObject;
+            GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+        }
     }
 }

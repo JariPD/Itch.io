@@ -31,6 +31,7 @@ public class WarManager : MonoBehaviour
     [SerializeField] private GameObject[] playerGrid;
 
     [Header("Battling")]
+    public GameObject CurrentFocussedCard;
     public bool FocussingACard;
     private int maxPlayerHealth = 10, maxOpponentHealth = 10;
     [SerializeField] private int playerHealth, opponentHealth;
@@ -45,24 +46,6 @@ public class WarManager : MonoBehaviour
 
         playerHealth = maxPlayerHealth;
         opponentHealth = maxOpponentHealth;
-    }
-    private void Update()
-    {
-        //healthchecks
-        if (opponentHealth <= 0)
-        {
-            opponentHealth = 0;
-
-            //player won
-            print("player won");
-        }
-
-        if (playerHealth <= 0)
-        {
-            playerHealth = 0;
-
-            //AI won
-        }
     }
 
     /// <summary>
@@ -110,6 +93,7 @@ public class WarManager : MonoBehaviour
         {
             UIManager.instance.TurnButton(true);
             checkForCardsOnField.CheckForAI();
+            Attack();
         }
     }
 
@@ -157,6 +141,30 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
+    private void ChangeHealth(bool isPlayer, int amount)
+    {
+        if (isPlayer)
+            playerHealth -= amount;
+        else
+            opponentHealth -= amount;
+
+        //healthchecks
+        if (opponentHealth <= 0)
+        {
+            opponentHealth = 0;
+
+            //player won
+            print("player won");
+        }
+
+        if (playerHealth <= 0)
+        {
+            playerHealth = 0;
+
+            print("player lost");
+        }
+    }
+
     private void Attack()
     {
         //player power
@@ -167,9 +175,15 @@ public class WarManager : MonoBehaviour
         int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
         int opponentDefendingPower = checkForCardsOnField.AIDefendingCount * 2;
 
+
         if (playerAttackPower > opponentDefendingPower)
         {
-            
+            ChangeHealth(false, playerAttackPower);
+        }
+
+        if (opponentAttackPower > playerDefendingPower)
+        {
+            ChangeHealth(true, opponentAttackPower);
         }
     }
 }
