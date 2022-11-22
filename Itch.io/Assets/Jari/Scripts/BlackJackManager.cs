@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 public class BlackJackManager : MonoBehaviour
 {
     [Header("Game Info")]
-    [SerializeField] private int playerPoints = 0;
-    [SerializeField] private int OpponentPoints = 0;
+    public int PlayerPoints = 0;
+    public int OpponentPoints = 0;
 
     [Header("Card Info")]
     [SerializeField] private GameObject Card;
@@ -24,7 +24,7 @@ public class BlackJackManager : MonoBehaviour
 
     [Header("Deck info")]
     [SerializeField] private List<GameObject> playerDeckObj;
-    [SerializeField] private List<GameObject> OpponentDeckDeckObj;
+    [SerializeField] private List<GameObject> OpponentDeckObj;
 
     [Header("Card Lists")]
     [SerializeField] private List<int> deck;
@@ -48,6 +48,8 @@ public class BlackJackManager : MonoBehaviour
     [SerializeField] private GameObject lose;
     [SerializeField] private GameObject draw;
 
+    public bool concluded = false;
+
     [Header("User Stats")]
     public int UserTotalCardValue;
 
@@ -65,6 +67,13 @@ public class BlackJackManager : MonoBehaviour
     void Update()
     {
         //state lose/win check
+        if (concluded)
+            ResetAgain();
+
+        if (PlayerPoints == 3)
+            print("You Win");
+        else if (OpponentPoints == 3)
+            print("You Lose");
     }
 
     /// <summary>
@@ -97,12 +106,12 @@ public class BlackJackManager : MonoBehaviour
             }
         }
 
-        if (OpponentDeckDeckObj != null)
+        if (OpponentDeckObj != null)
         {
-            for (int i = 0; i < OpponentDeckDeckObj.Count; i++)
+            for (int i = 0; i < OpponentDeckObj.Count; i++)
             {
-                Destroy(OpponentDeckDeckObj[i]);
-                OpponentDeckDeckObj.Remove(OpponentDeckDeckObj[i]);
+                Destroy(OpponentDeckObj[i]);
+                OpponentDeckObj.Remove(OpponentDeckObj[i]);
             }
         }
 
@@ -113,6 +122,9 @@ public class BlackJackManager : MonoBehaviour
         if (opponentsCards != null)
             for (int i = 0; i < opponentsCards.Count; i++)
                 opponentsCards.Remove(opponentsCards[i]);
+
+        if (playerDeckObj.Count == 0 && OpponentDeckObj.Count == 0)
+            concluded = false;
     }
 
     /// <summary>
@@ -120,7 +132,8 @@ public class BlackJackManager : MonoBehaviour
     /// </summary>
     private void ResetRound()
     {
-        ResetAgain();
+        concluded = true;
+        //ResetAgain();
 
         PlayerDeck.instance.ResetState();
         BlackJackOpponent.instance.ResetState();
@@ -204,7 +217,7 @@ public class BlackJackManager : MonoBehaviour
 
         //add Card To Game With Value
         GameObject card = Instantiate(opponentCard, cardSpawn.transform.position, cardSpawn.transform.rotation);
-        OpponentDeckDeckObj.Add(card);
+        OpponentDeckObj.Add(card);
         for (int i = 0; i < opponentsCards.Count; i++)
             card.GetComponent<BlackJackCardOpponent>().ownNumber = opponentCardAmount;
 
@@ -243,7 +256,7 @@ public class BlackJackManager : MonoBehaviour
     public void Win()
     {
         StartCoroutine(RestartGame());
-        playerPoints++;
+        PlayerPoints++;
         win.SetActive(true);
         ButtonSwitch();
     }
@@ -345,8 +358,8 @@ public class BlackJackManager : MonoBehaviour
         for (int i = 0; i < playerDeckObj.Count; i++)
             playerDeckObj[i].GetComponent<CardShaderDissolve>().DissolveCard();
 
-        for (int i = 0; i < OpponentDeckDeckObj.Count; i++)
-            OpponentDeckDeckObj[i].GetComponent<CardShaderDissolve>().DissolveCard();
+        for (int i = 0; i < OpponentDeckObj.Count; i++)
+            OpponentDeckObj[i].GetComponent<CardShaderDissolve>().DissolveCard();
         
         yield return new WaitForSeconds(1);
 
@@ -356,10 +369,10 @@ public class BlackJackManager : MonoBehaviour
             playerDeckObj.Remove(playerDeckObj[i]);
         }
 
-        for (int i = 0; i < OpponentDeckDeckObj.Count; i++)
+        for (int i = 0; i < OpponentDeckObj.Count; i++)
         {
-            Destroy(OpponentDeckDeckObj[i]);
-            OpponentDeckDeckObj.Remove(OpponentDeckDeckObj[i]);
+            Destroy(OpponentDeckObj[i]);
+            OpponentDeckObj.Remove(OpponentDeckObj[i]);
         }
     }
 
