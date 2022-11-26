@@ -13,8 +13,8 @@ public class WarManager : MonoBehaviour
     private int turnCount = 0;
 
     [Header("References")]
-    [SerializeField] private GameObject card, opponentCard;
     [SerializeField] private Transform[] cardSpawnPos;
+    [SerializeField] private GameObject card, opponentCard;
     private WarAI warAI;
     private CheckForCardsOnField checkForCardsOnField;
 
@@ -34,8 +34,8 @@ public class WarManager : MonoBehaviour
     public GameObject CurrentFocussedCard;
     public bool FocussingACard;
     public int playerHealth, opponentHealth;
-    private int maxPlayerHealth = 10, maxOpponentHealth = 10;
     [SerializeField]private List<GameObject> playersHand;
+    private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;
 
 
 
