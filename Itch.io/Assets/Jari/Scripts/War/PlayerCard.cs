@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -11,25 +10,33 @@ public class PlayerCard : Card
 
     [Header("Card Follow")]
     [SerializeField] private float offset;
-
+    
+    [Header("Text")]
+    [SerializeField] private TextMeshProUGUI attackText;
+    [SerializeField] private TextMeshProUGUI healthText;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+
+        //sets cards starting position
         startPos = transform.position;
 
-        attackText = transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
-        healthText = transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
+        //gets random health number
+        healthText.text = Random.Range(1, 3).ToString();
+
+        //update text
+        attackText.text = attack.ToString();
+        healthText.text = health.ToString();
     }
 
     private void Update()
     {
-        //sets text to the correct value
-        attackText.text = attack.ToString();
-        healthText.text = health.ToString();
+        if (health <= 0)
+            StartCoroutine(Disolve());
 
-        if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            StartCoroutine(ResetCardPosition(true));
+        //if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
+            //StartCoroutine(ResetCardPosition(true));
 
         if (WarManager.instance.PlacingCard)
             StartCoroutine(ResetCardPosition(false));
@@ -66,5 +73,12 @@ public class PlayerCard : Card
         yield return new WaitForSeconds(.1f);
 
         WarManager.instance.CurrentSelectedCard = null;
+    }
+
+    public void UpdateCardUI()
+    {
+        //update text
+        attackText.text = attack.ToString();
+        healthText.text = health.ToString();
     }
 }

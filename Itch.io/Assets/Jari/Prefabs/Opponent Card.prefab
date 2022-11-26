@@ -114,6 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 1
   health: 2
+  attackText: {fileID: 297923076584366108}
+  healthText: {fileID: 2036818712380827995}
 --- !u!95 &820307418924306122
 Animator:
   serializedVersion: 4

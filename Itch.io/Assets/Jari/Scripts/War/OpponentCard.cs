@@ -1,12 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class OpponentCard : Card
 {
+    [Header("Text")]
+    [SerializeField] private TextMeshProUGUI attackText;
+    [SerializeField] private TextMeshProUGUI healthText;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        //gets random health number
+        healthText.text = Random.Range(1, 3).ToString();
+
+        //update text
+        attackText.text = attack.ToString();
+        healthText.text = health.ToString();
+    }
+
+    private void Update()
+    {
+        if (health <= 0)
+            StartCoroutine(Disolve());
     }
 
     private void OnMouseDown()
@@ -17,5 +36,11 @@ public class OpponentCard : Card
             WarManager.instance.CurrentFocussedCard = gameObject;
             GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         }
+    }
+    public void UpdateCardUI()
+    {
+        //update text
+        attackText.text = attack.ToString();
+        healthText.text = health.ToString();
     }
 }

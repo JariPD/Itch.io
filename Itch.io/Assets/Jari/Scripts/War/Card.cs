@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class Card : MonoBehaviour
 {
@@ -9,18 +7,9 @@ public class Card : MonoBehaviour
 
     [Header("Card Info")]
     public int attack = 1;
-    public int health = 3;
+    public int health = 2;
 
-    protected TextMeshProUGUI attackText;
-    protected TextMeshProUGUI healthText;
-
-    private void Update()
-    {
-        if (health <= 0)
-            StartCoroutine(Disolve());
-    }
-
-    IEnumerator Disolve()
+    protected IEnumerator Disolve()
     {
         WarManager.instance.CurrentFocussedCard = null;
         WarManager.instance.FocussingACard = false;

@@ -173,31 +173,21 @@ public class WarManager : MonoBehaviour
     {
         //player power
         int playerAttackPower = checkForCardsOnField.AttackingCount;
-        int playerDefendingPower = checkForCardsOnField.DefendingCount * 2;
 
         //AI power
         int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
-        int opponentDefendingPower = checkForCardsOnField.AIDefendingCount * 2;
 
         if (CurrentFocussedCard != null)
         {
             CurrentFocussedCard.GetComponent<OpponentCard>().health -= playerAttackPower;
+            CurrentFocussedCard.GetComponent<OpponentCard>().UpdateCardUI();
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(.5f);
 
         //enemy turn
         int randomPlayerCard = Random.Range(0, playersHand.Count);
         playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
-
-        /*if (playerAttackPower > opponentDefendingPower)
-        {
-            ChangeHealth(false, playerAttackPower);
-        }
-
-        if (opponentAttackPower > playerDefendingPower)
-        {
-            ChangeHealth(true, opponentAttackPower);
-        }*/
+        playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
     }
 }
