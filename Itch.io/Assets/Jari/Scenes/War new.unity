@@ -3650,9 +3650,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceRoll: 0
-  card: {fileID: 1498674024420648602, guid: 80858b235152988428edc6d8cd6e0628, type: 3}
-  opponentCard: {fileID: 1498674024420648602, guid: c2c8f7003ee676c4788b327d9d47447d,
-    type: 3}
   cardSpawnPos:
   - {fileID: 507027374}
   - {fileID: 1895840933}
@@ -3660,6 +3657,9 @@ MonoBehaviour:
   - {fileID: 1804389625}
   - {fileID: 1145401924}
   - {fileID: 853579620}
+  card: {fileID: 1498674024420648602, guid: 80858b235152988428edc6d8cd6e0628, type: 3}
+  opponentCard: {fileID: 1498674024420648602, guid: c2c8f7003ee676c4788b327d9d47447d,
+    type: 3}
   CurrentSelectedCard: {fileID: 0}
   PlacingCard: 0
   CardSelected: 0
@@ -3675,6 +3675,7 @@ MonoBehaviour:
   - {fileID: 1365997030}
   - {fileID: 1623992365}
   - {fileID: 1577174317}
+  playersHand: []
   CurrentFocussedCard: {fileID: 0}
   FocussingACard: 0
   playerHealth: 0

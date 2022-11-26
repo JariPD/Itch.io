@@ -31,12 +31,12 @@ public class WarManager : MonoBehaviour
     [SerializeField] private GameObject[] playerGrid;
 
     [Header("Battling")]
+    [SerializeField] private List<GameObject> playersHand;
     public GameObject CurrentFocussedCard;
     public bool FocussingACard;
     public int playerHealth, opponentHealth;
-    [SerializeField]private List<GameObject> playersHand;
     private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;
-
+    private int attackTurn = 0;
 
 
     private void Awake()
@@ -171,21 +171,33 @@ public class WarManager : MonoBehaviour
 
     IEnumerator Attack()
     {
-        //player power
-        int playerAttackPower = checkForCardsOnField.AttackingCount;
+        attackTurn++;
 
-        //AI power
+        //calculate power
+        int playerAttackPower = checkForCardsOnField.AttackingCount;
         int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
 
+        //if a card is selected attack selected card
         if (CurrentFocussedCard != null)
         {
             CurrentFocussedCard.GetComponent<OpponentCard>().health -= playerAttackPower;
             CurrentFocussedCard.GetComponent<OpponentCard>().UpdateCardUI();
         }
 
-        yield return new WaitForSeconds(.5f);
+        //check if AI still has cards on the field if no cards attack AIs main health
+        checkForCardsOnField.CheckForAI();
+        if (checkForCardsOnField.AIAttackingCount + checkForCardsOnField.AIDefendingCount <= 0 && attackTurn >= 2)
+            ChangeHealth(false, playerAttackPower);
 
+        yield return new WaitForSeconds(.5f);
         //enemy turn
+
+        //check if player still has cards on the field if no cards AI attacks players main health
+        checkForCardsOnField.CheckForPlayer();
+        if (checkForCardsOnField.AttackingCount + checkForCardsOnField.DefendingCount <= 0)
+            ChangeHealth(true, opponentAttackPower);
+
+        //attacking random card of player
         int randomPlayerCard = Random.Range(0, playersHand.Count);
         playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
         playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
