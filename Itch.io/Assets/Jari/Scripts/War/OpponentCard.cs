@@ -14,8 +14,8 @@ public class OpponentCard : Card
 
     private void Start()
     {
-        //gets random health number
-        healthText.text = Random.Range(1, 3).ToString();
+        //gets random health value
+        health = Random.Range(1, 4);
 
         //update text
         attackText.text = attack.ToString();

@@ -22,8 +22,8 @@ public class PlayerCard : Card
         //sets cards starting position
         startPos = transform.position;
 
-        //gets random health number
-        healthText.text = Random.Range(1, 3).ToString();
+        //gets random health value
+        health = Random.Range(2, 4);
 
         //update text
         attackText.text = attack.ToString();
