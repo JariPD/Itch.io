@@ -188,7 +188,7 @@ public class WarManager : MonoBehaviour
 
         //enemy turn
         int randomPlayerCard = Random.Range(0, playersHand.Count);
-        playersHand[randomPlayerCard].GetComponent<WarCard>().health -= opponentAttackPower;
+        playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
 
         /*if (playerAttackPower > opponentDefendingPower)
         {

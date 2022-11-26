@@ -1,39 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Animations;
 
-public class WarCard : MonoBehaviour
+public class PlayerCard : Card
 {
-    [Header("References")]
-    private Animator anim;
-
-    [Header("Card Info")]
-    public int attack = 1;
-    public int health = 2;
-
     [Header("Card Settings")]
     private Vector3 startPos;
     [SerializeField] private bool cardInField;
 
     [Header("Card Follow")]
     [SerializeField] private float offset;
-    private Vector3 pos;
 
 
     private void Start()
     {
         anim = GetComponent<Animator>();
         startPos = transform.position;
+
+        attackText = transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+        healthText = transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Update()
     {
+        //sets text to the correct value
+        attackText.text = attack.ToString();
+        healthText.text = health.ToString();
+
         if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            ResetCardPosition(true);
+            StartCoroutine(ResetCardPosition(true));
 
         if (WarManager.instance.PlacingCard)
-            ResetCardPosition(false);
+            StartCoroutine(ResetCardPosition(false));
     }
 
     private void OnMouseDown()
@@ -53,10 +52,8 @@ public class WarCard : MonoBehaviour
         }
     }
 
-    private void ResetCardPosition(bool resetPos)
+    IEnumerator ResetCardPosition(bool resetPos)
     {
-        Cursor.visible = true;
-
         WarManager.instance.CardSelected = false;
 
         //set animation state
@@ -65,5 +62,9 @@ public class WarCard : MonoBehaviour
         //sets card back to default position
         if (resetPos)
             transform.position = startPos;
+
+        yield return new WaitForSeconds(.1f);
+
+        WarManager.instance.CurrentSelectedCard = null;
     }
 }
