@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class WarAI : MonoBehaviour
@@ -11,6 +12,8 @@ public class WarAI : MonoBehaviour
 
     public IEnumerator AICardPlacement()
     {
+        yield return new WaitForSeconds(1f);
+
         for (int i = 0; i < opponentsHand.Count; i++)
         {
             //gets random tile from the grid
@@ -29,8 +32,9 @@ public class WarAI : MonoBehaviour
             {
                 //if the tile has a card on it, it will check the next tile
                 randomTile++;
-
-                opponentsHand[i].transform.position = new Vector3(enemyGrid[randomTile].transform.position.x, .1f, enemyGrid[randomTile].transform.position.z);
+                
+                if (opponentsHand[i] != null)
+                    opponentsHand[i].transform.position = new Vector3(enemyGrid[randomTile].transform.position.x, .1f, enemyGrid[randomTile].transform.position.z);
             }
         }
     }

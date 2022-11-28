@@ -2176,6 +2176,8 @@ MonoBehaviour:
   - {fileID: 368060029}
   - {fileID: 1478686391}
   - {fileID: 255270436}
+  CurrentFocussedCard: {fileID: 0}
+  FocussingACard: 0
   playerHealth: 0
   opponentHealth: 0
 --- !u!4 &867475897

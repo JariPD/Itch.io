@@ -13,8 +13,8 @@ public class WarManager : MonoBehaviour
     private int turnCount = 0;
 
     [Header("References")]
-    [SerializeField] private GameObject card, opponentCard;
     [SerializeField] private Transform[] cardSpawnPos;
+    [SerializeField] private GameObject card, opponentCard;
     private WarAI warAI;
     private CheckForCardsOnField checkForCardsOnField;
 
@@ -31,10 +31,12 @@ public class WarManager : MonoBehaviour
     [SerializeField] private GameObject[] playerGrid;
 
     [Header("Battling")]
+    [SerializeField] private List<GameObject> playersHand;
+    public GameObject CurrentFocussedCard;
     public bool FocussingACard;
-    private int maxPlayerHealth = 10, maxOpponentHealth = 10;
-    [SerializeField] private int playerHealth, opponentHealth;
-
+    public int playerHealth, opponentHealth;
+    private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;
+    private int attackTurn = 0;
 
 
     private void Awake()
@@ -46,31 +48,12 @@ public class WarManager : MonoBehaviour
         playerHealth = maxPlayerHealth;
         opponentHealth = maxOpponentHealth;
     }
-    private void Update()
-    {
-        //healthchecks
-        if (opponentHealth <= 0)
-        {
-            opponentHealth = 0;
-
-            //player won
-            print("player won");
-        }
-
-        if (playerHealth <= 0)
-        {
-            playerHealth = 0;
-
-            //AI won
-        }
-    }
 
     /// <summary>
     /// function to be called from a button - starts the dice throw
     /// </summary>
     public void StartDiceThrow()
     {
-        //grid.CreateGrid();
         gridParent.SetActive(true);
         StartCoroutine(ThrowDice());
     }
@@ -102,7 +85,9 @@ public class WarManager : MonoBehaviour
         //checks players card for later calculations
         checkForCardsOnField.CheckForPlayer();
 
-        yield return new WaitForSeconds(1f);
+        StartCoroutine(Attack());
+
+        yield return new WaitForSeconds(1.5f);
 
         isPlayerTurn = true;
 
@@ -111,6 +96,8 @@ public class WarManager : MonoBehaviour
             UIManager.instance.TurnButton(true);
             checkForCardsOnField.CheckForAI();
         }
+
+        UIManager.instance.UpdateWarHealthText();
     }
 
     IEnumerator ThrowDice()
@@ -126,7 +113,7 @@ public class WarManager : MonoBehaviour
         if (isPlayerTurn)
         {
             for (int i = 0; i < diceRoll; i++)
-                Instantiate(card, cardSpawnPos[i].position, cardSpawnPos[i].rotation);
+                playersHand.Add(Instantiate(card, cardSpawnPos[i].position, cardSpawnPos[i].rotation));
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -157,19 +144,67 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
-    private void Attack()
+    private void ChangeHealth(bool isPlayer, int amount)
     {
-        //player power
-        int playerAttackPower = checkForCardsOnField.AttackingCount;
-        int playerDefendingPower = checkForCardsOnField.DefendingCount * 2;
+        if (isPlayer)
+            playerHealth -= amount;
+        else
+            opponentHealth -= amount;
 
-        //AI power
-        int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
-        int opponentDefendingPower = checkForCardsOnField.AIDefendingCount * 2;
-
-        if (playerAttackPower > opponentDefendingPower)
+        //healthchecks
+        if (opponentHealth <= 0)
         {
-            
+            opponentHealth = 0;
+
+            //player won
+            print("player won");
+        }
+
+        if (playerHealth <= 0)
+        {
+            playerHealth = 0;
+
+            print("player lost");
+        }
+    }
+
+    IEnumerator Attack()
+    {
+        attackTurn++;
+
+        //calculate power
+        int playerAttackPower = checkForCardsOnField.AttackingCount;
+        int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
+
+        //if a card is selected attack selected card
+        if (CurrentFocussedCard != null)
+        {
+            CurrentFocussedCard.GetComponent<OpponentCard>().health -= playerAttackPower;
+            CurrentFocussedCard.GetComponent<OpponentCard>().UpdateCardUI();
+        }
+
+        yield return new WaitForSeconds(.5f);
+        //enemy turn
+
+        //attacking random card of player
+        int randomPlayerCard = Random.Range(0, playersHand.Count);
+        playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
+        playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
+
+        //wait for cards to be destroyed
+        yield return new WaitForSeconds(1f);
+
+        if (attackTurn >= 2)
+        {
+            //check if AI still has cards on the field if no cards attack AIs main health
+            checkForCardsOnField.CheckForAI();
+            if (checkForCardsOnField.AIAttackingCount + checkForCardsOnField.AIDefendingCount <= 0)
+                UIManager.instance.WarGameResults(playerWon: true);
+
+            //check if player still has cards on the field if no cards AI attacks players main health
+            checkForCardsOnField.CheckForPlayer();
+            if (checkForCardsOnField.AttackingCount + checkForCardsOnField.DefendingCount <= 0)
+                UIManager.instance.WarGameResults(playerWon: false);
         }
     }
 }
