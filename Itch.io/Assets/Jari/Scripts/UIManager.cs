@@ -14,8 +14,6 @@ public class UIManager : MonoBehaviour
     [Header("Black Jack Text Objects")]
     [SerializeField] private TextMeshProUGUI userCardValueText;
     [SerializeField] private TextMeshProUGUI opponentCardValueText;
-    [SerializeField] private TextMeshProUGUI pulledCardText;
-    [SerializeField] private TextMeshProUGUI opponentpulledCardText;
     [SerializeField] private TextMeshProUGUI opponentMatchPoints;
     [SerializeField] private TextMeshProUGUI playerMatchPoints;
 
@@ -49,16 +47,6 @@ public class UIManager : MonoBehaviour
             opponentMatchPoints.text = "Opponent Points: " + blackJackManager.OpponentPoints;
             playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
         }
-    }
-
-    public void UpdatePulledCardText(int cardValue)
-    {
-        pulledCardText.text = "You pulled: " + cardValue.ToString();
-    }
-
-    public void UpdateOpponentPulledCardText(int opponentValue)
-    {
-        opponentpulledCardText.text = "Opponent Got: " + opponentValue.ToString();
     }
 
     public void UpdateDiceRollText(int diceValue, bool isPlayerTurn)
