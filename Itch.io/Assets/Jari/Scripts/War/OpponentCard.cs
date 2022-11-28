@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class OpponentCard : Card
 {
+    [SerializeField] private GameObject outline;
+
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI attackText;
     [SerializeField] private TextMeshProUGUI healthText;
@@ -34,7 +36,7 @@ public class OpponentCard : Card
         {
             WarManager.instance.FocussingACard = true;
             WarManager.instance.CurrentFocussedCard = gameObject;
-            GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+            //outline.SetActive(true);
         }
     }
     public void UpdateCardUI()

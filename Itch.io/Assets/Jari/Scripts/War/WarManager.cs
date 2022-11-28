@@ -54,7 +54,6 @@ public class WarManager : MonoBehaviour
     /// </summary>
     public void StartDiceThrow()
     {
-        //grid.CreateGrid();
         gridParent.SetActive(true);
         StartCoroutine(ThrowDice());
     }
@@ -184,22 +183,28 @@ public class WarManager : MonoBehaviour
             CurrentFocussedCard.GetComponent<OpponentCard>().UpdateCardUI();
         }
 
-        //check if AI still has cards on the field if no cards attack AIs main health
-        checkForCardsOnField.CheckForAI();
-        if (checkForCardsOnField.AIAttackingCount + checkForCardsOnField.AIDefendingCount <= 0 && attackTurn >= 2)
-            ChangeHealth(false, playerAttackPower);
-
         yield return new WaitForSeconds(.5f);
         //enemy turn
-
-        //check if player still has cards on the field if no cards AI attacks players main health
-        checkForCardsOnField.CheckForPlayer();
-        if (checkForCardsOnField.AttackingCount + checkForCardsOnField.DefendingCount <= 0)
-            ChangeHealth(true, opponentAttackPower);
 
         //attacking random card of player
         int randomPlayerCard = Random.Range(0, playersHand.Count);
         playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
         playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
+
+        //wait for cards to be destroyed
+        yield return new WaitForSeconds(1f);
+
+        if (attackTurn >= 2)
+        {
+            //check if AI still has cards on the field if no cards attack AIs main health
+            checkForCardsOnField.CheckForAI();
+            if (checkForCardsOnField.AIAttackingCount + checkForCardsOnField.AIDefendingCount <= 0)
+                UIManager.instance.WarGameResults(playerWon: true);
+
+            //check if player still has cards on the field if no cards AI attacks players main health
+            checkForCardsOnField.CheckForPlayer();
+            if (checkForCardsOnField.AttackingCount + checkForCardsOnField.DefendingCount <= 0)
+                UIManager.instance.WarGameResults(playerWon: false);
+        }
     }
 }

@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerMatchPoints;
 
     [Header("War Text Objects")]
+    [SerializeField] private TextMeshProUGUI warGameResults;
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
     [SerializeField] private TextMeshProUGUI playerHealthText, AIHealthText;
@@ -75,15 +76,23 @@ public class UIManager : MonoBehaviour
             opponentDiceRollText.text = "Opponent rolled: " + diceValue.ToString();
         }
     }
-    
+
+    public void WarGameResults(bool playerWon)
+    {
+        if (playerWon)
+            warGameResults.text = "You won the war!";
+        else
+            warGameResults.text = "You lost the war!";
+
+        StartCoroutine(TurnOffText(warGameResults, 3));
+    }
+
     public void UpdateWarHealthText()
     {
-        {
-            playerHealthText.text = "Player Health: " + warManager.playerHealth;
-            AIHealthText.text = "Opponent Health: " + warManager.opponentHealth;
-        }
+        playerHealthText.text = "Player Health: " + warManager.playerHealth;
+        AIHealthText.text = "Opponent Health: " + warManager.opponentHealth;
     }
-    
+
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
     {
         yield return new WaitForSeconds(time);
