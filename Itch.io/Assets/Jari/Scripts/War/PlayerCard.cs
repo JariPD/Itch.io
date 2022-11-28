@@ -23,7 +23,7 @@ public class PlayerCard : Card
         startPos = transform.position;
 
         //gets random health value
-        health = Random.Range(2, 4);
+        health = Random.Range(1, 4);
 
         //update text
         attackText.text = attack.ToString();
@@ -33,10 +33,19 @@ public class PlayerCard : Card
     private void Update()
     {
         if (health <= 0)
+        {
+            health = 0;
+
+            //turns off text
+            attackText.enabled = false;
+            healthText.enabled = false;
+
+            //starts disolving the card
             StartCoroutine(Disolve());
+        }
 
         //if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            //StartCoroutine(ResetCardPosition(true));
+        //StartCoroutine(ResetCardPosition(true));
 
         if (WarManager.instance.PlacingCard)
             StartCoroutine(ResetCardPosition(false));

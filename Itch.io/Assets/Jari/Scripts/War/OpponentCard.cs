@@ -27,7 +27,14 @@ public class OpponentCard : Card
     private void Update()
     {
         if (health <= 0)
+        {
+            //turns off text
+            attackText.enabled = false;
+            healthText.enabled = false;
+
+            //starts disolving the card
             StartCoroutine(Disolve());
+        }
     }
 
     private void OnMouseDown()
