@@ -65,6 +65,8 @@ public class BlackJackManager : MonoBehaviour
     private int cheatCardChance;
     private int cheatCardAmount = 0;
 
+    private bool cheatInfo = true;
+
     private void Awake()
     {
         instance = this;
@@ -73,6 +75,7 @@ public class BlackJackManager : MonoBehaviour
     void Start()
     {
         CreateDeck();
+        cheatCardChance = Random.Range(3, 5);
     }
 
     void Update()
@@ -81,7 +84,12 @@ public class BlackJackManager : MonoBehaviour
         if (concluded)
             ResetAgain();
 
-        if (PlayerPoints == 3)
+        if (cheatCards.Count > 0)
+            if (!win.activeInHierarchy || !lose.activeInHierarchy || !draw.activeInHierarchy)
+                for (int i = 0; i < cheatCards.Count; i++)
+                    cheatCards[i].GetComponent<CheatCard>().UseAble = false;
+
+        if (PlayerPoints >= 3)
             StartCoroutine(WonGame());
         else if (OpponentPoints == 3)
             StartCoroutine(LoseGame());
@@ -415,15 +423,9 @@ public class BlackJackManager : MonoBehaviour
         {
             int change = Random.Range(0, 2);
             if (change == 0)
-            {
                 StartCoroutine(OpponentPlaysOn());
-                print("0");
-            }
             else if (change == 1)
-            {
                 WinCheck();
-                print("1");
-            }
         }
         else if (OpponentTotalCardValue <= 17)
             StartCoroutine(OpponentPlaysOn());
@@ -441,6 +443,11 @@ public class BlackJackManager : MonoBehaviour
         if (cheatCardChance == 0)
         {
             StartCoroutine(CheatCardAddDeck());
+            if (cheatInfo)
+            {
+                BlackJackInfos.instance.CheatCardInfo();
+                cheatInfo = false;
+            }
             cheatCardChance = Random.Range(3, 5);
         }
         else
@@ -547,9 +554,6 @@ public class BlackJackManager : MonoBehaviour
         //opponent always wins if max value is reached
         if (OpponentTotalCardValue == totalMaxValue)
             Lose();
-
-        if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue != totalMaxValue)
-            WinCheck();
     }
 
     private IEnumerator OpponentPlaysOn()
@@ -570,7 +574,7 @@ public class BlackJackManager : MonoBehaviour
         //check if possible to play again
         if (!win.activeInHierarchy || !lose.activeInHierarchy || !draw.activeInHierarchy)
         {
-            yield return new WaitForSeconds(Random.Range(2, 6));
+            yield return new WaitForSeconds(Random.Range(2, 4));
             if (OpponentTotalCardValue < UserTotalCardValue)
                 StartCoroutine(OpponentPlaysOn());
         }
