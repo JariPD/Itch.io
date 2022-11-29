@@ -18,9 +18,6 @@ public class WarManager : MonoBehaviour
     private WarAI warAI;
     private CheckForCardsOnField checkForCardsOnField;
 
-    //[SerializeField] private GameObject dice;
-    //[SerializeField] private DiceThrow diceThrow;
-
     [Header("Card Placement")]
     public GameObject CurrentSelectedCard;
     public bool PlacingCard = false;
@@ -37,7 +34,6 @@ public class WarManager : MonoBehaviour
     public int playerHealth, opponentHealth;
     private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;
     private int attackTurn = 0;
-
 
     private void Awake()
     {
@@ -58,54 +54,8 @@ public class WarManager : MonoBehaviour
         StartCoroutine(ThrowDice());
     }
 
-    /// <summary>
-    /// function that places a selected card on a tile in the grid
-    /// </summary>
-    /// <param name="pos"></param>
-    public void PlacePlayerCard(Vector3 pos)
-    {
-        PlacingCard = true;
-        CurrentSelectedCard.transform.position = pos;
-        CurrentSelectedCard = null;
-    }
-
-    public void StartTurn()
-    {
-        StartCoroutine(TurnSystem());
-    }
-
-    IEnumerator TurnSystem()
-    {
-        UIManager.instance.TurnButton(false);
-
-        //logic for enemy turn
-        //starts card placement
-        StartCoroutine(warAI.AICardPlacement());
-
-        //checks players card for later calculations
-        checkForCardsOnField.CheckForPlayer();
-
-        StartCoroutine(Attack());
-
-        yield return new WaitForSeconds(1.5f);
-
-        isPlayerTurn = true;
-
-        if (isPlayerTurn)
-        {
-            UIManager.instance.TurnButton(true);
-            checkForCardsOnField.CheckForAI();
-        }
-
-        UIManager.instance.UpdateWarHealthText();
-    }
-
     IEnumerator ThrowDice()
     {
-        //Instantiate(dice, new Vector3(0, 5, 0), Quaternion.identity);
-        //diceThrow = FindObjectOfType<DiceThrow>();
-        //diceThrow.Throw();
-
         turnCount++;
 
         diceRoll = Random.Range(1, 6);
@@ -113,7 +63,7 @@ public class WarManager : MonoBehaviour
         if (isPlayerTurn)
         {
             for (int i = 0; i < diceRoll; i++)
-                playersHand.Add(Instantiate(card, cardSpawnPos[i].position, cardSpawnPos[i].rotation));
+                playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[i].position.x, cardSpawnPos[i].position.y - .2f, cardSpawnPos[i].position.z), cardSpawnPos[i].rotation));
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -144,28 +94,37 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
-    private void ChangeHealth(bool isPlayer, int amount)
+    public void StartTurn()
     {
-        if (isPlayer)
-            playerHealth -= amount;
-        else
-            opponentHealth -= amount;
+        StartCoroutine(TurnSystem());
+    }
 
-        //healthchecks
-        if (opponentHealth <= 0)
+    #region Battle System
+
+    IEnumerator TurnSystem()
+    {
+        UIManager.instance.TurnButton(false);
+
+        //logic for enemy turn
+        //starts card placement
+        StartCoroutine(warAI.AICardPlacement());
+
+        //checks players card for later calculations
+        checkForCardsOnField.CheckForPlayer();
+
+        StartCoroutine(Attack());
+
+        yield return new WaitForSeconds(1.75f);
+
+        isPlayerTurn = true;
+
+        if (isPlayerTurn)
         {
-            opponentHealth = 0;
-
-            //player won
-            print("player won");
+            UIManager.instance.TurnButton(true);
+            checkForCardsOnField.CheckForAI();
         }
 
-        if (playerHealth <= 0)
-        {
-            playerHealth = 0;
-
-            print("player lost");
-        }
+        UIManager.instance.UpdateWarHealthText();
     }
 
     IEnumerator Attack()
@@ -183,28 +142,40 @@ public class WarManager : MonoBehaviour
             CurrentFocussedCard.GetComponent<OpponentCard>().UpdateCardUI();
         }
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1.25f);
         //enemy turn
 
-        //attacking random card of player
-        int randomPlayerCard = Random.Range(0, playersHand.Count);
-        playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
-        playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
+        checkForCardsOnField.CheckForAI();
+        if (checkForCardsOnField.AIAttackingCount >= 1)
+        {
+            //get random card from players hand
+            int randomPlayerCard = Random.Range(0, playersHand.Count);
+
+            //subract opponents attacking power from card and update card UI
+            playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
+            playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
+
+            if (playersHand[randomPlayerCard].GetComponent<PlayerCard>().health <= 0)
+                playersHand.RemoveAt(randomPlayerCard);
+        }
 
         //wait for cards to be destroyed
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.25f);
 
         if (attackTurn >= 2)
-        {
-            //check if AI still has cards on the field if no cards attack AIs main health
-            checkForCardsOnField.CheckForAI();
-            if (checkForCardsOnField.AIAttackingCount + checkForCardsOnField.AIDefendingCount <= 0)
-                UIManager.instance.WarGameResults(playerWon: true);
+            checkForCardsOnField.WarWinCheck();
+    }
 
-            //check if player still has cards on the field if no cards AI attacks players main health
-            checkForCardsOnField.CheckForPlayer();
-            if (checkForCardsOnField.AttackingCount + checkForCardsOnField.DefendingCount <= 0)
-                UIManager.instance.WarGameResults(playerWon: false);
-        }
+    #endregion
+
+    /// <summary>
+    /// function that places a selected card on a tile in the grid
+    /// </summary>
+    /// <param name="pos"></param>
+    public void PlacePlayerCard(Vector3 pos)
+    {
+        PlacingCard = true;
+        CurrentSelectedCard.transform.position = pos;
+        CurrentSelectedCard = null;
     }
 }

@@ -27,7 +27,16 @@ public class OpponentCard : Card
     private void Update()
     {
         if (health <= 0)
+        {
+            //turns off text
+            attackText.enabled = false;
+            healthText.enabled = false;
+            
+            outline.SetActive(false);
+
+            //starts disolving the card
             StartCoroutine(Disolve());
+        }
     }
 
     private void OnMouseDown()
@@ -36,7 +45,7 @@ public class OpponentCard : Card
         {
             WarManager.instance.FocussingACard = true;
             WarManager.instance.CurrentFocussedCard = gameObject;
-            //outline.SetActive(true);
+            outline.SetActive(true);
         }
     }
     public void UpdateCardUI()

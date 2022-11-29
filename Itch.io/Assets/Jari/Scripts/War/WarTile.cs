@@ -31,10 +31,4 @@ public class WarTile : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         WarManager.instance.PlacingCard = false;
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.up * 0.25f);
-    }
 }
