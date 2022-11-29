@@ -102,7 +102,7 @@ public class BlackJackManager : MonoBehaviour
     }
 
     /// <summary>
-    /// another update for the lists because coroutine didn't update the forloops right
+    /// another update for the lists because coroutine didn't update the forloops rights
     /// </summary>
     private void ResetAgain()
     {
