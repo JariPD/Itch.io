@@ -276,6 +276,10 @@ public class BlackJackManager : MonoBehaviour
                 cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
         Debug.Log("WinCheck");
+
+        if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue != totalMaxValue)
+            Win();
+
         //if player and opponent both have the max value opponent always wins: player loses 
         if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue == totalMaxValue)
             Lose();
@@ -331,7 +335,7 @@ public class BlackJackManager : MonoBehaviour
         usersCards.Add(deck.ElementAt(random));
 
         //calculates the sum of the user his cards
-        UserTotalCardValue = usersCards.Sum();
+        UserTotalCardValue += usersCards[usersCards.Count - 1];
 
         //add Card To Game With Value
         GameObject card = Instantiate(Card, cardSpawn.transform.position, cardSpawn.transform.rotation);
@@ -411,9 +415,15 @@ public class BlackJackManager : MonoBehaviour
         {
             int change = Random.Range(0, 2);
             if (change == 0)
+            {
                 StartCoroutine(OpponentPlaysOn());
+                print("0");
+            }
             else if (change == 1)
+            {
                 WinCheck();
+                print("1");
+            }
         }
         else if (OpponentTotalCardValue <= 17)
             StartCoroutine(OpponentPlaysOn());
@@ -431,7 +441,7 @@ public class BlackJackManager : MonoBehaviour
         if (cheatCardChance == 0)
         {
             StartCoroutine(CheatCardAddDeck());
-            cheatCardChance = Random.Range(0, 1);
+            cheatCardChance = Random.Range(3, 5);
         }
         else
             cheatCardChance--;
@@ -448,6 +458,10 @@ public class BlackJackManager : MonoBehaviour
         StartCoroutine(CheatDissolve(_card));
 
         cheatCards.Remove(_card);
+        if (UserTotalCardValue > totalMaxValue)
+            WinCheck();
+        else if (UserTotalCardValue == totalMaxValue)
+            OpponentPlaysOn();
     }
 
     /// <summary>
@@ -458,8 +472,6 @@ public class BlackJackManager : MonoBehaviour
         _cheatCard.GetComponent<CardShaderDissolve>().DissolveCard();
         yield return new WaitForSeconds(1);
         Destroy(_cheatCard);
-        if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue < totalMaxValue)
-            OpponentPlaysOn();
     }
     public IEnumerator CheatCardAddDeck()
     {
@@ -544,7 +556,7 @@ public class BlackJackManager : MonoBehaviour
     {
         Debug.Log("OpponentPlays");
         //if player isn't above opponent opponent get calls more cards else check if opponent wins
-        if (UserTotalCardValue! > OpponentTotalCardValue)
+        if (UserTotalCardValue !> OpponentTotalCardValue)
         {
             deckAnim.Play("Deck");
             yield return new WaitForSeconds(0.7f);
