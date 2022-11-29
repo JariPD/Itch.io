@@ -123,8 +123,6 @@ public class WarManager : MonoBehaviour
             UIManager.instance.TurnButton(true);
             checkForCardsOnField.CheckForAI();
         }
-
-        UIManager.instance.UpdateWarHealthText();
     }
 
     IEnumerator Attack()

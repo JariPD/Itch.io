@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private BlackJackManager blackJackManager;
     [SerializeField] private WarManager warManager;
+    [SerializeField] private CheckForCardsOnField checkForCardsOnField;
 
     [Header("Black Jack Text Objects")]
     [SerializeField] private TextMeshProUGUI userCardValueText;
@@ -21,7 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI warGameResults;
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
-    [SerializeField] private TextMeshProUGUI playerHealthText, AIHealthText;
+    [SerializeField] private TextMeshProUGUI playerWinCountText, AIWinCountText;
 
     [Header("Buttons")]
     [SerializeField] private Button throwDiceButton;
@@ -86,14 +87,14 @@ public class UIManager : MonoBehaviour
     {
         Destroy(throwDiceButton.gameObject);
     }
+    
+    public void UpdateWarWinCountText()
+    {
+        playerWinCountText.text = "Player won: " + checkForCardsOnField.PlayerWinCount;
+        AIWinCountText.text = "AI won: " + checkForCardsOnField.AIWinCount;
+    }
 
     #endregion
-
-    public void UpdateWarHealthText()
-    {
-        playerHealthText.text = "Player Health: " + warManager.playerHealth;
-        AIHealthText.text = "Opponent Health: " + warManager.opponentHealth;
-    }
 
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
     {

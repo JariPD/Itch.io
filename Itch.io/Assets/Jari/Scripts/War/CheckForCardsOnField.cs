@@ -8,7 +8,7 @@ public class CheckForCardsOnField : MonoBehaviour
     public GameObject[] PlayerDefendingRow, PlayerAttackingRow;
     public int AIDefendingCount, AIAttackingCount;
     public int DefendingCount, AttackingCount;
-    private int playerWinCount, aiWinCount;
+    public int PlayerWinCount, AIWinCount;
 
     public void CheckForPlayer()
     {
@@ -55,10 +55,11 @@ public class CheckForCardsOnField : MonoBehaviour
         CheckForPlayer();
         if (AttackingCount + DefendingCount <= 0)
         {
-            playerWinCount++;
+            PlayerWinCount++;
+            UIManager.instance.UpdateWarWinCountText();
             UIManager.instance.WarGameResults(playerWon: false);
 
-            if (aiWinCount >= 3)
+            if (AIWinCount >= 3)
                 StartCoroutine(WinOrLose(win: false));
         }
 
@@ -66,18 +67,18 @@ public class CheckForCardsOnField : MonoBehaviour
         CheckForAI();
         if (AIAttackingCount + AIDefendingCount <= 0)
         {
-            playerWinCount++;
-            
+            PlayerWinCount++;
+            UIManager.instance.UpdateWarWinCountText();
             UIManager.instance.WarGameResults(playerWon: true);
 
-            if (playerWinCount >= 3)
+            if (PlayerWinCount >= 3)
                 StartCoroutine(WinOrLose(win: true));
         }
     }
 
     IEnumerator WinOrLose(bool win)
     {
-        yield return new WaitForSeconds(3.1f);
+        yield return new WaitForSeconds(3f);
 
         if (win)
             SceneManager.LoadScene("Russian Roulette");
