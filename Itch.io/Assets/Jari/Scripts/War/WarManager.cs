@@ -178,28 +178,4 @@ public class WarManager : MonoBehaviour
         CurrentSelectedCard.transform.position = pos;
         CurrentSelectedCard = null;
     }
-
-    /* private void ChangeHealth(bool isPlayer, int amount)
-    {
-        if (isPlayer)
-            playerHealth -= amount;
-        else
-            opponentHealth -= amount;
-
-        //healthchecks
-        if (opponentHealth <= 0)
-        {
-            opponentHealth = 0;
-
-            //player won
-            print("player won");
-        }
-
-        if (playerHealth <= 0)
-        {
-            playerHealth = 0;
-
-            print("player lost");
-        }
-    }*/
 }
