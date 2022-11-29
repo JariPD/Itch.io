@@ -84,7 +84,7 @@ public class BlackJackManager : MonoBehaviour
         if (PlayerPoints == 3)
             StartCoroutine(WonGame());
         else if (OpponentPoints == 3)
-            print("You Lose");
+            StartCoroutine(LoseGame());
     }
 
     #region GameManager
@@ -218,8 +218,19 @@ public class BlackJackManager : MonoBehaviour
 
         yield return new WaitForSeconds(5);
         //switch scene
-        //SceneManager.LoadScene("War");
+        SceneManager.LoadScene("War");
     }
+
+    private IEnumerator LoseGame()
+    {
+        print("You Lose");
+        //do animation or transition
+
+        yield return new WaitForSeconds(5);
+        //switch scene
+        SceneManager.LoadScene("BlackJack");
+    }
+
     #endregion
 
     #region GameState
