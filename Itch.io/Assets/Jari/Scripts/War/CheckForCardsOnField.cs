@@ -42,4 +42,24 @@ public class CheckForCardsOnField : MonoBehaviour
                 AIDefendingCount++;
         }
     }
+
+    /// <summary> 
+    ///   check if player still has cards on the field if no cards AI won
+    /// </summary>
+    public void PlayerCardWinCheck()
+    {
+        CheckForPlayer();
+        if (AttackingCount + DefendingCount <= 0)
+            UIManager.instance.WarGameResults(playerWon: false);
+    }
+
+    /// <summary>
+    /// check if AI still has cards on the field if no cards play won
+    /// </summary>
+    public void AICardWinCheck()
+    {
+        CheckForAI();
+        if (AIAttackingCount + AIDefendingCount <= 0)
+            UIManager.instance.WarGameResults(playerWon: true);
+    }
 }
