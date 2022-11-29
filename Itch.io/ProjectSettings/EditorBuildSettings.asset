@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Niels/Scenes/BlackJack.unity
     guid: 287e4ca6934cada4db434a5a08e7a350
   - enabled: 1
-    path: Assets/Jari/Scenes/War.unity
+    path: Assets/Jari/Scenes/War old.unity
     guid: 11315ebebe92f964398945ea4dacfad8
   - enabled: 1
     path: Assets/Niels/Scenes/Russian Roulette.unity
