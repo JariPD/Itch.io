@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+
+        UpdateWarWinCountText();
     }
 
     void Update()

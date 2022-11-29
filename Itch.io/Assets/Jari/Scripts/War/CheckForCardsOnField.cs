@@ -55,11 +55,11 @@ public class CheckForCardsOnField : MonoBehaviour
         CheckForPlayer();
         if (AttackingCount + DefendingCount <= 0)
         {
-            PlayerWinCount++;
+            AIWinCount++;
             UIManager.instance.UpdateWarWinCountText();
             UIManager.instance.WarGameResults(playerWon: false);
 
-            if (AIWinCount >= 3)
+            if (AIWinCount >= 1)
                 StartCoroutine(WinOrLose(win: false));
         }
 
@@ -71,7 +71,7 @@ public class CheckForCardsOnField : MonoBehaviour
             UIManager.instance.UpdateWarWinCountText();
             UIManager.instance.WarGameResults(playerWon: true);
 
-            if (PlayerWinCount >= 3)
+            if (PlayerWinCount >= 1)
                 StartCoroutine(WinOrLose(win: true));
         }
     }

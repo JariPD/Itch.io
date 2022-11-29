@@ -2551,8 +2551,8 @@ MonoBehaviour:
   warGameResults: {fileID: 1753577797}
   diceRollText: {fileID: 1022183010}
   opponentDiceRollText: {fileID: 1903560657}
-  playerWinCountText: {fileID: 0}
-  AIWinCountText: {fileID: 0}
+  playerWinCountText: {fileID: 99752726}
+  AIWinCountText: {fileID: 1854803907}
   throwDiceButton: {fileID: 1771100085}
   turnButton: {fileID: 520675710}
 --- !u!4 &378249492
