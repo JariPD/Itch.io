@@ -109,6 +109,8 @@ public class WarManager : MonoBehaviour
         //starts card placement
         StartCoroutine(warAI.AICardPlacement());
 
+        UIManager.instance.FocusTutorial();
+
         //checks players card for later calculations
         checkForCardsOnField.CheckForPlayer();
 

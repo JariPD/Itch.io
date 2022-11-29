@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
     [SerializeField] private TextMeshProUGUI playerWinCountText, AIWinCountText;
 
+    [Header("War Tutorial")]
+    [SerializeField] private TextMeshProUGUI focusText;
+    private int focusTextCount = 0;
+
     [Header("Buttons")]
     [SerializeField] private Button throwDiceButton;
     [SerializeField] private Button turnButton;
@@ -96,6 +100,21 @@ public class UIManager : MonoBehaviour
         AIWinCountText.text = "AI won: " + checkForCardsOnField.AIWinCount;
     }
 
+    #region Tutorial
+
+    public void FocusTutorial()
+    {
+        if (focusTextCount <= 0)
+        {
+            opponentDiceRollText.enabled = false;
+            focusText.gameObject.SetActive(true);
+            StartCoroutine(TurnOffText(focusText, 7.5f));
+        }
+
+        focusTextCount++;
+    }
+
+    #endregion
     #endregion
 
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
