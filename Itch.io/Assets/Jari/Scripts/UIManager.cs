@@ -100,6 +100,4 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(time);
         text.enabled = false;
     }
-
-
 }

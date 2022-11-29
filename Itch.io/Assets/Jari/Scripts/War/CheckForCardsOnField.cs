@@ -8,6 +8,7 @@ public class CheckForCardsOnField : MonoBehaviour
     public GameObject[] PlayerDefendingRow, PlayerAttackingRow;
     public int AIDefendingCount, AIAttackingCount;
     public int DefendingCount, AttackingCount;
+    private int playerWinCount, aiWinCount;
 
     public void CheckForPlayer()
     {
@@ -54,16 +55,23 @@ public class CheckForCardsOnField : MonoBehaviour
         CheckForPlayer();
         if (AttackingCount + DefendingCount <= 0)
         {
+            playerWinCount++;
             UIManager.instance.WarGameResults(playerWon: false);
-            StartCoroutine(WinOrLose(win: false));
+
+            if (aiWinCount >= 3)
+                StartCoroutine(WinOrLose(win: false));
         }
 
         //check if AI still has cards if no cards player won
         CheckForAI();
         if (AIAttackingCount + AIDefendingCount <= 0)
         {
+            playerWinCount++;
+            
             UIManager.instance.WarGameResults(playerWon: true);
-            StartCoroutine(WinOrLose(win: true));
+
+            if (playerWinCount >= 3)
+                StartCoroutine(WinOrLose(win: true));
         }
     }
 
