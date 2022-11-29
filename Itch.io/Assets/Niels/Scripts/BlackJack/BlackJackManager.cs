@@ -524,6 +524,9 @@ public class BlackJackManager : MonoBehaviour
         //opponent always wins if max value is reached
         if (OpponentTotalCardValue == totalMaxValue)
             Lose();
+
+        if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue != totalMaxValue)
+            WinCheck();
     }
 
     private IEnumerator OpponentPlaysOn()
