@@ -51,6 +51,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    #region War
+
     public void UpdateDiceRollText(int diceValue, bool isPlayerTurn)
     {
         if (isPlayerTurn)
@@ -75,6 +77,18 @@ public class UIManager : MonoBehaviour
         StartCoroutine(TurnOffText(warGameResults, 3));
     }
 
+    public void TurnButton(bool active)
+    {
+        turnButton.gameObject.SetActive(active);
+    }
+
+    public void DisableThrowDiceButton()
+    {
+        Destroy(throwDiceButton.gameObject);
+    }
+
+    #endregion
+
     public void UpdateWarHealthText()
     {
         playerHealthText.text = "Player Health: " + warManager.playerHealth;
@@ -87,13 +101,5 @@ public class UIManager : MonoBehaviour
         text.enabled = false;
     }
 
-    public void TurnButton(bool active)
-    {
-        turnButton.gameObject.SetActive(active);
-    }
 
-    public void DisableThrowDiceButton()
-    {
-        Destroy(throwDiceButton.gameObject);
-    }
 }
