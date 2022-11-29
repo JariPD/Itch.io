@@ -31,6 +31,8 @@ public class OpponentCard : Card
             //turns off text
             attackText.enabled = false;
             healthText.enabled = false;
+            
+            outline.SetActive(false);
 
             //starts disolving the card
             StartCoroutine(Disolve());
@@ -43,7 +45,7 @@ public class OpponentCard : Card
         {
             WarManager.instance.FocussingACard = true;
             WarManager.instance.CurrentFocussedCard = gameObject;
-            //outline.SetActive(true);
+            outline.SetActive(true);
         }
     }
     public void UpdateCardUI()

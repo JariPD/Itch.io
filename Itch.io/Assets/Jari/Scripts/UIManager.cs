@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour
     {
         opponentpulledCardText.text = "Opponent Got: " + opponentValue.ToString();
     }
+    
+    #region war
 
     public void UpdateDiceRollText(int diceValue, bool isPlayerTurn)
     {
@@ -92,20 +94,21 @@ public class UIManager : MonoBehaviour
         playerHealthText.text = "Player Health: " + warManager.playerHealth;
         AIHealthText.text = "Opponent Health: " + warManager.opponentHealth;
     }
+    public void TurnButton(bool active)
+    {
+        turnButton.gameObject.SetActive(active);
+    }
+    
+    public void DisableThrowDiceButton()
+    {
+        Destroy(throwDiceButton.gameObject);
+    }
+
+    #endregion
 
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
     {
         yield return new WaitForSeconds(time);
         text.enabled = false;
-    }
-
-    public void TurnButton(bool active)
-    {
-        turnButton.gameObject.SetActive(active);
-    }
-
-    public void DisableThrowDiceButton()
-    {
-        Destroy(throwDiceButton.gameObject);
     }
 }

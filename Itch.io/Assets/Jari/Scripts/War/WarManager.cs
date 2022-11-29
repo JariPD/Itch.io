@@ -114,7 +114,7 @@ public class WarManager : MonoBehaviour
 
         StartCoroutine(Attack());
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.75f);
 
         isPlayerTurn = true;
 
@@ -142,27 +142,28 @@ public class WarManager : MonoBehaviour
             CurrentFocussedCard.GetComponent<OpponentCard>().UpdateCardUI();
         }
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1.25f);
         //enemy turn
 
-        //get random card from players hand
-        int randomPlayerCard = Random.Range(0, playersHand.Count);
-        
-        if (true)
+        checkForCardsOnField.CheckForAI();
+        if (checkForCardsOnField.AIAttackingCount >= 1)
         {
+            //get random card from players hand
+            int randomPlayerCard = Random.Range(0, playersHand.Count);
+
             //subract opponents attacking power from card and update card UI
             playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
             playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
+
+            if (playersHand[randomPlayerCard].GetComponent<PlayerCard>().health <= 0)
+                playersHand.RemoveAt(randomPlayerCard);
         }
 
         //wait for cards to be destroyed
         yield return new WaitForSeconds(1.25f);
 
         if (attackTurn >= 2)
-        {
-            checkForCardsOnField.PlayerCardWinCheck();
-            checkForCardsOnField.AICardWinCheck();
-        }
+            checkForCardsOnField.WarWinCheck();
     }
 
     #endregion
