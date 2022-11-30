@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Niels/Scenes/Niels Test.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: b3b2f281bdbae3849b5f7e148eba7d9a
+  - enabled: 1
+    path: Assets/Niels/Scenes/BlackJack.unity
     guid: 287e4ca6934cada4db434a5a08e7a350
+  - enabled: 1
+    path: Assets/Jari/Scenes/War.unity
+    guid: 404992d9d8e7e9a43b727bb52522fb8f
+  - enabled: 1
+    path: Assets/Niels/Scenes/Russian Roulette.unity
+    guid: ee19b959338e86e45917b84958ae29a1
   m_configObjects: {}

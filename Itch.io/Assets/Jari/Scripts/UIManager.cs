@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,12 +14,18 @@ public class UIManager : MonoBehaviour
     [Header("Black Jack Text Objects")]
     [SerializeField] private TextMeshProUGUI userCardValueText;
     [SerializeField] private TextMeshProUGUI opponentCardValueText;
-    [SerializeField] private TextMeshProUGUI pulledCardText;
-    [SerializeField] private TextMeshProUGUI opponentpulledCardText;
+    [SerializeField] private TextMeshProUGUI opponentMatchPoints;
+    [SerializeField] private TextMeshProUGUI playerMatchPoints;
 
     [Header("War Text Objects")]
+    [SerializeField] private TextMeshProUGUI warGameResults;
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
+    [SerializeField] private TextMeshProUGUI playerHealthText, AIHealthText;
+
+    [Header("Buttons")]
+    [SerializeField] private Button throwDiceButton;
+    [SerializeField] private Button turnButton;
 
     private void Awake()
     {
@@ -26,7 +34,7 @@ public class UIManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-    
+
     void Update()
     {
         //updates total card values text
@@ -36,29 +44,60 @@ public class UIManager : MonoBehaviour
             opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
         }
 
-        if (warManager != null)
+        if (opponentMatchPoints != null && playerMatchPoints != null)
         {
-            diceRollText.text = "Dice Roll: " + warManager.diceRoll.ToString();
+            opponentMatchPoints.text = "Opponent Points: " + blackJackManager.OpponentPoints;
+            playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
         }
     }
-    
-    public void UpdatePulledCardText(int cardValue)
+
+    #region War
+
+    public void UpdateDiceRollText(int diceValue, bool isPlayerTurn)
     {
-        pulledCardText.text = "You pulled: " + cardValue.ToString();
+        if (isPlayerTurn)
+        {
+            StartCoroutine(TurnOffText(diceRollText, 3));
+            diceRollText.text = "You rolled: " + diceValue.ToString();
+        }
+        else
+        {
+            StartCoroutine(TurnOffText(opponentDiceRollText, 3));
+            opponentDiceRollText.text = "Opponent rolled: " + diceValue.ToString();
+        }
     }
 
-    public void UpdateOpponentPulledCardText(int opponentValue)
+    public void WarGameResults(bool playerWon)
     {
-        opponentpulledCardText.text = "Opponent Got: " + opponentValue.ToString();
+        if (playerWon)
+            warGameResults.text = "You won the war!";
+        else
+            warGameResults.text = "You lost the war!";
+
+        StartCoroutine(TurnOffText(warGameResults, 3));
     }
 
-    public void UpdateDiceRollText(int diceValue)
+    public void TurnButton(bool active)
     {
-        diceRollText.text = "You threw a: " + diceValue.ToString();
+        turnButton.gameObject.SetActive(active);
     }
 
-    public void UpdateOpponentDiceRollText(int diceValue)
+    public void DisableThrowDiceButton()
     {
-        opponentDiceRollText.text = "Opponent threw a: " + diceValue.ToString();
+        Destroy(throwDiceButton.gameObject);
+    }
+
+    #endregion
+
+    public void UpdateWarHealthText()
+    {
+        playerHealthText.text = "Player Health: " + warManager.playerHealth;
+        AIHealthText.text = "Opponent Health: " + warManager.opponentHealth;
+    }
+
+    private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
+    {
+        yield return new WaitForSeconds(time);
+        text.enabled = false;
     }
 }
