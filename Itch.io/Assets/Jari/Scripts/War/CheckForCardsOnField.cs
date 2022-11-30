@@ -99,6 +99,9 @@ public class CheckForCardsOnField : MonoBehaviour
         if (win)
             SceneManager.LoadScene("Russian Roulette");
         else
+        {
+            WarManager.instance.ClearPlayerPrefs();
             SceneManager.LoadScene("War");
+        }
     }
 }

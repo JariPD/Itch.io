@@ -104,6 +104,7 @@ public class UIManager : MonoBehaviour
 
     public void FocusTutorial()
     {
+        focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
         if (focusTextCount <= 0)
         {
             opponentDiceRollText.enabled = false;
@@ -112,6 +113,7 @@ public class UIManager : MonoBehaviour
         }
 
         focusTextCount++;
+        PlayerPrefs.SetInt("FocusTutorial", focusTextCount);
     }
 
     #endregion
