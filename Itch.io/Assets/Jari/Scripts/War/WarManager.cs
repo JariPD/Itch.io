@@ -45,6 +45,14 @@ public class WarManager : MonoBehaviour
         opponentHealth = maxOpponentHealth;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            ClearPlayerPrefs();
+        }
+    }
+
     /// <summary>
     /// function to be called from a button - starts the dice throw
     /// </summary>
@@ -163,7 +171,7 @@ public class WarManager : MonoBehaviour
         yield return new WaitForSeconds(1.25f);
 
         if (attackTurn >= 2)
-            checkForCardsOnField.WarWinCheck();
+            StartCoroutine(checkForCardsOnField.WarWinCheck());
     }
 
     #endregion
@@ -177,5 +185,11 @@ public class WarManager : MonoBehaviour
         PlacingCard = true;
         CurrentSelectedCard.transform.position = pos;
         CurrentSelectedCard = null;
+    }
+
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene(0);
     }
 }

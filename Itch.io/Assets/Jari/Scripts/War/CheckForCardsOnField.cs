@@ -49,30 +49,46 @@ public class CheckForCardsOnField : MonoBehaviour
     /// <summary> 
     ///   check if player still has cards on the field if no cards AI won
     /// </summary>
-    public void WarWinCheck()
+    public IEnumerator WarWinCheck()
     {
         //check if player still has cards if no cards AI won
         CheckForPlayer();
         if (AttackingCount + DefendingCount <= 0)
         {
+            AIWinCount = PlayerPrefs.GetInt("AIWinCount", AIWinCount);
             AIWinCount++;
+            PlayerPrefs.SetInt("AIWinCount", AIWinCount);
             UIManager.instance.UpdateWarWinCountText();
             UIManager.instance.WarGameResults(playerWon: false);
 
-            if (AIWinCount >= 1)
+            if (AIWinCount >= 3)
                 StartCoroutine(WinOrLose(win: false));
+            else if (AIWinCount <= 2)
+            {
+                UIManager.instance.TurnButton(false);
+                yield return new WaitForSeconds(1f);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
 
         //check if AI still has cards if no cards player won
         CheckForAI();
         if (AIAttackingCount + AIDefendingCount <= 0)
         {
+            PlayerWinCount = PlayerPrefs.GetInt("PlayerWinCount", PlayerWinCount);
             PlayerWinCount++;
+            PlayerPrefs.SetInt("PlayerWinCount", PlayerWinCount);
             UIManager.instance.UpdateWarWinCountText();
             UIManager.instance.WarGameResults(playerWon: true);
 
-            if (PlayerWinCount >= 1)
+            if (PlayerWinCount >= 3)
                 StartCoroutine(WinOrLose(win: true));
+            else if (PlayerWinCount <= 2)
+            {
+                UIManager.instance.TurnButton(false);
+                yield return new WaitForSeconds(1f);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 
