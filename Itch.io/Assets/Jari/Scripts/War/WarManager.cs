@@ -66,7 +66,7 @@ public class WarManager : MonoBehaviour
     {
         turnCount++;
 
-        diceRoll = Random.Range(1, 6);
+        diceRoll = Random.Range(3, 6);
 
         if (isPlayerTurn)
         {
