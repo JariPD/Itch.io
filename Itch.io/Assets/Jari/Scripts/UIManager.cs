@@ -107,7 +107,6 @@ public class UIManager : MonoBehaviour
     {
         //set playerpref
         focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
-        Debug.Log("Focus tutorial count: " + focusTextCount);
         if (focusTextCount <= 0)
         {
             FocusPanel.SetActive(true);
