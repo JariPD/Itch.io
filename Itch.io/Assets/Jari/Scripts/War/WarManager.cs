@@ -21,7 +21,7 @@ public class WarManager : MonoBehaviour
     [Header("Card Placement")]
     public GameObject CurrentSelectedCard;
     public bool PlacingCard = false;
-    public bool CardSelected;
+    public bool CardSelected = false;
 
     [Header("Grid")]
     [SerializeField] private GameObject gridParent;
