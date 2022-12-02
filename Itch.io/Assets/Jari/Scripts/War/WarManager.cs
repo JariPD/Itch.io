@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class WarManager : MonoBehaviour
 {
@@ -117,14 +117,22 @@ public class WarManager : MonoBehaviour
         //starts card placement
         StartCoroutine(warAI.AICardPlacement());
 
-        UIManager.instance.FocusTutorial();
+        //show tutorial about focussing cards
+        StartCoroutine(UIManager.instance.FocusTutorial());
 
         //checks players card for later calculations
         checkForCardsOnField.CheckForPlayer();
 
         StartCoroutine(Attack());
 
-        yield return new WaitForSeconds(1.75f);
+        if (PlayerPrefs.GetInt("FocusTutorial") <= 0)
+        {
+            yield return new WaitForSeconds(7.5f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.75f);
+        }
 
         isPlayerTurn = true;
 
@@ -190,6 +198,5 @@ public class WarManager : MonoBehaviour
     public void ClearPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
-        SceneManager.LoadScene(0);
     }
 }

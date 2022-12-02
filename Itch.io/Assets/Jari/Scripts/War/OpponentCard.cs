@@ -4,6 +4,7 @@ using UnityEngine;
 public class OpponentCard : Card
 {
     [SerializeField] private GameObject outline;
+    private WarAI ai;
 
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI attackText;
@@ -16,6 +17,8 @@ public class OpponentCard : Card
 
     private void Start()
     {
+        ai = FindObjectOfType<WarAI>();
+
         //gets random health value
         health = Random.Range(1, 4);
 
@@ -44,6 +47,14 @@ public class OpponentCard : Card
         if (!WarManager.instance.FocussingACard)
         {
             WarManager.instance.FocussingACard = true;
+            WarManager.instance.CurrentFocussedCard = gameObject;
+            outline.SetActive(true);
+        }
+        else if (WarManager.instance.FocussingACard)
+        {
+            for (int i = 0; i < ai.opponentsHand.Count; i++)
+                ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
+
             WarManager.instance.CurrentFocussedCard = gameObject;
             outline.SetActive(true);
         }

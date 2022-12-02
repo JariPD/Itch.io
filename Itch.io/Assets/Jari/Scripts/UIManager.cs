@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerWinCountText, AIWinCountText;
 
     [Header("War Tutorial")]
-    [SerializeField] private TextMeshProUGUI focusText;
+    [SerializeField] private GameObject FocusPanel;
     private int focusTextCount = 0;
 
     [Header("Buttons")]
@@ -102,14 +103,21 @@ public class UIManager : MonoBehaviour
 
     #region Tutorial
 
-    public void FocusTutorial()
+    public IEnumerator FocusTutorial()
     {
+        //set playerpref
         focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
+        Debug.Log("Focus tutorial count: " + focusTextCount);
         if (focusTextCount <= 0)
         {
-            opponentDiceRollText.enabled = false;
-            focusText.gameObject.SetActive(true);
-            StartCoroutine(TurnOffText(focusText, 7.5f));
+            FocusPanel.SetActive(true);
+            
+            //starts coroutine to turn off ui elements to make tutorial more clear
+            StartCoroutine(TurnOffUIElements());
+            
+            yield return new WaitForSeconds(7.5f);
+            
+            FocusPanel.SetActive(false);
         }
 
         focusTextCount++;
@@ -123,5 +131,22 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         text.enabled = false;
+    }
+
+    private IEnumerator TurnOffUIElements()
+    {
+        //match points
+        playerWinCountText.enabled = false;
+        AIWinCountText.enabled = false;
+
+        //dice roll text
+        opponentDiceRollText.enabled = false;
+        diceRollText.enabled = false;
+
+        yield return new WaitForSeconds(7.5f);
+
+        //match points
+        playerWinCountText.enabled = true;
+        AIWinCountText.enabled = true;
     }
 }
