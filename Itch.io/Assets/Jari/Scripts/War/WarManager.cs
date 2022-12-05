@@ -88,8 +88,8 @@ public class WarManager : MonoBehaviour
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
 
-            //turns on "Next Turn" button
-            UIManager.instance.TurnButton(true);
+            //tutorial to show player what the rows do
+            StartCoroutine(UIManager.instance.WarTutorialRows());
         }
 
         yield return new WaitForSeconds(3);

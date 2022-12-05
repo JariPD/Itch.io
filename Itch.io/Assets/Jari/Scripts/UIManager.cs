@@ -25,7 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerWinCountText, AIWinCountText;
 
     [Header("War Tutorial")]
-    [SerializeField] private GameObject FocusPanel;
+    [SerializeField] private GameObject focusPanel;
+    [SerializeField] private GameObject attackingRowPanel, defendingRowPanel;
     private int focusTextCount = 0;
 
     [Header("Buttons")]
@@ -108,14 +109,14 @@ public class UIManager : MonoBehaviour
         focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
         if (focusTextCount <= 0)
         {
-            FocusPanel.SetActive(true);
+            focusPanel.SetActive(true);
             
             //starts coroutine to turn off ui elements to make tutorial more clear
             StartCoroutine(TurnOffUIElements());
             
             yield return new WaitForSeconds(7.5f);
             
-            FocusPanel.SetActive(false);
+            focusPanel.SetActive(false);
         }
 
         focusTextCount++;
@@ -129,6 +130,25 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         text.enabled = false;
+    }
+
+    public IEnumerator WarTutorialRows()
+    {
+        //play defending row voiceline
+        defendingRowPanel.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+
+        defendingRowPanel.SetActive(false);
+
+        //play attacking row voiceline
+        attackingRowPanel.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+
+        attackingRowPanel.SetActive(false);
+
+        TurnButton(true);
     }
 
     private IEnumerator TurnOffUIElements()
