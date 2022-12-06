@@ -114,6 +114,8 @@ public class UIManager : MonoBehaviour
 
         if (warRowsCount <= 0)
         {
+            StartCoroutine(TurnOffUIElements(20));
+
             //play defending row voiceline
             audioManager.Play("Defending");
             defendingRowPanel.SetActive(true);
@@ -151,12 +153,12 @@ public class UIManager : MonoBehaviour
             audioManager.Play("Focus");
             focusPanel.SetActive(true);
 
+            //starts coroutine to turn off ui elements to make tutorial more clear
+            StartCoroutine(TurnOffUIElements(10));
+
             yield return new WaitForSeconds(5);
 
             audioManager.Play("Lose");
-
-            //starts coroutine to turn off ui elements to make tutorial more clear
-            StartCoroutine(TurnOffUIElements(5));
 
             yield return new WaitForSeconds(5);
 
