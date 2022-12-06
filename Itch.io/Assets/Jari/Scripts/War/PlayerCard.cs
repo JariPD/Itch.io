@@ -44,8 +44,8 @@ public class PlayerCard : Card
             StartCoroutine(Disolve());
         }
 
-        if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            StartCoroutine(ResetCardPosition(true));
+       /* if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
+            StartCoroutine(ResetCardPosition(true));*/
 
         if (WarManager.instance.PlacingCard)
             StartCoroutine(ResetCardPosition(false));
