@@ -89,7 +89,7 @@ public class BlackJackManager : MonoBehaviour
                 for (int i = 0; i < cheatCards.Count; i++)
                     cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
-        if (PlayerPoints >= 3)
+        if (PlayerPoints >= 1)
             StartCoroutine(WonGame());
         else if (OpponentPoints == 3)
             StartCoroutine(LoseGame());
@@ -365,7 +365,7 @@ public class BlackJackManager : MonoBehaviour
         //plays animation for picking up a card and switches buttons off
         PlayerDeck.instance.PlayerDeckAnim.Play("PlayerDeck");
         InteractableSwitch();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
 
         deckAnim.Play("Deck");
         yield return new WaitForSeconds(0.7f);
@@ -380,7 +380,7 @@ public class BlackJackManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         PlayerDeck.instance.PlayerDeckAnim.Play("PlayerDeckBack");
 
-        yield return new WaitForSeconds(Random.Range(2, 4));
+        yield return new WaitForSeconds(Random.Range(1, 2));
         if (OpponentTotalCardValue <= 18 && UserTotalCardValue < 22)
         {
             deckAnim.Play("Deck");

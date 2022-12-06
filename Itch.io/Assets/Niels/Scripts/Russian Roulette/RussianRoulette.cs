@@ -19,8 +19,6 @@ public class RussianRoulette : MonoBehaviour
     [SerializeField] private Animator gunPointing;
     [SerializeField] private Animator gunAnim;
 
-
-    private bool hasShot = false;
     private bool hasSpin = false;
     public bool opponentTurn = false;
 
@@ -39,15 +37,11 @@ public class RussianRoulette : MonoBehaviour
     void Update()
     {
         rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, new Vector3(0, 0, 0), 1 * Time.deltaTime);
-        CheckShot();
         SpinShoot();
     }
 
     public void SpinAnim()
     {
-        if (RouletteAI.instance.MyTurn == false)
-            Usable();
-
         gunAnim.Play("GunSpin");
     }
 
@@ -73,6 +67,8 @@ public class RussianRoulette : MonoBehaviour
                 gunBarrel.Shoot[i].Play();
         else
             Debug.Log("Click");
+
+        StartCoroutine(NextTurn());
     }
 
     private void ChooseBulletHolder()
@@ -110,38 +106,26 @@ public class RussianRoulette : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Check if shooting animation is done so it switches
-    /// </summary>
-    private void CheckShot()
-    {
-        if (hasShot)
-        {
-            if (gunAnim.GetCurrentAnimatorClipInfo(0).Length <= 0)
-            {
-                opponentTurn = !opponentTurn;
-
-                gunPointing.CrossFade("Default", 1);
-                if (gunPointing.GetCurrentAnimatorClipInfo(0).Length <= 0)
-                {
-                    if (opponentTurn)
-                        RouletteAI.instance.AITurnOn();
-                    else
-                        Usable();
-
-
-                    hasShot = false;
-                }
-            }
-        }
-    }
-
     public void Usable()
     {
         shoot.interactable = !shoot.interactable;
         spin.interactable = !spin.interactable;
     }
 
+    public void Spinp()
+    {
+        SpinAnim();
+    }
+
+    public void Shootp()
+    {
+        ShootAnim();
+    }
+
+    public void SwitchTurns()
+    {
+        RouletteAI.instance.AISwitch();
+    }
 
     /// <summary>
     /// shoot person with string name
@@ -153,6 +137,25 @@ public class RussianRoulette : MonoBehaviour
         gunPointing.Play(PointTo);
         yield return new WaitForSeconds(Random.Range(1, 5));
         gunAnim.Play("GunShoot");
-        hasShot = true;
+        RouletteAI.instance.AISwitch();
+    }
+
+    /// <summary>
+    /// between rounds spin the gun again
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator NextTurn()
+    {
+        yield return new WaitForSeconds(1);
+        gunPointing.CrossFade("Default", 1);
+
+        yield return new WaitForSeconds(2);
+        gunAnim.Play("RoundSpin");
+        
+        yield return new WaitForSeconds(4.5f);
+        if (RouletteAI.instance.MyTurn == true)
+            RouletteAI.instance.AITurnOn();
+        else
+            Usable();
     }
 }

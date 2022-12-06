@@ -30,16 +30,18 @@ public class RouletteAI : MonoBehaviour
         StartCoroutine(AIPlay());
     }
 
+    public void AISwitch()
+    {
+        MyTurn = !MyTurn;
+    }
+
     private IEnumerator AIPlay()
     {
         int chance = Random.Range(0, 2);
         yield return new WaitForSeconds(Random.Range(2, 4));
         if (chance == 0)
-            RussianRoulette.instance.SpinAnim();
-
+            RussianRoulette.instance.Spinp();
         else if (chance == 1)
             StartCoroutine(RussianRoulette.instance.PointAndShoot("OpponentPoint"));
-
-        MyTurn = false;
     }
 }

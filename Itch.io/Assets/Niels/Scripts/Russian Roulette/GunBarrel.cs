@@ -64,7 +64,16 @@ public class GunBarrel : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BulletPoint"))
             if (!barrelSound.isPlaying)
-                barrelSound.Play(0);
+                if (other.GetComponent<BulletPoint>().HasBullet)
+                {
+                    barrelSound.pitch = 2.7f;
+                    barrelSound.Play(0);
+                }
+                else
+                {
+                    barrelSound.pitch = 3;
+                    barrelSound.Play(0);
+                }
     }
 
     public IEnumerator Test(Transform testtrans)
