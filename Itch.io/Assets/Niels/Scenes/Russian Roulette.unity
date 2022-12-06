@@ -6089,6 +6089,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 971463613}
+  - component: {fileID: 971463615}
+  - component: {fileID: 971463614}
   m_Layer: 0
   m_Name: -Gun-
   m_TagString: Untagged
@@ -6112,6 +6114,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971463614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971463612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a260d58e1c31d45a87c7bce20d06c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &971463615
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971463612}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3f1fb7db5d211c54bb28d2b4d9879051, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1004573007
 GameObject:
   m_ObjectHideFlags: 0
@@ -12865,6 +12899,9 @@ MonoBehaviour:
   rb: {fileID: 7645128780595242420}
   shoot: {fileID: 2022813432}
   spin: {fileID: 481771128}
+  gunPointing: {fileID: 971463615}
+  gunAnim: {fileID: 0}
+  opponentTurn: 0
 --- !u!4 &1290854933517581874
 Transform:
   m_ObjectHideFlags: 0
