@@ -3904,7 +3904,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982195262}
-  m_LocalRotation: {x: 0.02287648, y: 0.83385015, z: 0.55122626, w: -0.017894197}
+  m_LocalRotation: {x: 0.022876767, y: 0.83385015, z: 0.55122626, w: -0.017894419}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4394,37 +4394,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &1083936364
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1083936366}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1083936366
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1083936364}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.194534, y: 7.6529756, z: -14.8776865}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089484905
 GameObject:
   m_ObjectHideFlags: 0
@@ -7270,7 +7239,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790039937}
-  m_LocalRotation: {x: 0.02342418, y: 0.81629705, z: 0.5769017, w: -0.01717532}
+  m_LocalRotation: {x: 0.023419227, y: 0.8162972, z: 0.5769018, w: -0.01717169}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7636,6 +7605,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1541734024}
     m_Modifications:
+    - target: {fileID: 3666370531245009362, guid: 27a7a41cc1d1d0f42a8dbbdec4a32385,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bee6062ee5fbe804ca7fb4b35073490b, type: 2}
     - target: {fileID: 3780714326434514067, guid: 27a7a41cc1d1d0f42a8dbbdec4a32385,
         type: 3}
       propertyPath: m_RootOrder
