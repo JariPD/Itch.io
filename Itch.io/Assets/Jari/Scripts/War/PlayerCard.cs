@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class PlayerCard : Card
@@ -7,17 +8,18 @@ public class PlayerCard : Card
     [Header("Card Settings")]
     private Vector3 startPos;
     [SerializeField] private bool cardInField;
+    private float selectedTimer;
 
     [Header("Card Follow")]
     [SerializeField] private float offset;
-    
+
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI attackText;
     [SerializeField] private TextMeshProUGUI healthText;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = gameObject.GetComponent<Animator>();
 
         //sets cards starting position
         startPos = transform.position;
@@ -41,16 +43,29 @@ public class PlayerCard : Card
             healthText.enabled = false;
 
             WarManager.instance.CardSelected = false;
-            
+
             //starts disolving the card
             StartCoroutine(Disolve());
         }
 
-       /* if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            StartCoroutine(ResetCardPosition(true));*/
+        if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
+            StartCoroutine(ResetCardPosition(true));
 
         if (WarManager.instance.PlacingCard)
             StartCoroutine(ResetCardPosition(false));
+
+        //selected fallback
+        if (WarManager.instance.CardSelected)
+        {
+            selectedTimer += Time.deltaTime;
+            if (selectedTimer >= 3)
+            {
+                selectedTimer = 0;
+                StartCoroutine(ResetCardPosition(true));
+            }
+        }
+        else
+            selectedTimer = 0;
     }
 
     private void OnMouseDown()
@@ -72,8 +87,12 @@ public class PlayerCard : Card
 
     IEnumerator ResetCardPosition(bool resetPos)
     {
+        if (WarManager.instance.CurrentSelectedCard != gameObject)
+            yield break;
+
         WarManager.instance.CardSelected = false;
 
+        Debug.Log(this.gameObject.name);
         //set animation state
         anim.SetBool("CardSelected", false);
 
