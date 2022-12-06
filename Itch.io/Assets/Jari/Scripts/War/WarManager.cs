@@ -90,6 +90,8 @@ public class WarManager : MonoBehaviour
 
             //tutorial to show player what the rows do
             StartCoroutine(UIManager.instance.WarTutorialRows());
+            if (PlayerPrefs.GetInt("WarTutorialRows") >= 1)
+                UIManager.instance.TurnButton(true);
         }
 
         yield return new WaitForSeconds(3);

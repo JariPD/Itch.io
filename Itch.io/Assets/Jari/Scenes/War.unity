@@ -2834,6 +2834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f1f7c123931a14da54a18c4c75b376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 756601405}
   blackJackManager: {fileID: 0}
   warManager: {fileID: 1639375363}
   checkForCardsOnField: {fileID: 1639375365}
@@ -4634,6 +4635,94 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696612482}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &756601404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 756601406}
+  - component: {fileID: 756601405}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &756601405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756601404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2a0d4d606e79845bd18c87a2b17746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sounds:
+  - name: Defending
+    clip: {fileID: 8300000, guid: e7ee4167eb6dd064fb4c38c161972852, type: 3}
+    Position: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 1
+    source: {fileID: 0}
+  - name: Attacking
+    clip: {fileID: 8300000, guid: a9a24b7e79e17174e9a4944bf926684c, type: 3}
+    Position: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Focus
+    clip: {fileID: 8300000, guid: 0a6120f00b2d4404bbc73a7014fd8c4f, type: 3}
+    Position: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: Lose
+    clip: {fileID: 8300000, guid: 0444d3499a6796f4eab2e9af76e7b70e, type: 3}
+    Position: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  Reverbs:
+    Preset: 0
+    source: {fileID: 0}
+--- !u!4 &756601406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756601404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7225295, y: 5.8784537, z: -12.468166}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &776657665
 GameObject:
   m_ObjectHideFlags: 0

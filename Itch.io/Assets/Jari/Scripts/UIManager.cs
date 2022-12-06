@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [Header("References")]
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private BlackJackManager blackJackManager;
     [SerializeField] private WarManager warManager;
     [SerializeField] private CheckForCardsOnField checkForCardsOnField;
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject focusPanel;
     [SerializeField] private GameObject attackingRowPanel, defendingRowPanel;
     private int focusTextCount = 0;
+    private int warRowsCount = 0;
 
     [Header("Buttons")]
     [SerializeField] private Button throwDiceButton;
@@ -109,18 +111,52 @@ public class UIManager : MonoBehaviour
         focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
         if (focusTextCount <= 0)
         {
-            focusPanel.SetActive(true);
-            
+            audioManager.Play("Focus");
+            //focusPanel.SetActive(true);
+
+            yield return new WaitForSeconds(5);
+
+            audioManager.Play("Lose");
+
             //starts coroutine to turn off ui elements to make tutorial more clear
-            StartCoroutine(TurnOffUIElements());
+            StartCoroutine(TurnOffUIElements(5f));
             
-            yield return new WaitForSeconds(7.5f);
+            //yield return new WaitForSeconds(7.5f);
             
-            focusPanel.SetActive(false);
+            //focusPanel.SetActive(false);
         }
 
         focusTextCount++;
         PlayerPrefs.SetInt("FocusTutorial", focusTextCount);
+    }
+
+    public IEnumerator WarTutorialRows()
+    {
+        warRowsCount = PlayerPrefs.GetInt("WarTutorialRows", warRowsCount);
+
+        if (warRowsCount <= 0)
+        {
+            //play defending row voiceline
+            audioManager.Play("Defending");
+            defendingRowPanel.SetActive(true);
+
+            yield return new WaitForSeconds(7.5f);
+
+            defendingRowPanel.SetActive(false);
+
+            //play attacking row voiceline
+            audioManager.Play("Attacking");
+            attackingRowPanel.SetActive(true);
+
+            yield return new WaitForSeconds(7.5f);
+
+            attackingRowPanel.SetActive(false);
+
+            TurnButton(true);
+
+            warRowsCount++;
+            PlayerPrefs.SetInt("WarTutorialRows", warRowsCount);
+        }
     }
 
     #endregion
@@ -132,26 +168,9 @@ public class UIManager : MonoBehaviour
         text.enabled = false;
     }
 
-    public IEnumerator WarTutorialRows()
-    {
-        //play defending row voiceline
-        defendingRowPanel.SetActive(true);
+    
 
-        yield return new WaitForSeconds(5f);
-
-        defendingRowPanel.SetActive(false);
-
-        //play attacking row voiceline
-        attackingRowPanel.SetActive(true);
-
-        yield return new WaitForSeconds(5f);
-
-        attackingRowPanel.SetActive(false);
-
-        TurnButton(true);
-    }
-
-    private IEnumerator TurnOffUIElements()
+    private IEnumerator TurnOffUIElements(float timer)
     {
         //match points
         playerWinCountText.enabled = false;
@@ -161,7 +180,7 @@ public class UIManager : MonoBehaviour
         opponentDiceRollText.enabled = false;
         diceRollText.enabled = false;
 
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(timer);
 
         //match points
         playerWinCountText.enabled = true;
