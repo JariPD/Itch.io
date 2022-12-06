@@ -99,8 +99,11 @@ public class UIManager : MonoBehaviour
     
     public void UpdateWarWinCountText()
     {
-        playerWinCountText.text = "Player won: " + PlayerPrefs.GetInt("PlayerWinCount");
-        AIWinCountText.text = "AI won: " + PlayerPrefs.GetInt("AIWinCount");
+        if (playerWinCountText != null)
+            playerWinCountText.text = "Player won: " + PlayerPrefs.GetInt("PlayerWinCount");
+
+        if (AIWinCountText != null)
+            AIWinCountText.text = "AI won: " + PlayerPrefs.GetInt("AIWinCount");
     }
 
     #region Tutorial
