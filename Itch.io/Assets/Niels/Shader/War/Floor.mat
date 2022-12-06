@@ -65,7 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_322AEF52: 0
+    - Vector1_322AEF52: 0.08
     - Vector1_A09F06F3: 0
     - _AlphaThreshold: -0.1
     - _NormalStrength: 1
@@ -73,6 +73,7 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _Base_Map: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 2.996078, g: 0.7529412, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1865968793516597383
 MonoBehaviour:
