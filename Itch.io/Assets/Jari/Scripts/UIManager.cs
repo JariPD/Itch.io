@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     [Header("War Tutorial")]
     [SerializeField] private GameObject focusPanel;
     [SerializeField] private GameObject attackingRowPanel, defendingRowPanel;
+    [SerializeField] private GameObject placeCardText;
     private int focusTextCount = 0;
     private int warRowsCount = 0;
 
@@ -107,32 +108,6 @@ public class UIManager : MonoBehaviour
     }
 
     #region Tutorial
-
-    public IEnumerator FocusTutorial()
-    {
-        //set playerpref
-        focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
-        if (focusTextCount <= 0)
-        {
-            audioManager.Play("Focus");
-            //focusPanel.SetActive(true);
-
-            yield return new WaitForSeconds(5);
-
-            audioManager.Play("Lose");
-
-            //starts coroutine to turn off ui elements to make tutorial more clear
-            StartCoroutine(TurnOffUIElements(5f));
-            
-            //yield return new WaitForSeconds(7.5f);
-            
-            //focusPanel.SetActive(false);
-        }
-
-        focusTextCount++;
-        PlayerPrefs.SetInt("FocusTutorial", focusTextCount);
-    }
-
     public IEnumerator WarTutorialRows()
     {
         warRowsCount = PlayerPrefs.GetInt("WarTutorialRows", warRowsCount);
@@ -154,12 +129,42 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(7.5f);
 
             attackingRowPanel.SetActive(false);
+            placeCardText.SetActive(true);
+
+            yield return new WaitForSeconds(5f);
+            
+            placeCardText.SetActive(false);
 
             TurnButton(true);
 
             warRowsCount++;
             PlayerPrefs.SetInt("WarTutorialRows", warRowsCount);
         }
+    }
+
+    public IEnumerator FocusTutorial()
+    {
+        //set playerpref
+        focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
+        if (focusTextCount <= 0)
+        {
+            audioManager.Play("Focus");
+            focusPanel.SetActive(true);
+
+            yield return new WaitForSeconds(5);
+
+            audioManager.Play("Lose");
+
+            //starts coroutine to turn off ui elements to make tutorial more clear
+            StartCoroutine(TurnOffUIElements(5));
+
+            yield return new WaitForSeconds(5);
+
+            focusPanel.SetActive(false);
+        }
+
+        focusTextCount++;
+        PlayerPrefs.SetInt("FocusTutorial", focusTextCount);
     }
 
     #endregion
@@ -170,8 +175,6 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(time);
         text.enabled = false;
     }
-
-    
 
     private IEnumerator TurnOffUIElements(float timer)
     {
