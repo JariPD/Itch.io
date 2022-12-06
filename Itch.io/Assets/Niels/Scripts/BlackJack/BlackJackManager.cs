@@ -85,7 +85,7 @@ public class BlackJackManager : MonoBehaviour
             ResetAgain();
 
         if (cheatCards.Count > 0)
-            if (!win.activeInHierarchy || !lose.activeInHierarchy || !draw.activeInHierarchy)
+            if (win.activeInHierarchy || lose.activeInHierarchy || draw.activeInHierarchy)
                 for (int i = 0; i < cheatCards.Count; i++)
                     cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
@@ -283,8 +283,6 @@ public class BlackJackManager : MonoBehaviour
             for (int i = 0; i < cheatCards.Count; i++)
                 cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
-        Debug.Log("WinCheck");
-
         if (UserTotalCardValue == totalMaxValue && OpponentTotalCardValue != totalMaxValue)
             Win();
 
@@ -415,7 +413,6 @@ public class BlackJackManager : MonoBehaviour
 
     public void Fold()
     {
-        print("You folded");
         ButtonSwitch();
 
         //if opponent has more then 17 total points he choses if he plays on after player has folded out
@@ -499,7 +496,6 @@ public class BlackJackManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Dissolver()
     {
-        Debug.Log("Dissolve");
         for (int i = 0; i < playerDeckObj.Count; i++)
             playerDeckObj[i].GetComponent<CardShaderDissolve>().DissolveCard();
 
@@ -558,7 +554,6 @@ public class BlackJackManager : MonoBehaviour
 
     private IEnumerator OpponentPlaysOn()
     {
-        Debug.Log("OpponentPlays");
         //if player isn't above opponent opponent get calls more cards else check if opponent wins
         if (UserTotalCardValue !> OpponentTotalCardValue)
         {
