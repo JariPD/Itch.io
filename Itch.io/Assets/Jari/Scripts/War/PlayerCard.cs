@@ -40,6 +40,8 @@ public class PlayerCard : Card
             attackText.enabled = false;
             healthText.enabled = false;
 
+            WarManager.instance.CardSelected = false;
+            
             //starts disolving the card
             StartCoroutine(Disolve());
         }
