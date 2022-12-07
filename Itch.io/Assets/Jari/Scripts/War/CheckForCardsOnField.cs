@@ -4,12 +4,15 @@ using UnityEngine.SceneManagement;
 
 public class CheckForCardsOnField : MonoBehaviour
 {
-    public GameObject[] AIDefendingRow, AIAttackingRow;
+    public GameObject[] AIDefendingRow, AIAttackingRow;           
     public GameObject[] PlayerDefendingRow, PlayerAttackingRow;
     public int AIDefendingCount, AIAttackingCount;
     public int DefendingCount, AttackingCount;
     public int PlayerWinCount, AIWinCount;
 
+    /// <summary>
+    /// function to check how many cards player has on the field
+    /// </summary>
     public void CheckForPlayer()
     {
         DefendingCount = 0;
@@ -28,6 +31,9 @@ public class CheckForCardsOnField : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// function to check how many cards ai has on the field
+    /// </summary>
     public void CheckForAI()
     {
         AIDefendingCount = 0;
@@ -55,10 +61,19 @@ public class CheckForCardsOnField : MonoBehaviour
         CheckForPlayer();
         if (AttackingCount + DefendingCount <= 0)
         {
+            //get current ai win count
             AIWinCount = PlayerPrefs.GetInt("AIWinCount", AIWinCount);
+
+            //add 1 to ai win count
             AIWinCount++;
+
+            //save ai win count
             PlayerPrefs.SetInt("AIWinCount", AIWinCount);
+
+            //update win count text
             UIManager.instance.UpdateWarWinCountText();
+
+            //show game results
             UIManager.instance.WarGameResults(playerWon: false);
 
             if (AIWinCount >= 3)
@@ -75,10 +90,19 @@ public class CheckForCardsOnField : MonoBehaviour
         CheckForAI();
         if (AIAttackingCount + AIDefendingCount <= 0)
         {
+            //get current player win count
             PlayerWinCount = PlayerPrefs.GetInt("PlayerWinCount", PlayerWinCount);
+
+            //add 1 to player win count
             PlayerWinCount++;
+
+            //save player win count
             PlayerPrefs.SetInt("PlayerWinCount", PlayerWinCount);
+
+            //update win count text
             UIManager.instance.UpdateWarWinCountText();
+
+            //show game results
             UIManager.instance.WarGameResults(playerWon: true);
 
             if (PlayerWinCount >= 3)
@@ -92,6 +116,11 @@ public class CheckForCardsOnField : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// call this function when player or AI wins 3 times
+    /// </summary>
+    /// <param name="win"></param>
+    /// <returns></returns>
     IEnumerator WinOrLose(bool win)
     {
         yield return new WaitForSeconds(3f);

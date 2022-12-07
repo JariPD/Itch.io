@@ -5384,6 +5384,16 @@ MonoBehaviour:
     Loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
+  - name: Placing
+    clip: {fileID: 8300000, guid: 031dabb2dc730204185fdfe388154d20, type: 3}
+    Position: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
   Reverbs:
     Preset: 0
     source: {fileID: 0}

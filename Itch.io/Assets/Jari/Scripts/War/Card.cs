@@ -9,6 +9,10 @@ public class Card : MonoBehaviour
     public int attack = 1;
     public int health = 2;
 
+    /// <summary>
+    /// IEnumerator that disolves the card
+    /// </summary>
+    /// <returns></returns>
     protected IEnumerator Disolve()
     {
         //clear focused card reference and set focused bool to false

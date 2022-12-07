@@ -49,10 +49,10 @@ public class PlayerCard : Card
         }
 
         if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            StartCoroutine(ResetCardPosition(true));
+            StartCoroutine(ResetCardPosition(resetCardPos: true, placeCheck: true));
 
         if (WarManager.instance.PlacingCard)
-            StartCoroutine(ResetCardPosition(false));
+            StartCoroutine(ResetCardPosition(resetCardPos: false, placeCheck: false));
 
         //selected fallback
         if (WarManager.instance.CardSelected)
@@ -61,7 +61,7 @@ public class PlayerCard : Card
             if (selectedTimer >= 3)
             {
                 selectedTimer = 0;
-                StartCoroutine(ResetCardPosition(true));
+                StartCoroutine(ResetCardPosition(resetCardPos: true, placeCheck: true));
             }
         }
         else
@@ -85,19 +85,18 @@ public class PlayerCard : Card
         }
     }
 
-    IEnumerator ResetCardPosition(bool resetPos)
+    IEnumerator ResetCardPosition(bool resetCardPos, bool placeCheck)
     {
-        if (WarManager.instance.CurrentSelectedCard != gameObject)
+        if (WarManager.instance.CurrentSelectedCard != gameObject && placeCheck)
             yield break;
 
         WarManager.instance.CardSelected = false;
 
-        Debug.Log(this.gameObject.name);
         //set animation state
         anim.SetBool("CardSelected", false);
 
         //sets card back to default position
-        if (resetPos)
+        if (resetCardPos)
             transform.position = startPos;
 
         yield return new WaitForSeconds(.1f);
