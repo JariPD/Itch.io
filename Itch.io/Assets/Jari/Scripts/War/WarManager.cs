@@ -207,9 +207,12 @@ public class WarManager : MonoBehaviour
     /// <param name="pos"></param>
     public void PlacePlayerCard(Vector3 pos)
     {
-        PlacingCard = true;
-        CurrentSelectedCard.transform.position = pos;
-        CurrentSelectedCard = null;
+        if(pos != null)
+        {
+            PlacingCard = true;
+            CurrentSelectedCard.transform.position = pos;
+            CurrentSelectedCard = null;
+        }
     }
 
     public void ClearPlayerPrefs()
