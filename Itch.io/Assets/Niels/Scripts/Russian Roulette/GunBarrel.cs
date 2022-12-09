@@ -66,7 +66,7 @@ public class GunBarrel : MonoBehaviour
             if (!barrelSound.isPlaying)
                 if (other.GetComponent<BulletPoint>().HasBullet)
                 {
-                    barrelSound.pitch = 2.7f;
+                    barrelSound.pitch = 3.5f;
                     barrelSound.Play(0);
                 }
                 else
