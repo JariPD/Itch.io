@@ -75,7 +75,7 @@ public class BlackJackManager : MonoBehaviour
     void Start()
     {
         CreateDeck();
-        cheatCardChance = Random.Range(0, 1);
+        cheatCardChance = Random.Range(3, 5);
     }
 
     void Update()
@@ -445,7 +445,7 @@ public class BlackJackManager : MonoBehaviour
                 BlackJackInfos.instance.CheatCardInfo();
                 cheatInfo = false;
             }
-            cheatCardChance = Random.Range(0, 1);
+            cheatCardChance = Random.Range(3, 5);
         }
         else
             cheatCardChance--;
@@ -460,7 +460,6 @@ public class BlackJackManager : MonoBehaviour
         cheatCardAmount--;
         UserTotalCardValue += _card.GetComponent<CheatCard>().cheatCardValue;
         StartCoroutine(CheatDissolve(_card));
-        Debug.Log(cheatCards.IndexOf(_card));
         
         for (int i = cheatCards.IndexOf(_card); cheatCards.Count > i; i++)
             cheatCards[i].GetComponent<CheatCard>().ownNumber -= 1;
