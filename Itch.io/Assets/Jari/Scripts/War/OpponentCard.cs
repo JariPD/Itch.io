@@ -5,6 +5,7 @@ public class OpponentCard : Card
 {
     [SerializeField] private GameObject outline;
     private WarAI ai;
+    public OpponentWarTile posIn;
 
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI attackText;
@@ -40,6 +41,12 @@ public class OpponentCard : Card
             //starts disolving the card
             StartCoroutine(Disolve());
         }
+
+        if (WarManager.instance.CurrentFocussedCard == null)
+        {
+            for (int i = 0; i < ai.opponentsHand.Count; i++)
+                ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
+        }
     }
 
     private void OnMouseDown()
@@ -59,6 +66,7 @@ public class OpponentCard : Card
             outline.SetActive(true);
         }
     }
+
     public void UpdateCardUI()
     {
         //update text

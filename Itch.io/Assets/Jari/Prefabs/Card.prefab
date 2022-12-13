@@ -115,6 +115,7 @@ MonoBehaviour:
   attack: 1
   health: 2
   cardInField: 0
+  posIn: {fileID: 0}
   offset: 15
   attackText: {fileID: 5191178680193204293}
   healthText: {fileID: 3002551157921692990}

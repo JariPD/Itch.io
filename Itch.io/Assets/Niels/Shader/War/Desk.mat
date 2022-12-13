@@ -33,6 +33,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: f2347c1df5dff6c4bbaee035ca37b963, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ParallaxMapping_0c98092c057040b2b51b0fad6c5909fa_Heightmap_1:
+        m_Texture: {fileID: 28584486757587946, guid: 125cb55b44b24c4393181402bc6200e6,
+          type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxOcclusionMapping_9357c9ebc8234328b29f38c56bfad22d_Heightmap_2:
+        m_Texture: {fileID: 2800000, guid: 4f3e72d34e00d2e40bef1c5dfac8809d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_140abf3e57164cb789f8bc78e4c78d9e_Texture_1:
         m_Texture: {fileID: 2800000, guid: 1957d508fa2cff54c81cf431166cdb0c, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -43,6 +52,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Texture:
         m_Texture: {fileID: 2800000, guid: c2d0b9c49956c51458e815165c4f9121, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_5a6aaa2379b94d51a65359b2636a090a_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 4f3e72d34e00d2e40bef1c5dfac8809d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _metal:

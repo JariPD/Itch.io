@@ -897,6 +897,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &134825678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1813,6 +1816,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &287659866
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2804,6 +2810,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &355435324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4599,6 +4608,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &683154028
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4710,6 +4722,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &696612485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5216,6 +5231,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &811704064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5514,6 +5532,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &829248927
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6011,6 +6032,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &973411796
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6122,6 +6146,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &977118246
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6383,6 +6410,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &992199189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7731,7 +7761,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -7930,6 +7960,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &1181679368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8649,6 +8682,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &1312155064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8947,6 +8983,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &1365997033
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9155,6 +9194,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &1384523453
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10063,6 +10105,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &1577174319
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10358,6 +10403,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &1623992368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11579,6 +11627,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &1791958902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12583,6 +12634,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &1885537819
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13037,6 +13091,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 0
+  Attacking: 1
 --- !u!65 &1928663106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13614,6 +13671,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
+  card: {fileID: 0}
+  Defending: 1
+  Attacking: 0
 --- !u!65 &2017499905
 BoxCollider:
   m_ObjectHideFlags: 0

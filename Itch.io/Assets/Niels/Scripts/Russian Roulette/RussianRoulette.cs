@@ -19,7 +19,7 @@ public class RussianRoulette : MonoBehaviour
     [SerializeField] private Animator gunPointing;
     [SerializeField] private Animator gunAnim;
 
-    private bool hasSpin = false;
+    public bool hasSpin = false;
     public bool opponentTurn = false;
 
     private void Awake()
@@ -51,6 +51,12 @@ public class RussianRoulette : MonoBehaviour
         gunBarrel.Playit();
 
         hasSpin = true;
+    }
+
+    public void OnlySpin()
+    {
+        rb.AddTorque(Vector3.back* Random.Range(1500, 2500));
+        gunBarrel.Playit();
     }
 
     public void ShootAnim()
@@ -152,7 +158,7 @@ public class RussianRoulette : MonoBehaviour
         yield return new WaitForSeconds(2);
         gunAnim.Play("RoundSpin");
         
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(6);
         if (RouletteAI.instance.MyTurn == true)
             RouletteAI.instance.AITurnOn();
         else

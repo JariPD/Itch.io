@@ -49,6 +49,9 @@ public class WarManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
             ClearPlayerPrefs();
+
+        if (CurrentSelectedCard == null)
+            CardSelected = false;
     }
 
     /// <summary>
@@ -166,7 +169,7 @@ public class WarManager : MonoBehaviour
         {
             //get random card from players hand
             int randomPlayerCard = Random.Range(0, playersHand.Count);
-
+            
             //subract opponents attacking power from card and update card UI
             playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
             playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();

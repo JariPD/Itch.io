@@ -7,6 +7,7 @@ public class PlayerCard : Card
     [Header("Card Settings")]
     private Vector3 startPos;
     [SerializeField] private bool cardInField;
+    public WarTile posIn;
 
     [Header("Card Follow")]
     [SerializeField] private float offset;
@@ -51,10 +52,20 @@ public class PlayerCard : Card
 
         if (WarManager.instance.PlacingCard)
             StartCoroutine(ResetCardPosition(false));
+
+        if (posIn != null)
+            anim.SetBool("CardSelected", false);
+        else if (posIn == null && WarManager.instance.CurrentSelectedCard == this.gameObject)
+            anim.SetBool("CardSelected", true);
     }
 
     private void OnMouseDown()
     {
+        if (posIn != null)
+        {
+            posIn = null;
+        }
+
         if (!WarManager.instance.CardSelected)
         {
             WarManager.instance.CardSelected = true;
@@ -68,12 +79,25 @@ public class PlayerCard : Card
             //move up the card to indicate it being selected
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
+        else if (WarManager.instance.CurrentSelectedCard == this.gameObject)
+        {
+            WarManager.instance.CardSelected = false;
+
+            //set reference to current selected card
+            WarManager.instance.CurrentSelectedCard = null;
+
+            //set animation states
+            anim.SetBool("CardSelected", false);
+
+            //move up the card to indicate it being selected
+            transform.position = startPos;
+        }
     }
 
-    IEnumerator ResetCardPosition(bool resetPos)
+    public IEnumerator ResetCardPosition(bool resetPos)
     {
         WarManager.instance.CardSelected = false;
-
+        print("reset" + this.gameObject.name);
         //set animation state
         anim.SetBool("CardSelected", false);
 

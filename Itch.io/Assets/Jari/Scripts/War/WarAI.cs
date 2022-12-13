@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class WarAI : MonoBehaviour
 {
+    public static WarAI instance;
+
     [Header("AI")]
     public Transform[] opponentHandSpawnPos;
     public GameObject[] enemyGrid;
     public List<GameObject> opponentsHand;
+    private void Awake()
+    {
+        instance = this;    
+    }
 
     public IEnumerator AICardPlacement()
     {

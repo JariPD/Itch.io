@@ -89,7 +89,7 @@ public class BlackJackManager : MonoBehaviour
                 for (int i = 0; i < cheatCards.Count; i++)
                     cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
-        if (PlayerPoints >= 3)
+        if (PlayerPoints >= 1)
             StartCoroutine(WonGame());
         else if (OpponentPoints == 3)
             StartCoroutine(LoseGame());
@@ -226,7 +226,8 @@ public class BlackJackManager : MonoBehaviour
 
         yield return new WaitForSeconds(5);
         //switch scene
-        SceneManager.LoadScene("War");
+        SceneManager.LoadScene("War", LoadSceneMode.Additive);
+        yield return null;
     }
 
     private IEnumerator LoseGame()
@@ -341,7 +342,7 @@ public class BlackJackManager : MonoBehaviour
         usersCards.Add(deck.ElementAt(random));
 
         //calculates the sum of the user his cards
-        UserTotalCardValue += usersCards[usersCards.Count - 1];
+        UserTotalCardValue = Mathf.Lerp(UserTotalCardValue, UserTotalCardValue += usersCards[usersCards.Count - 1], 1 * Time.deltaTime);
 
         //add Card To Game With Value
         GameObject card = Instantiate(Card, cardSpawn.transform.position, cardSpawn.transform.rotation);
