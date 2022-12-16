@@ -242,10 +242,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1312155062}
-  - {fileID: 1928663104}
   - {fileID: 1642512709}
   - {fileID: 150517339}
   - {fileID: 483847875}
+  - {fileID: 1928663104}
   - {fileID: 861823870}
   - {fileID: 1772325517}
   - {fileID: 1073427256}
@@ -900,7 +900,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5224436}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &150517340
 MonoBehaviour:
@@ -3022,7 +3022,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5224436}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &483847876
 MonoBehaviour:
@@ -9766,15 +9766,9 @@ MonoBehaviour:
   - {fileID: 676499549}
   enemyGrid:
   - {fileID: 1928663103}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 861823869}
+  - {fileID: 1772325516}
+  - {fileID: 1073427255}
   opponentsHand: []
 --- !u!114 &1639375365
 MonoBehaviour:
@@ -9788,30 +9782,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90720ebba2298134487a93cf231569a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AIDefendingRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  AIAttackingRow:
+  AIRow:
   - {fileID: 1928663103}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerDefendingRow:
+  - {fileID: 861823869}
+  - {fileID: 1772325516}
+  - {fileID: 1073427255}
+  PlayerRow:
   - {fileID: 1312155061}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerAttackingRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1642512708}
+  - {fileID: 150517338}
+  - {fileID: 483847874}
   AIDefendingCount: 0
   AIAttackingCount: 0
   DefendingCount: 0
@@ -9866,7 +9846,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5224436}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1642512710
 MonoBehaviour:
@@ -12204,7 +12184,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5224436}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1928663105
 MonoBehaviour:

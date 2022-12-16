@@ -4,8 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class CheckForCardsOnField : MonoBehaviour
 {
-    public GameObject[] AIDefendingRow, AIAttackingRow;           
-    public GameObject[] PlayerDefendingRow, PlayerAttackingRow;
+    public GameObject[] AIRow, PlayerRow;           
     public int AIDefendingCount, AIAttackingCount;
     public int DefendingCount, AttackingCount;
     public int PlayerWinCount, AIWinCount;
@@ -18,16 +17,10 @@ public class CheckForCardsOnField : MonoBehaviour
         DefendingCount = 0;
         AttackingCount = 0;
 
-        for (int i = 0; i < PlayerAttackingRow.Length; i++)
+        for (int i = 0; i < PlayerRow.Length; i++)
         {
-            if (PlayerAttackingRow[i].GetComponent<WarTile>().HasCard)
+            if (PlayerRow[i].GetComponent<WarTile>().HasCard)
                 AttackingCount++;
-        }
-
-        for (int i = 0; i < PlayerDefendingRow.Length; i++)
-        {
-            if (PlayerDefendingRow[i].GetComponent<WarTile>().HasCard)
-                DefendingCount++;
         }
     }
 
@@ -39,15 +32,9 @@ public class CheckForCardsOnField : MonoBehaviour
         AIDefendingCount = 0;
         AIAttackingCount = 0;
 
-        for (int i = 0; i < AIAttackingRow.Length; i++)
+        for (int i = 0; i < AIRow.Length; i++)
         {
-            if (AIAttackingRow[i].GetComponent<OpponentWarTile>().HasCard)
-                AIAttackingCount++;
-        }
-
-        for (int i = 0; i < AIDefendingRow.Length; i++)
-        {
-            if (AIDefendingRow[i].GetComponent<OpponentWarTile>().HasCard)
+            if (AIRow[i].GetComponent<OpponentWarTile>().HasCard)
                 AIDefendingCount++;
         }
     }
