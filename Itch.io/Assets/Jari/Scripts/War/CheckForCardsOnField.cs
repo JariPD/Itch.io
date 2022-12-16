@@ -97,7 +97,10 @@ public class CheckForCardsOnField : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         if (win)
-            SceneManager.LoadScene("Russian Roulette");
+        {
+            WarManager.instance.ClearPlayerPrefs();
+            SceneManager.LoadScene("MainMenu");
+        }
         else
         {
             WarManager.instance.ClearPlayerPrefs();

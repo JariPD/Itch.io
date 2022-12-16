@@ -12,6 +12,14 @@ public class BlackJackManager : MonoBehaviour
     [Header("Game Info")]
     public int PlayerPoints = 0;
     public int OpponentPoints = 0;
+    [SerializeField] private List<GameObject> objectsOff = new List<GameObject>();
+
+    [Header("Movement")]
+    [SerializeField] private GameObject vCamOne;
+    [SerializeField] private Transform MainCam;
+    [SerializeField] private Transform vCamTwo;
+    [SerializeField] private Transform CheatPos;
+    private bool useCam = true;
 
     [Header("Card Info")]
     [SerializeField] private GameObject Card;
@@ -80,6 +88,8 @@ public class BlackJackManager : MonoBehaviour
 
     void Update()
     {
+        SeeCards();
+
         //state lose/win check
         if (concluded)
             ResetAgain();
@@ -89,10 +99,39 @@ public class BlackJackManager : MonoBehaviour
                 for (int i = 0; i < cheatCards.Count; i++)
                     cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
-        if (PlayerPoints >= 1)
+        if (PlayerPoints == 3)
+        {
             StartCoroutine(WonGame());
+            PlayerPoints = 4;
+        }
         else if (OpponentPoints == 3)
             StartCoroutine(LoseGame());
+    }
+
+    private void SeeCards()
+    {
+        if (useCam)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (vCamOne.activeInHierarchy)
+                {
+                    if (MainCam.position == vCamOne.transform.position)
+                    {
+                        vCamOne.SetActive(false);
+                        CheatPos.localPosition = new Vector3(-3.01999998f, 1.01999998f, 4.67000008f);
+                    }
+                }
+                else
+                {
+                    if (MainCam.position == vCamTwo.position)
+                    {
+                        vCamOne.SetActive(true);
+                        CheatPos.localPosition = new Vector3(-3.16000009f, -1.01999998f, 5.21000004f);
+                    }
+                }
+            }
+        }
     }
 
     #region GameManager
@@ -196,6 +235,7 @@ public class BlackJackManager : MonoBehaviour
         //End of the game retry button pops up
         callButton.SetActive(false);
         foldButton.SetActive(false);
+        useCam = !useCam;
     }
 
     //switches interactables to the state they are not
@@ -204,6 +244,7 @@ public class BlackJackManager : MonoBehaviour
         //switching state to opposite
         fold.interactable = !fold.interactable;
         call.interactable = !call.interactable;
+        useCam = !useCam;
     }
 
     /// <summary>
@@ -226,7 +267,18 @@ public class BlackJackManager : MonoBehaviour
 
         yield return new WaitForSeconds(5);
         //switch scene
-        SceneManager.LoadScene("War", LoadSceneMode.Additive);
+
+        int index = 1;
+        int lodedScene = index;
+        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+        index = 2;
+        SceneManager.UnloadSceneAsync(lodedScene);
+        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+
+        ////turn off all objects in last scene
+        //for (int i = 0; i < objectsOff.Count; i++)
+        //    objectsOff[i].SetActive(false);
+
         yield return null;
     }
 
@@ -252,6 +304,7 @@ public class BlackJackManager : MonoBehaviour
         PlayerPoints++;
         win.SetActive(true);
         ButtonSwitch();
+        useCam = true;
     }
 
     /// <summary>
@@ -262,6 +315,7 @@ public class BlackJackManager : MonoBehaviour
         StartCoroutine(RestartGame());
         draw.SetActive(true);
         ButtonSwitch();
+        useCam = true;
     }
 
     /// <summary>
@@ -273,6 +327,7 @@ public class BlackJackManager : MonoBehaviour
         OpponentPoints++;
         lose.SetActive(true);
         ButtonSwitch();
+        useCam = true;
     }
 
     /// <summary>
@@ -324,6 +379,12 @@ public class BlackJackManager : MonoBehaviour
     /// </summary>
     public void Call()
     {
+        if (!vCamOne.activeInHierarchy)
+        {
+            vCamOne.SetActive(true);
+            CheatPos.localPosition = new Vector3(-3.02983499f, -0.420009136f, 7.08006763f);
+        }
+
         //turn based button first player then opponent(AI)
         ChanceForCheatcard();
         fold.interactable = true;
@@ -342,7 +403,7 @@ public class BlackJackManager : MonoBehaviour
         usersCards.Add(deck.ElementAt(random));
 
         //calculates the sum of the user his cards
-        UserTotalCardValue = Mathf.Lerp(UserTotalCardValue, UserTotalCardValue += usersCards[usersCards.Count - 1], 1 * Time.deltaTime);
+        UserTotalCardValue += usersCards[usersCards.Count - 1];
 
         //add Card To Game With Value
         GameObject card = Instantiate(Card, cardSpawn.transform.position, cardSpawn.transform.rotation);
@@ -414,6 +475,12 @@ public class BlackJackManager : MonoBehaviour
 
     public void Fold()
     {
+        if (!vCamOne.activeInHierarchy)
+        {
+            vCamOne.SetActive(true);
+            CheatPos.localPosition = new Vector3(-3.02983499f, -0.420009136f, 7.08006763f);
+        }
+        useCam = false;
         ButtonSwitch();
 
         //if opponent has more then 17 total points he choses if he plays on after player has folded out
@@ -573,7 +640,7 @@ public class BlackJackManager : MonoBehaviour
         //check if possible to play again
         if (!win.activeInHierarchy || !lose.activeInHierarchy || !draw.activeInHierarchy)
         {
-            yield return new WaitForSeconds(Random.Range(2, 4));
+            yield return new WaitForSeconds(Random.Range(1, 2));
             if (OpponentTotalCardValue < UserTotalCardValue)
                 StartCoroutine(OpponentPlaysOn());
         }

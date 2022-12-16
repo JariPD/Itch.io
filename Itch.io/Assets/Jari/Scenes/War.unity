@@ -897,9 +897,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &134825678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1017,8 +1014,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146446873}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.2, y: 0, z: 43}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.200001, y: 0, z: 43}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1816,9 +1813,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &287659866
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2811,8 +2805,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &355435324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3006,7 +2998,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378249490}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4608,9 +4600,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &683154028
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4723,8 +4712,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &696612485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4868,8 +4855,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756601404}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7225295, y: 5.8784537, z: -12.468166}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.7225294, y: 5.878454, z: -12.468166}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5232,8 +5219,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &811704064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5533,8 +5518,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &829248927
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5785,7 +5768,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902858823}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.65, y: 21.14, z: 0.17}
+  m_LocalPosition: {x: 6.65, y: 21.14, z: 0.17000008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6032,9 +6015,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &973411796
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6146,9 +6126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &977118246
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6411,8 +6388,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &992199189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7830,7 +7805,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172522398}
   m_LocalRotation: {x: 0.44797698, y: -0.000000014279915, z: 0.000000004647368, w: 0.8940451}
-  m_LocalPosition: {x: 1.1, y: 14, z: -17.2}
+  m_LocalPosition: {x: 1.1000004, y: 14, z: -17.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7960,9 +7935,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &1181679368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8683,8 +8655,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &1312155064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8984,8 +8954,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &1365997033
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9194,9 +9162,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &1384523453
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10106,8 +10071,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &1577174319
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10404,8 +10367,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &1623992368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10611,7 +10572,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639375362}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11628,8 +11589,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasCard: 0
   card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &1791958902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12634,9 +12593,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &1885537819
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13091,9 +13047,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 0
-  Attacking: 1
 --- !u!65 &1928663106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13671,9 +13624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HasCard: 0
-  card: {fileID: 0}
-  Defending: 1
-  Attacking: 0
 --- !u!65 &2017499905
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14379,7 +14329,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077512744}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
