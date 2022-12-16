@@ -73,7 +73,7 @@ public class WarManager : MonoBehaviour
         turnCount++;
 
         //get random dice roll to spawn cards
-        diceRoll = Random.Range(3, 6);
+        diceRoll = Random.Range(2, 3);
 
         //------------------------------------------------------------------- player dice logic -------------------------------------------------------------------\\
 
@@ -99,11 +99,14 @@ public class WarManager : MonoBehaviour
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
 
             //tutorial to show player what the rows do
-            StartCoroutine(UIManager.instance.WarTutorialRows());
+            //StartCoroutine(UIManager.instance.WarTutorialRows());
 
             //sets turn button to true if tutorial was a previous game
-            if (PlayerPrefs.GetInt("WarTutorialRows") >= 1)
-                UIManager.instance.TurnButton(true);
+            /*if (PlayerPrefs.GetInt("WarTutorialRows") >= 1)
+                UIManager.instance.TurnButton(true);*/
+
+            //places oppenent cards
+            StartCoroutine(warAI.AICardPlacement());
         }
 
         yield return new WaitForSeconds(3);
@@ -116,7 +119,7 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
-    #region Battle System
+    /*#region Battle System
 
     public void StartTurn()
     {
@@ -202,7 +205,7 @@ public class WarManager : MonoBehaviour
             StartCoroutine(checkForCardsOnField.WarWinCheck());
     }
 
-    #endregion
+    #endregion*/
 
     /// <summary>
     /// function that places a selected card on a tile in the grid
@@ -210,7 +213,7 @@ public class WarManager : MonoBehaviour
     /// <param name="pos"></param>
     public void PlacePlayerCard(Vector3 pos)
     {
-        if(pos != null)
+        if (pos != null)
         {
             PlacingCard = true;
             CurrentSelectedCard.transform.position = pos;
