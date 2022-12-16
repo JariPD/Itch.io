@@ -13,40 +13,45 @@ public class WarManager : MonoBehaviour
     private int turnCount = 0;
 
     [Header("References")]
-    [SerializeField] private Transform[] cardSpawnPos;
-    [SerializeField] private GameObject card, opponentCard;
+    [SerializeField] private Transform[] cardSpawnPos;                  //spawn positions for cards
+    [SerializeField] private GameObject card, opponentCard;             //cards prefabs
     private WarAI warAI;
     private CheckForCardsOnField checkForCardsOnField;
 
     [Header("Card Placement")]
-    public GameObject CurrentSelectedCard;
-    public bool PlacingCard = false;
-    public bool CardSelected = false;
+    public GameObject CurrentSelectedCard;                              //reference to the card that is currently selected
+    public bool PlacingCard = false;                                    //checks if the card is being placed
+    public bool CardSelected = false;                                   //checks if the card is selected
 
     [Header("Grid")]
-    [SerializeField] private GameObject gridParent;
-    [SerializeField] private GameObject[] playerGrid;
+    [SerializeField] private GameObject gridParent;                     //parent object for the grid
+    [SerializeField] private GameObject[] playerGrid;                   //player grid
 
     [Header("Battling")]
-    [SerializeField] private List<GameObject> playersHand;
-    public GameObject CurrentFocussedCard;
-    public bool FocussingACard;
-    public int playerHealth, opponentHealth;
-    private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;
-    private int attackTurn = 0;
+    [SerializeField] private List<GameObject> playersHand;              //players hand - used to keep track of the cards in the players hand
+    public GameObject CurrentFocussedCard;                              //reference to current focussed card
+    public bool FocussingACard;                                         //is the player currently focussing a card
+    public int playerHealth, opponentHealth;                            //health of the player and opponent
+    private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;  //max health of the player and opponent
+    private int attackTurn = 0;                                         //turn count for attacking
 
     private void Awake()
     {
+        //singleton
         instance = this;
+
+        //gets components
         warAI = GetComponent<WarAI>();
         checkForCardsOnField = GetComponent<CheckForCardsOnField>();
 
+        //sets health
         playerHealth = maxPlayerHealth;
         opponentHealth = maxOpponentHealth;
     }
 
     private void Update()
     {
+        //debug function to clear playerprefs
         if (Input.GetKeyDown(KeyCode.Q))
             ClearPlayerPrefs();
 
@@ -67,10 +72,14 @@ public class WarManager : MonoBehaviour
     {
         turnCount++;
 
+        //get random dice roll to spawn cards
         diceRoll = Random.Range(3, 6);
+
+        //------------------------------------------------------------------- player dice logic -------------------------------------------------------------------\\
 
         if (isPlayerTurn)
         {
+            //loop trough the dice roll and give cards to the player
             for (int i = 0; i < diceRoll; i++)
                 playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[i].position.x, cardSpawnPos[i].position.y - .2f, cardSpawnPos[i].position.z), cardSpawnPos[i].rotation));
 
@@ -80,9 +89,9 @@ public class WarManager : MonoBehaviour
             //updates throw dice button
             UIManager.instance.DisableThrowDiceButton();
         }
-        else
+        else if (!isPlayerTurn)  //-------------------------------------------- opponent dice logic ---------------------------------------------\\
         {
-            //instantiates the cards for the enemy
+            //loop trough the dice roll and give cards to the opponent
             for (int i = 0; i < diceRoll; i++)
                 warAI.opponentsHand.Add(Instantiate(opponentCard, warAI.opponentHandSpawnPos[i].position, warAI.opponentHandSpawnPos[i].rotation));
 
@@ -91,6 +100,8 @@ public class WarManager : MonoBehaviour
 
             //tutorial to show player what the rows do
             StartCoroutine(UIManager.instance.WarTutorialRows());
+
+            //sets turn button to true if tutorial was a previous game
             if (PlayerPrefs.GetInt("WarTutorialRows") >= 1)
                 UIManager.instance.TurnButton(true);
         }
@@ -105,18 +116,18 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
+    #region Battle System
+
     public void StartTurn()
     {
         StartCoroutine(TurnSystem());
     }
 
-    #region Battle System
-
     IEnumerator TurnSystem()
     {
+
         UIManager.instance.TurnButton(false);
 
-        //logic for enemy turn
         //starts card placement
         StartCoroutine(warAI.AICardPlacement());
 
@@ -125,6 +136,7 @@ public class WarManager : MonoBehaviour
 
         //checks players card for later calculations
         checkForCardsOnField.CheckForPlayer();
+
 
         StartCoroutine(Attack());
 
@@ -139,6 +151,7 @@ public class WarManager : MonoBehaviour
 
         isPlayerTurn = true;
 
+
         if (isPlayerTurn)
         {
             UIManager.instance.TurnButton(true);
@@ -148,6 +161,8 @@ public class WarManager : MonoBehaviour
 
     IEnumerator Attack()
     {
+        //------------------------------------------------------------------- player battle logic -------------------------------------------------------------------\\
+
         attackTurn++;
 
         //calculate power
@@ -162,7 +177,8 @@ public class WarManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.25f);
-        //enemy turn
+
+        //------------------------------------------------------------------- enemy battle logic -------------------------------------------------------------------\\
 
         checkForCardsOnField.CheckForAI();
         if (checkForCardsOnField.AIAttackingCount >= 1)
@@ -181,6 +197,7 @@ public class WarManager : MonoBehaviour
         //wait for cards to be destroyed
         yield return new WaitForSeconds(1.25f);
 
+        //check if there are still cards left on the field
         if (attackTurn >= 2)
             StartCoroutine(checkForCardsOnField.WarWinCheck());
     }
@@ -193,7 +210,7 @@ public class WarManager : MonoBehaviour
     /// <param name="pos"></param>
     public void PlacePlayerCard(Vector3 pos)
     {
-        if (pos != null)
+        if(pos != null)
         {
             PlacingCard = true;
             CurrentSelectedCard.transform.position = pos;

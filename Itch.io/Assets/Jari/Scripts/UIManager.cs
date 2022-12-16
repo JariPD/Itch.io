@@ -131,6 +131,8 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(7.5f);
 
             attackingRowPanel.SetActive(false);
+
+            audioManager.Play("Placing");
             placeCardText.SetActive(true);
 
             yield return new WaitForSeconds(5f);
