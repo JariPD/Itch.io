@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class WarManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class WarManager : MonoBehaviour
     private int turnCount = 0;
 
     [Header("References")]
+<<<<<<< Updated upstream
     [SerializeField] private Transform[] cardSpawnPos;
     [SerializeField] private GameObject card, opponentCard;
     private WarAI warAI;
@@ -34,6 +36,32 @@ public class WarManager : MonoBehaviour
     public int playerHealth, opponentHealth;
     private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;
     private int attackTurn = 0;
+=======
+    [SerializeField] private Transform[] cardSpawnPos;                   //spawn positions for cards
+    [SerializeField] private GameObject card, opponentCard;              //cards prefabs
+    private WarAI warAI;                                                 
+    private CheckForCardsOnField checkForCardsOnField;                   
+                                                                         
+    [Header("Card Placement")]                                           
+    public List<GameObject> PlayerCardsInField = new List<GameObject>(); //all playercards in field
+    public List<GameObject> enemyCardsInField = new List<GameObject>();  //all enemy cards in field
+    public GameObject CurrentSelectedCard;                               //reference to the card that is currently selected
+    public bool PlacingCard = false;                                     //checks if the card is being placed
+    public bool CardSelected = false;                                    //checks if the card is selected
+                                                                         
+    [Header("Grid")]                                                     
+    [SerializeField] private GameObject gridParent;                      //parent object for the grid
+    [SerializeField] private GameObject[] playerGrid;                    //player grid
+                                                                         
+    [Header("Battling")]                                                 
+    [SerializeField] private Button attackButton;                        //button for attacking
+    [SerializeField] private List<GameObject> playersHand;               //players hand - used to keep track of the cards in the players hand
+    public GameObject CurrentFocussedCard;                               //reference to current focussed card
+    public bool FocussingACard;                                          //is the player currently focussing a card
+    public int playerHealth, opponentHealth;                             //health of the player and opponent
+    private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;   //max health of the player and opponent
+    private int attackTurn = 0;                                          //turn count for attacking
+>>>>>>> Stashed changes
 
     private void Awake()
     {
@@ -105,6 +133,79 @@ public class WarManager : MonoBehaviour
             StartCoroutine(ThrowDice());
     }
 
+<<<<<<< Updated upstream
+=======
+    #region Battle
+
+    /// <summary>
+    /// deactivate button with settings
+    /// </summary>
+    /// <param name="timeDeactive"></param>
+    public void Deactivate(float timeDeactive)
+    {
+        StartCoroutine(UnActive(timeDeactive));
+    }
+
+    /// <summary>
+    /// deactivate button
+    /// </summary>
+    /// <param name="timeDeactive"></param>
+    /// <returns></returns>
+    public IEnumerator UnActive(float timeDeactive)
+    {
+        attackButton.interactable = false;
+        yield return new WaitForSeconds(timeDeactive);
+        attackButton.interactable = true;
+    }
+
+    /// <summary>
+    /// only be able to attack if there are cards on the table from both sides
+    /// </summary>
+    public void AttackTurn()
+    {
+        if (PlayerCardsInField.Count > 0 && enemyCardsInField.Count > 0)
+            StartCoroutine(TradingAttack());
+    }
+
+    /// <summary>
+    /// first player can attack then opponent can attack
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator TradingAttack()
+    {
+        bool usable = true;
+        if (usable)
+        {
+            print("AttackForPlayer");
+            for (int i = 0; i < PlayerCardsInField.Count; i++)
+                PlayerCardsInField[i].GetComponent<PlayerCard>().AttackForward();
+
+            for (int i = 0; i < enemyCardsInField.Count; i++)
+                enemyCardsInField[i].GetComponent<OpponentCard>().UpdateText();
+
+                usable = false;
+        }
+        yield return new WaitForSeconds(2);
+
+        usable = true;
+        if (usable)
+        {
+            print("AttackForEnemy");
+            for (int i = 0; i < enemyCardsInField.Count; i++)
+                enemyCardsInField[i].GetComponent<OpponentCard>().AttackForward();
+
+            for (int i = 0; i < PlayerCardsInField.Count; i++)
+                PlayerCardsInField[i].GetComponent<PlayerCard>().UpdateText();
+
+                usable = false;
+        }
+    }
+
+    #endregion
+
+    /*#region Battle System
+
+>>>>>>> Stashed changes
     public void StartTurn()
     {
         StartCoroutine(TurnSystem());
