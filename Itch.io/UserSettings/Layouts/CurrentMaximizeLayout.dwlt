@@ -47,9 +47,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 740
     y: 73
     width: 777
+=======
+    x: 697
+    y: 73
+    width: 734
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 697
     y: 73
@@ -103,10 +109,17 @@ MonoBehaviour:
       x: 0
       y: 21
 <<<<<<< HEAD
+<<<<<<< HEAD
       width: 777
       height: 639
     m_Scale: {x: 0.4046875, y: 0.4046875}
     m_Translation: {x: 388.5, y: 319.5}
+=======
+      width: 734
+      height: 639
+    m_Scale: {x: 0.38229167, y: 0.38229167}
+    m_Translation: {x: 367, y: 319.5}
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
       width: 734
       height: 639
@@ -121,12 +134,21 @@ MonoBehaviour:
       serializedVersion: 2
       x: -960
 <<<<<<< HEAD
+<<<<<<< HEAD
       y: -789.4981
       width: 1920
       height: 1578.9962
     m_MinimalGUI: 1
   m_defaultScale: 0.4046875
   m_LastWindowPixelSize: {x: 777, y: 660}
+=======
+      y: -835.7493
+      width: 1920
+      height: 1671.4987
+    m_MinimalGUI: 1
+  m_defaultScale: 0.38229167
+  m_LastWindowPixelSize: {x: 734, y: 660}
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
       y: -835.7493
       width: 1920
@@ -160,7 +182,11 @@ MonoBehaviour:
     x: 0
     y: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 1519
+=======
+    width: 1433
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     width: 1433
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -190,7 +216,11 @@ MonoBehaviour:
     x: 0
     y: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 1519
+=======
+    width: 1433
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     width: 1433
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -258,9 +288,15 @@ MonoBehaviour:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
       m_SelectedIDs: 16760000
       m_LastClickedID: 0
       m_ExpandedIDs: 12fbffff
+=======
+      m_SelectedIDs: 10d10000
+      m_LastClickedID: 53520
+      m_ExpandedIDs: 54c5feff6eddfeffc2d0ffff56d4ffff40e4ffff12fbffff526d0000d46d0000ca9a0000c49b0000
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
       m_SelectedIDs: 10d10000
       m_LastClickedID: 53520
@@ -307,7 +343,11 @@ MonoBehaviour:
     x: 234
     y: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 506
+=======
+    width: 480
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     width: 480
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -343,7 +383,11 @@ MonoBehaviour:
     x: 234
     y: 73
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 504
+=======
+    width: 478
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     width: 478
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -550,9 +594,15 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_Position:
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_Target: {x: -5.013855, y: 5.091961, z: -10.25915}
     speed: 2
     m_Value: {x: -5.013855, y: 5.091961, z: -10.25915}
+=======
+    m_Target: {x: 0.11375036, y: 8.408826, z: -2.6842437}
+    speed: 2
+    m_Value: {x: 0.11375036, y: 8.408826, z: -2.6842437}
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     m_Target: {x: 0.11375036, y: 8.408826, z: -2.6842437}
     speed: 2
@@ -605,9 +655,15 @@ MonoBehaviour:
     m_gridOpacity: 0.5
   m_Rotation:
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_Target: {x: -0.19948232, y: -0.15749173, z: 0.032466978, w: -0.9668087}
     speed: 2
     m_Value: {x: -0.19948232, y: -0.15749173, z: 0.032466974, w: -0.9668086}
+=======
+    m_Target: {x: -0.099803306, y: 0.019923382, z: -0.002036264, w: -0.99499613}
+    speed: 2
+    m_Value: {x: -0.099803306, y: 0.019923382, z: -0.002036264, w: -0.9949962}
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     m_Target: {x: -0.099803306, y: 0.019923382, z: -0.002036264, w: -0.99499613}
     speed: 2
@@ -657,9 +713,15 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 740
     y: 0
     width: 779
+=======
+    x: 697
+    y: 0
+    width: 736
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 697
     y: 0
@@ -698,9 +760,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 724
     y: 73
     width: 793
+=======
+    x: 740
+    y: 73
+    width: 777
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 740
     y: 73
@@ -835,10 +903,17 @@ MonoBehaviour:
       e33: 1
   m_PreviewAnimator: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_AnimatorController: {fileID: 9100000, guid: 8e61f0a629eaca04f80580388ced68ac,
     type: 2}
   m_BreadCrumbs:
   - m_Target: {fileID: -1216793929102431710, guid: 8e61f0a629eaca04f80580388ced68ac,
+=======
+  m_AnimatorController: {fileID: 9100000, guid: 93a08886ae29e104da00be3949d51c5a,
+    type: 2}
+  m_BreadCrumbs:
+  - m_Target: {fileID: 5043092247043547014, guid: 93a08886ae29e104da00be3949d51c5a,
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
   m_AnimatorController: {fileID: 9100000, guid: 93a08886ae29e104da00be3949d51c5a,
     type: 2}
@@ -879,9 +954,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 724
     y: 73
     width: 793
+=======
+    x: 848
+    y: 73
+    width: 898
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 848
     y: 73
@@ -2998,7 +3079,11 @@ MonoBehaviour:
     x: 0
     y: 681
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 1519
+=======
+    width: 1433
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     width: 1433
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -3025,7 +3110,11 @@ MonoBehaviour:
     x: 0
     y: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 886
+=======
+    width: 835
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     width: 835
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -3062,7 +3151,11 @@ MonoBehaviour:
     x: 0
     y: 754
 <<<<<<< HEAD
+<<<<<<< HEAD
     width: 885
+=======
+    width: 834
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     width: 834
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -3085,7 +3178,11 @@ MonoBehaviour:
     m_SearchArea: 1
     m_Folders:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - Assets/Niels/Scripts/BlackJack
+=======
+    - Assets/Niels/Scenes
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     - Assets/Niels/Scenes
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -3095,7 +3192,11 @@ MonoBehaviour:
   m_StartGridSize: 56
   m_LastFolders:
 <<<<<<< HEAD
+<<<<<<< HEAD
   - Assets/Niels/Scripts/BlackJack
+=======
+  - Assets/Niels/Scenes
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
   - Assets/Niels/Scenes
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -3105,15 +3206,21 @@ MonoBehaviour:
     m_IsLocked: 1
   m_FolderTreeState:
 <<<<<<< HEAD
+<<<<<<< HEAD
     scrollPos: {x: 0, y: 75}
     m_SelectedIDs: e8750000
     m_LastClickedID: 30184
     m_ExpandedIDs: 00000000cc750000d6750000ea75000000ca9a3b
 =======
+=======
+>>>>>>> parent of d6cf3ec (War Updates)
     scrollPos: {x: 0, y: 135}
     m_SelectedIDs: fa750000
     m_LastClickedID: 30202
     m_ExpandedIDs: 00000000cc750000d675000000ca9a3b
+<<<<<<< HEAD
+>>>>>>> parent of d6cf3ec (War Updates)
+=======
 >>>>>>> parent of d6cf3ec (War Updates)
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -3143,7 +3250,11 @@ MonoBehaviour:
     m_SelectedIDs: 
     m_LastClickedID: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_ExpandedIDs: 00000000cc750000
+=======
+    m_ExpandedIDs: 00000000cc75000000ca9a3b
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     m_ExpandedIDs: 00000000cc75000000ca9a3b
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -3172,8 +3283,13 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_SelectedInstanceIDs: 16760000
     m_LastClickedInstanceID: 30230
+=======
+    m_SelectedInstanceIDs: 10d10000
+    m_LastClickedInstanceID: 53520
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     m_SelectedInstanceIDs: 10d10000
     m_LastClickedInstanceID: 53520
@@ -3239,7 +3355,11 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_LastSelectedObjectID: 28116
+=======
+  m_LastSelectedObjectID: 53520
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
   m_LastSelectedObjectID: 53520
 >>>>>>> parent of d6cf3ec (War Updates)
@@ -3259,9 +3379,15 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 886
     y: 0
     width: 633
+=======
+    x: 835
+    y: 0
+    width: 598
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 835
     y: 0
@@ -3297,9 +3423,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 886
     y: 754
     width: 631
+=======
+    x: 835
+    y: 754
+    width: 596
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 835
     y: 754
@@ -3326,9 +3458,15 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 1519
     y: 0
     width: 401
+=======
+    x: 1433
+    y: 0
+    width: 487
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 1433
     y: 0
@@ -3364,9 +3502,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 1519
     y: 73
     width: 400
+=======
+    x: 1433
+    y: 73
+    width: 486
+>>>>>>> parent of d6cf3ec (War Updates)
 =======
     x: 1433
     y: 73
