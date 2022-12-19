@@ -107,7 +107,7 @@ public class UIManager : MonoBehaviour
             AIWinCountText.text = "AI won: " + PlayerPrefs.GetInt("AIWinCount");
     }
 
-    #region Tutorial
+    /*#region Tutorial
     public IEnumerator WarTutorialRows()
     {
         warRowsCount = PlayerPrefs.GetInt("WarTutorialRows", warRowsCount);
@@ -131,6 +131,8 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(7.5f);
 
             attackingRowPanel.SetActive(false);
+
+            audioManager.Play("Placing");
             placeCardText.SetActive(true);
 
             yield return new WaitForSeconds(5f);
@@ -169,7 +171,7 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt("FocusTutorial", focusTextCount);
     }
 
-    #endregion
+    #endregion*/
     #endregion
 
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)

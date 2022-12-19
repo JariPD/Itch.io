@@ -4,25 +4,21 @@ using UnityEngine;
 
 public class WarAI : MonoBehaviour
 {
-    public static WarAI instance;
-
     [Header("AI")]
     public Transform[] opponentHandSpawnPos;
     public GameObject[] enemyGrid;
     public List<GameObject> opponentsHand;
-    private void Awake()
-    {
-        instance = this;    
-    }
-
     public IEnumerator AICardPlacement()
     {
         yield return new WaitForSeconds(1f);
 
+        //gets a random amount of cards to place on the grid - make this smarter later on
+        //int amountOfCardsToPlace = Random.Range(1, opponentsHand.Count);
+
         for (int i = 0; i < opponentsHand.Count; i++)
         {
             //gets random tile from the grid
-            var randomTile = Random.Range(0, enemyGrid.Length);
+            int randomTile = Random.Range(0, enemyGrid.Length);
 
             yield return new WaitForSeconds(.2f);
 

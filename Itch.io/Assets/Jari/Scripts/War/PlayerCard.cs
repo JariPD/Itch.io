@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class PlayerCard : Card
@@ -7,18 +8,18 @@ public class PlayerCard : Card
     [Header("Card Settings")]
     private Vector3 startPos;
     [SerializeField] private bool cardInField;
-    public WarTile posIn;
+    private float selectedTimer;
 
     [Header("Card Follow")]
     [SerializeField] private float offset;
-    
+
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI attackText;
     [SerializeField] private TextMeshProUGUI healthText;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = gameObject.GetComponent<Animator>();
 
         //sets cards starting position
         startPos = transform.position;
@@ -42,30 +43,33 @@ public class PlayerCard : Card
             healthText.enabled = false;
 
             WarManager.instance.CardSelected = false;
-            
+
             //starts disolving the card
             StartCoroutine(Disolve());
         }
 
-       /* if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            StartCoroutine(ResetCardPosition(true));*/
+        if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
+            StartCoroutine(ResetCardPosition(resetCardPos: true, placeCheck: true));
 
         if (WarManager.instance.PlacingCard)
-            StartCoroutine(ResetCardPosition(false));
+            StartCoroutine(ResetCardPosition(resetCardPos: false, placeCheck: false));
 
-        if (posIn != null)
-            anim.SetBool("CardSelected", false);
-        else if (posIn == null && WarManager.instance.CurrentSelectedCard == this.gameObject)
-            anim.SetBool("CardSelected", true);
+        //selected fallback
+        if (WarManager.instance.CardSelected)
+        {
+            selectedTimer += Time.deltaTime;
+            if (selectedTimer >= 3)
+            {
+                selectedTimer = 0;
+                StartCoroutine(ResetCardPosition(resetCardPos: true, placeCheck: true));
+            }
+        }
+        else
+            selectedTimer = 0;
     }
 
     private void OnMouseDown()
     {
-        if (posIn != null)
-        {
-            posIn = null;
-        }
-
         if (!WarManager.instance.CardSelected)
         {
             WarManager.instance.CardSelected = true;
@@ -79,30 +83,20 @@ public class PlayerCard : Card
             //move up the card to indicate it being selected
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
-        else if (WarManager.instance.CurrentSelectedCard == this.gameObject)
-        {
-            WarManager.instance.CardSelected = false;
-
-            //set reference to current selected card
-            WarManager.instance.CurrentSelectedCard = null;
-
-            //set animation states
-            anim.SetBool("CardSelected", false);
-
-            //move up the card to indicate it being selected
-            transform.position = startPos;
-        }
     }
 
-    public IEnumerator ResetCardPosition(bool resetPos)
+    IEnumerator ResetCardPosition(bool resetCardPos, bool placeCheck)
     {
+        if (WarManager.instance.CurrentSelectedCard != gameObject && placeCheck)
+            yield break;
+
         WarManager.instance.CardSelected = false;
-        print("reset" + this.gameObject.name);
+
         //set animation state
         anim.SetBool("CardSelected", false);
 
         //sets card back to default position
-        if (resetPos)
+        if (resetCardPos)
             transform.position = startPos;
 
         yield return new WaitForSeconds(.1f);

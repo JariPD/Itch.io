@@ -4,33 +4,13 @@ using UnityEngine;
 public class WarTile : MonoBehaviour
 {
     public bool HasCard = false;
-    public GameObject card;
 
     private void Update()
     {
-        if (Physics.Raycast(transform.position, transform.up, out RaycastHit hit, 0.25f))
-        {
-            card = hit.transform.gameObject;
-            card.GetComponent<PlayerCard>().posIn = this;
+        if (Physics.Raycast(transform.position, transform.up, 0.25f))
             HasCard = true;
-        }
         else
             HasCard = false;
-
-        if (HasCard == false)
-            if(card != null)
-            {
-                card.GetComponent<PlayerCard>().posIn = null;
-                if (card.GetComponent<PlayerCard>().posIn == null)
-                    card = null;                   
-            }
-
-        //if (HasCard == false && WarManager.instance.CurrentSelectedCard == null)
-        //{
-        //    if (card != null)
-        //        card.GetComponent<PlayerCard>().ResetCardPosition(true);
-        //    //card = null;
-        //}
     }
 
     private void OnMouseDown()
@@ -41,8 +21,14 @@ public class WarTile : MonoBehaviour
             if (WarManager.instance.CardSelected)
             {
                 WarManager.instance.PlacePlayerCard(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
-                WarManager.instance.PlacingCard = false;
+                StartCoroutine(ResetPlacingCard());
             }
         }
+    }
+
+    IEnumerator ResetPlacingCard()
+    {
+        yield return new WaitForSeconds(0.2f);
+        WarManager.instance.PlacingCard = false;
     }
 }
