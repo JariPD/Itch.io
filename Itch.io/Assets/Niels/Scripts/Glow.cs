@@ -14,15 +14,15 @@ public class Glow : MonoBehaviour
             glow.SetActive(false);
     }
 
+    private void OnMouseEnter()
+    {
+        if (interactable.interactable == true)
+            glow.SetActive(true);
+    }
+
     private void OnMouseExit()
     {
         if (interactable.interactable == true)
             glow.SetActive(false);
-    }
-
-    private void OnMouseOver()
-    {
-        if (interactable.interactable == true)
-            glow.SetActive(true);
     }
 }
