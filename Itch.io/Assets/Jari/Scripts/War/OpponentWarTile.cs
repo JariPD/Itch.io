@@ -6,17 +6,34 @@ public class OpponentWarTile : MonoBehaviour
 {
     public bool HasCard = false;
 
+    [SerializeField] private GameObject CardOn;
+
     private void Update()
     {
-        if (Physics.Raycast(transform.position, transform.up, 0.25f))
-            HasCard = true;
-        else
-            HasCard = false;
-    }
+        //get card info
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.up);
+        if (Physics.Raycast(ray, 0.25f))
+        {
+            if (!HasCard)
+            {
+                if (Physics.Raycast(ray, out hit))
+                {
+                    WarManager.instance.enemyCardsInField.Add(hit.transform.gameObject);
+                    CardOn = hit.transform.gameObject;
+                }
+            }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.up * 0.25f);
+            HasCard = true;
+        }
+        else
+        {
+            HasCard = false;
+            if (CardOn != null)
+            {
+                WarManager.instance.enemyCardsInField.Remove(CardOn);
+                CardOn = null;
+            }
+        }
     }
 }

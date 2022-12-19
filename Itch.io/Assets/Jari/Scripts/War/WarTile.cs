@@ -4,13 +4,35 @@ using UnityEngine;
 public class WarTile : MonoBehaviour
 {
     public bool HasCard = false;
+    [SerializeField] private GameObject CardOn;
 
     private void Update()
     {
-        if (Physics.Raycast(transform.position, transform.up, 0.25f))
+        //get card info
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.up);
+        if (Physics.Raycast(ray, 0.25f))
+        {
+            if (!HasCard)
+            {
+                if (Physics.Raycast(ray, out hit))
+                {
+                    WarManager.instance.PlayerCardsInField.Add(hit.transform.gameObject);
+                    CardOn = hit.transform.gameObject;
+                }
+            }
+
             HasCard = true;
+        }
         else
+        {
             HasCard = false;
+            if (CardOn != null)
+            {
+                WarManager.instance.PlayerCardsInField.Remove(CardOn);
+                CardOn = null;
+            }
+        }
     }
 
     private void OnMouseDown()

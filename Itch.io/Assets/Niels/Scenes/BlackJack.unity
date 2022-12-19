@@ -2109,8 +2109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d271edd59afbbaf48b71a493ab5928e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WriteText: Use them strategical
-  WriteSpeed: 15
 --- !u!4 &329274813 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3780714326434514067, guid: 27a7a41cc1d1d0f42a8dbbdec4a32385,
@@ -7191,7 +7189,6 @@ RectTransform:
   - {fileID: 1173324619}
   - {fileID: 1026238068}
   - {fileID: 157249483}
-  - {fileID: 1525302134}
   - {fileID: 726541146}
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -8397,7 +8394,7 @@ RectTransform:
   - {fileID: 1745373404}
   - {fileID: 1398023901}
   m_Father: {fileID: 483909001}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8650,9 +8647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d271edd59afbbaf48b71a493ab5928e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WriteText: If you choose to fold you won't be able to play again untill the match
-    has concluded
-  WriteSpeed: 20
 --- !u!1 &760834968
 GameObject:
   m_ObjectHideFlags: 3
@@ -10122,7 +10116,6 @@ MonoBehaviour:
   opponentDeck: {fileID: 1473094889}
   callButton: {fileID: 1724589825}
   foldButton: {fileID: 1369681406}
-  buttonMove: {fileID: 81591614}
   call: {fileID: 1724589827}
   fold: {fileID: 1369681408}
   win: {fileID: 1252614536}
@@ -10308,8 +10301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d271edd59afbbaf48b71a493ab5928e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WriteText: Cheatcards are used to chance your score
-  WriteSpeed: 15
 --- !u!1 &1155537088
 GameObject:
   m_ObjectHideFlags: 0
@@ -16932,59 +16923,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d271edd59afbbaf48b71a493ab5928e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WriteText: Calling a card will increase your total score get close to 21 but don't
-    go over it
-  WriteSpeed: 15
---- !u!1 &1525302133
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1525302134}
-  - component: {fileID: 1525302135}
-  m_Layer: 5
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1525302134
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1525302133}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1767645862}
-  m_Father: {fileID: 483909001}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1525302135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1525302133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dff76e70696aa941ba6cc8aa9e1cd45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1540907052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18009,79 +17947,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1767645861
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1767645862}
-  - component: {fileID: 1767645864}
-  - component: {fileID: 1767645863}
-  m_Layer: 5
-  m_Name: Cursor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1767645862
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767645861}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3709473, y: 0.61994, z: 0.61994}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1525302134}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16.45, y: -28.85}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1767645863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767645861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 2800000, guid: c03596f3b99d4fe479652e7181b7dcdd, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
---- !u!222 &1767645864
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767645861}
-  m_CullTransparentMesh: 0
 --- !u!1 &1786201730
 GameObject:
   m_ObjectHideFlags: 0
