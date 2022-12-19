@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6478458100960758563}
   - component: {fileID: -5956900512435415266}
   - component: {fileID: 3576633738093787675}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,11 +114,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 1
   health: 2
+  movementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9958333
+      value: -0.0047187805
+      inSlope: -5.2201505
+      outSlope: -5.2201505
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07999999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speed: 4
   cardInField: 0
-  posIn: {fileID: 0}
   offset: 15
   attackText: {fileID: 5191178680193204293}
   healthText: {fileID: 3002551157921692990}
+  layerToHit:
+    serializedVersion: 2
+    m_Bits: 128
+  objectToAttack: {fileID: 0}
+  duration: 0.5
+  heightY: 1
 --- !u!95 &3576633738093787675
 Animator:
   serializedVersion: 4
@@ -150,7 +180,7 @@ GameObject:
   - component: {fileID: 6859100675752874276}
   - component: {fileID: 2093613341910689015}
   - component: {fileID: 3002551157921692990}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +316,7 @@ GameObject:
   - component: {fileID: 1708262053925467464}
   - component: {fileID: 7035701712706024229}
   - component: {fileID: 7155525732148468329}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +417,7 @@ GameObject:
   - component: {fileID: 885228841158516618}
   - component: {fileID: 8565161027417558112}
   - component: {fileID: 5191178680193204293}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: AttackText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

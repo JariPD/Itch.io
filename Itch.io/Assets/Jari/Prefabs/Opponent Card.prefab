@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6478458100960758563}
   - component: {fileID: 8816580270109963721}
   - component: {fileID: 820307418924306122}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Opponent Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,8 +116,38 @@ MonoBehaviour:
   attack: 1
   health: 2
   outline: {fileID: 4647445984709900164}
+  movementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9958333
+      value: -0.0047187805
+      inSlope: -5.2201505
+      outSlope: -5.2201505
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07999999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   attackText: {fileID: 297923076584366108}
   healthText: {fileID: 2036818712380827995}
+  layerToHit:
+    serializedVersion: 2
+    m_Bits: 256
+  objectToAttack: {fileID: 0}
+  duration: 0.5
+  heightY: 1
 --- !u!95 &820307418924306122
 Animator:
   serializedVersion: 4
@@ -150,7 +180,7 @@ GameObject:
   - component: {fileID: 6769462715519048807}
   - component: {fileID: 5943998757383773453}
   - component: {fileID: 6749049407065030619}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +281,7 @@ GameObject:
   - component: {fileID: 4111864967049374793}
   - component: {fileID: 4545845162985796754}
   - component: {fileID: 297923076584366108}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: AttackText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +416,7 @@ GameObject:
   - component: {fileID: 7272307281657939161}
   - component: {fileID: 829064132690737230}
   - component: {fileID: 2113418039037791880}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -469,7 +499,7 @@ GameObject:
   - component: {fileID: 1610561482916674837}
   - component: {fileID: 6601392360333790889}
   - component: {fileID: 2036818712380827995}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
