@@ -51,7 +51,6 @@ public class BlackJackManager : MonoBehaviour
     [Header("Button Info")]
     [SerializeField] private GameObject callButton;
     [SerializeField] private GameObject foldButton;
-    [SerializeField] private Animator buttonMove;
 
     [Header("State Info")]
     [SerializeField] private Button call;
@@ -246,7 +245,6 @@ public class BlackJackManager : MonoBehaviour
         fold.interactable = !fold.interactable;
         call.interactable = !call.interactable;
         useCam = !useCam;
-        buttonMove.SetBool("State", !buttonMove.GetBool("State"));
     }
 
     /// <summary>
