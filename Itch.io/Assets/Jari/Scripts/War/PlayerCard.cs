@@ -42,6 +42,8 @@ public class PlayerCard : Card
     }
     private void Update()
     {
+        UpdateCardUI();
+
         if (health <= 0)
         {
             health = 0;
@@ -119,11 +121,11 @@ public class PlayerCard : Card
         RaycastHit hit;
         if (Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out hit, 3, layerToHit))
         {
-            hit.transform.gameObject.GetComponent<OpponentCard>().health -= attack;
-            print(hit.transform.gameObject.name);
             objectToAttack = hit.transform;
-            StartCoroutine(Curve(transform.position, hit.transform.position, false));
+            StartCoroutine(Curve(transform.position, hit.transform.position, false, hit));
         }
+        else if (!Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out hit, 3, layerToHit))
+            WarManager.instance.opponentHealth -= attack;
     }
 
     /// <summary>
@@ -142,7 +144,7 @@ public class PlayerCard : Card
         Debug.DrawRay(transform.position, forward, Color.red);
     }
 
-    public IEnumerator Curve(Vector3 start, Vector3 target, bool on)
+    public IEnumerator Curve(Vector3 start, Vector3 target, bool on, RaycastHit damage)
     {
         bool used = on;
         Vector3 nowPos = transform.position;
@@ -164,12 +166,12 @@ public class PlayerCard : Card
             {
                 if (transform.position == end)
                 {
+                    damage.transform.gameObject.GetComponent<OpponentCard>().health -= attack;
                     VirtualCameraSettings.instance.Hit(0.1f);
-                    StartCoroutine(Curve(transform.position, nowPos, true));
+                    StartCoroutine(Curve(transform.position, nowPos, true, damage));
                     used = true;
                 }
             }
-
             yield return null;
         }
     }

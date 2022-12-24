@@ -15,7 +15,6 @@ public class BlackJackCard : MonoBehaviour
     private void Start()
     {
         playerDeck = FindObjectOfType<PlayerDeck>();
-        GetComponentInChildren<TextMeshProUGUI>().text = cardNumber.ToString();
     }
 
     private void Update()

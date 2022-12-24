@@ -39,6 +39,12 @@ public class WarManager : MonoBehaviour
     private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;   //max health of the player and opponent
     private int attackTurn = 0;                                          //turn count for attacking
 
+    [Header("Movement")]
+    [SerializeField] private GameObject vCamOne;
+    [SerializeField] private Transform MainCam;
+    [SerializeField] private Transform vCamTwo;
+    private bool useCam = true;
+
     private void Awake()
     {
         //singleton
@@ -55,6 +61,8 @@ public class WarManager : MonoBehaviour
 
     private void Update()
     {
+        SeeCards();
+
         //debug function to clear playerprefs
         if (Input.GetKeyDown(KeyCode.Q))
             ClearPlayerPrefs();
@@ -125,6 +133,26 @@ public class WarManager : MonoBehaviour
 
     #region Battle
 
+    private void SeeCards()
+    {
+        if (useCam)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (vCamOne.activeInHierarchy)
+                {
+                    if (MainCam.position == vCamOne.transform.position)
+                        vCamOne.SetActive(false);
+                }
+                else
+                {
+                    if (MainCam.position == vCamTwo.position)
+                        vCamOne.SetActive(true);
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// deactivate button with settings
     /// </summary>
@@ -164,13 +192,9 @@ public class WarManager : MonoBehaviour
         bool usable = true;
         if (usable)
         {
-            print("AttackForPlayer");
             for (int i = 0; i < PlayerCardsInField.Count; i++)
                 PlayerCardsInField[i].GetComponent<PlayerCard>().AttackForward();
-
-            for (int i = 0; i < enemyCardsInField.Count; i++)
-                enemyCardsInField[i].GetComponent<OpponentCard>().UpdateCardUI();
-
+            
             usable = false;
         }
         yield return new WaitForSeconds(2);
@@ -181,9 +205,6 @@ public class WarManager : MonoBehaviour
             print("AttackForEnemy");
             for (int i = 0; i < enemyCardsInField.Count; i++)
                 enemyCardsInField[i].GetComponent<OpponentCard>().AttackForward();
-
-            for (int i = 0; i < PlayerCardsInField.Count; i++)
-                PlayerCardsInField[i].GetComponent<PlayerCard>().UpdateText();
 
             usable = false;
         }

@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
         //updates total card values text
         if (blackJackManager != null)
         {
-            userCardValueText.text = "Cards value: " + blackJackManager.UserTotalCardValue.ToString();
+            userCardValueText.text = "" + blackJackManager.UserTotalCardValue.ToString();
             opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
         }
 

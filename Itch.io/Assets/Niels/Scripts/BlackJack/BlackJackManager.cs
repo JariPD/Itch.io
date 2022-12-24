@@ -38,9 +38,9 @@ public class BlackJackManager : MonoBehaviour
     [SerializeField] private List<GameObject> OpponentDeckObj;
 
     [Header("Card Lists")]
-    [SerializeField] private List<int> deck;
-    [SerializeField] private List<int> usersCards;
-    [SerializeField] private List<int> opponentsCards;
+    [SerializeField] private List<GameObject> deck;
+    [SerializeField] private List<GameObject> usersCards;
+    [SerializeField] private List<GameObject> opponentsCards;
     [SerializeField] private List<GameObject> cheatCards;
     
     [Header("Card Settings")]
@@ -51,6 +51,7 @@ public class BlackJackManager : MonoBehaviour
     [Header("Button Info")]
     [SerializeField] private GameObject callButton;
     [SerializeField] private GameObject foldButton;
+    [SerializeField] private Animator buttonMove;
 
     [Header("State Info")]
     [SerializeField] private Button call;
@@ -82,7 +83,7 @@ public class BlackJackManager : MonoBehaviour
 
     void Start()
     {
-        CreateDeck();
+        //CreateDeck();
         cheatCardChance = Random.Range(3, 5);
     }
 
@@ -99,12 +100,12 @@ public class BlackJackManager : MonoBehaviour
                 for (int i = 0; i < cheatCards.Count; i++)
                     cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
-        if (PlayerPoints == 3)
+        if (PlayerPoints == 5)
         {
             StartCoroutine(WonGame());
-            PlayerPoints = 4;
+            PlayerPoints = 6;
         }
-        else if (OpponentPoints == 3)
+        else if (OpponentPoints == 5)
             StartCoroutine(LoseGame());
     }
 
@@ -127,7 +128,7 @@ public class BlackJackManager : MonoBehaviour
                     if (MainCam.position == vCamTwo.position)
                     {
                         vCamOne.SetActive(true);
-                        CheatPos.localPosition = new Vector3(-3.16000009f, -1.01999998f, 5.21000004f);
+                        CheatPos.localPosition = new Vector3(-2.63000011f, 1.69000006f, 6.38000011f);
                     }
                 }
             }
@@ -135,18 +136,18 @@ public class BlackJackManager : MonoBehaviour
     }
 
     #region GameManager
-    /// <summary>
-    /// function to create a deck
-    /// </summary>
-    private void CreateDeck()
-    {
-        //fills deck with cards
-        for (int a = 0; a < 4; a++)
-        {
-            for (int b = 0; b < 10; b++)
-                deck.Add(b + 1);
-        }
-    }
+    ///// <summary>
+    ///// function to create a deck
+    ///// </summary>
+    //private void CreateDeck()
+    //{
+    //    //fills deck with cards
+    //    for (int a = 0; a < 4; a++)
+    //    {
+    //        for (int b = 0; b < 10; b++)
+    //            deck.Add(b + 1);
+    //    }
+    //}
 
     /// <summary>
     /// another update for the lists because coroutine didn't update the forloops rights
@@ -245,6 +246,7 @@ public class BlackJackManager : MonoBehaviour
         fold.interactable = !fold.interactable;
         call.interactable = !call.interactable;
         useCam = !useCam;
+        buttonMove.SetBool("State", !buttonMove.GetBool("State"));
     }
 
     /// <summary>
@@ -382,7 +384,7 @@ public class BlackJackManager : MonoBehaviour
         if (!vCamOne.activeInHierarchy)
         {
             vCamOne.SetActive(true);
-            CheatPos.localPosition = new Vector3(-3.02983499f, -0.420009136f, 7.08006763f);
+            CheatPos.localPosition = new Vector3(-2.63000011f, 1.69000006f, 6.38000011f);
         }
 
         //turn based button first player then opponent(AI)
@@ -402,18 +404,19 @@ public class BlackJackManager : MonoBehaviour
         //give card to user
         usersCards.Add(deck.ElementAt(random));
 
-        //calculates the sum of the user his cards
-        UserTotalCardValue += usersCards[usersCards.Count - 1];
+        GameObject card = Instantiate(usersCards[usersCards.Count - 1].gameObject, cardSpawn.transform.position, cardSpawn.transform.rotation);
+        card.AddComponent<BlackJackCard>();
+        card.GetComponent<BlackJackCard>().cardNumber = card.GetComponent<CardValue>().CardNumberValue;
 
-        //add Card To Game With Value
-        GameObject card = Instantiate(Card, cardSpawn.transform.position, cardSpawn.transform.rotation);
+        //calculates the sum of the user his cards
+
         playerDeckObj.Add(card);
         for (int i = 0; i < usersCards.Count; i++)
             card.GetComponent<BlackJackCard>().ownNumber = cardAmount;
 
         cardAmount++;
-
-        card.GetComponent<BlackJackCard>().cardNumber = deck.ElementAt(random);
+        print(usersCards[usersCards.Count - 1].transform.gameObject.name);
+        UserTotalCardValue += playerDeckObj[playerDeckObj.Count - 1].GetComponent<BlackJackCard>().cardNumber;
 
         //remove card from deck
         deck.RemoveAt(random);
@@ -602,18 +605,22 @@ public class BlackJackManager : MonoBehaviour
         //give card to user
         opponentsCards.Add(deck.ElementAt(random));
 
-        //calculates the sum of the user his cards
-        OpponentTotalCardValue = opponentsCards.Sum();
+        GameObject card = Instantiate(opponentsCards[opponentsCards.Count - 1].gameObject, cardSpawn.transform.position, cardSpawn.transform.rotation);
+        card.AddComponent<BlackJackCardOpponent>();
+        card.GetComponent<BlackJackCardOpponent>().cardNumber = card.GetComponent<CardValue>().CardNumberValue;
 
+        
         //add Card To Game With Value
-        GameObject card = Instantiate(opponentCard, cardSpawn.transform.position, cardSpawn.transform.rotation);
         OpponentDeckObj.Add(card);
         for (int i = 0; i < opponentsCards.Count; i++)
             card.GetComponent<BlackJackCardOpponent>().ownNumber = opponentCardAmount;
 
         opponentCardAmount++;
 
-        card.GetComponent<BlackJackCardOpponent>().cardNumber = deck.ElementAt(random);
+        //card.GetComponent<BlackJackCardOpponent>().cardNumber = deck.ElementAt(random);
+
+        //calculates the sum of the user his cards
+        OpponentTotalCardValue += OpponentDeckObj[OpponentDeckObj.Count - 1].GetComponent<BlackJackCardOpponent>().cardNumber;
 
         //remove card from deck
         deck.RemoveAt(random);

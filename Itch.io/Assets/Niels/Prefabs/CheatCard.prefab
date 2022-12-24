@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1498674024420648604}
   - component: {fileID: 2722399286523207222}
   - component: {fileID: 5540694683328726167}
-  - component: {fileID: 4849665244896978179}
+  - component: {fileID: 5094169857804218439}
   m_Layer: 0
   m_Name: CheatCard
   m_TagString: Untagged
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bee6062ee5fbe804ca7fb4b35073490b, type: 2}
+  - {fileID: 2100000, guid: 56071d467faa5a04fa1ecd878be694de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9f3c831bd68af4d80826e05797c09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &4849665244896978179
+--- !u!95 &5094169857804218439
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ Animator:
   m_GameObject: {fileID: 1498674024420648602}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6ce64585f445b1043903beea7b65b223, type: 2}
+  m_Controller: {fileID: 9100000, guid: e1e9d62a9e950b644a9e903931e28aa6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -277,7 +277,7 @@ RectTransform:
   m_GameObject: {fileID: 1498674024941647256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4154, y: 1.4154, z: 1.4154}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1498674024690824375}
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 04fff9032b4ba0042b67fee3e4fe89ce, type: 2}
   m_sharedMaterial: {fileID: 1318325810297090628, guid: 04fff9032b4ba0042b67fee3e4fe89ce,
@@ -326,8 +326,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
