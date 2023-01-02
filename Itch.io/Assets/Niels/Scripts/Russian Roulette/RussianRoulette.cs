@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class RussianRoulette : MonoBehaviour
 {
@@ -11,11 +12,20 @@ public class RussianRoulette : MonoBehaviour
 
     public Rigidbody rb;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource click;
+    [SerializeField] private AudioSource heartBeat;
+    [SerializeField] private AudioSource gunshot;
+    private bool heartBeatPlaying = false;
+    private float heartbeatSpeed = 1;
+
     [SerializeField] private Button shoot; 
     [SerializeField] private Button spin; 
 
     private GunBarrel gunBarrel;
 
+    [Header("Animations Info")]
+    [SerializeField] private Animator ending;
     [SerializeField] private Animator gunPointing;
     [SerializeField] private Animator gunAnim;
 
@@ -36,6 +46,7 @@ public class RussianRoulette : MonoBehaviour
 
     void Update()
     {
+        HeartBeat();
         rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, new Vector3(0, 0, 0), 1 * Time.deltaTime);
         SpinShoot();
     }
@@ -70,9 +81,14 @@ public class RussianRoulette : MonoBehaviour
     {
         if (gunBarrel.point.GetComponent<BulletPoint>().HasBullet)
             for (int i = 0; i < gunBarrel.Shoot.Length; i++)
+            {
+                gunBarrel.barrelSound = null;
+                ending.Play("RussianRouletteEnding");
                 gunBarrel.Shoot[i].Play();
+                gunshot.Play(0);
+            }
         else
-            Debug.Log("Click");
+            click.Play(0);
 
         StartCoroutine(NextTurn());
     }
@@ -91,22 +107,19 @@ public class RussianRoulette : MonoBehaviour
         {
             if (gunAnim.GetCurrentAnimatorClipInfo(0).Length <= 0)
             {
-                if (rb.angularVelocity.x == 0)
+                if (!gunPointing.IsInTransition(0))
                 {
-                    if (!gunPointing.IsInTransition(0))
-                    {
-                        if (opponentTurn)
-                            RouletteAI.instance.ON();
+                    if (opponentTurn)
+                        RouletteAI.instance.ON();
 
-                        if (RouletteAI.instance.MyTurn)
-                            StartCoroutine(PointAndShoot("OpponentPoint"));
-                        else if (RouletteAI.instance.MyTurn == false)
-                            StartCoroutine(PointAndShoot("PlayerPoint"));
+                    if (RouletteAI.instance.MyTurn)
+                        StartCoroutine(PointAndShoot("OpponentPoint"));
+                    else if (RouletteAI.instance.MyTurn == false)
+                        StartCoroutine(PointAndShoot("PlayerPoint"));
 
-                        gunPointing.CrossFade("Default", 1);
+                    gunPointing.CrossFade("Default", 1);
 
-                        hasSpin = false;
-                    }
+                    hasSpin = false;
                 }
             }
         }
@@ -128,6 +141,24 @@ public class RussianRoulette : MonoBehaviour
         ShootAnim();
     }
 
+    private void HeartBeat()
+    {
+        if (heartBeatPlaying)
+        {
+            heartBeat.volume = Mathf.MoveTowards(heartBeat.volume, 0.6f, 1 * Time.deltaTime);
+            heartbeatSpeed += 0.1f * Time.deltaTime;
+            heartBeat.pitch = heartbeatSpeed;
+        }
+        else if (heartBeatPlaying == false)
+        {
+            heartBeat.volume = Mathf.MoveTowards(heartBeat.volume, 0, 1 * Time.deltaTime);
+            if (heartBeat.volume <= 0)
+            {
+                heartBeat.Stop();
+            }
+        }
+    }
+
     public void SwitchTurns()
     {
         RouletteAI.instance.AISwitch();
@@ -141,7 +172,11 @@ public class RussianRoulette : MonoBehaviour
     public IEnumerator PointAndShoot(string PointTo)
     {
         gunPointing.Play(PointTo);
-        yield return new WaitForSeconds(Random.Range(1, 5));
+        heartBeat.Play(0);
+        heartbeatSpeed = 1;
+        heartBeatPlaying = true;
+        yield return new WaitForSeconds(Random.Range(4, 12));
+        heartBeatPlaying = false;
         gunAnim.Play("GunShoot");
         RouletteAI.instance.AISwitch();
     }

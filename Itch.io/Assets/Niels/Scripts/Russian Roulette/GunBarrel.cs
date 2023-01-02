@@ -7,7 +7,7 @@ public class GunBarrel : MonoBehaviour
     [SerializeField] private RussianRoulette russianRouletteBarrel;
     [SerializeField] private Transform parentRot;
 
-    [SerializeField] private AudioSource barrelSound;
+    public AudioSource barrelSound;
 
     private bool on = false;
 
@@ -25,7 +25,7 @@ public class GunBarrel : MonoBehaviour
 
     void Update()
     {
-        if (russianRouletteBarrel.rb.angularVelocity.z < -0.4f && russianRouletteBarrel.rb.angularVelocity.z > -0.5f)
+        if (russianRouletteBarrel.rb.angularVelocity.z < -0.2f && russianRouletteBarrel.rb.angularVelocity.z > -0.3f)
         {
             point = GetClosestEnemy(russianRouletteBarrel.BulletPoints);
             StartCoroutine(Test(point));
@@ -62,7 +62,7 @@ public class GunBarrel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("BulletPoint"))
+        if (other.gameObject.CompareTag("BulletPoint") && barrelSound != null)
             if (!barrelSound.isPlaying)
                 if (other.GetComponent<BulletPoint>().HasBullet)
                 {

@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class PlayerCard : Card
@@ -21,8 +20,6 @@ public class PlayerCard : Card
     [SerializeField] private TextMeshProUGUI healthText;
 
     [SerializeField] private LayerMask layerToHit;
-
-    private bool goAttack = false;
 
     [SerializeField] private Transform objectToAttack;
 

@@ -6,11 +6,15 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager instance;
+
     public Sound[] Sounds;
     public Reverb Reverbs;
 
     private void Awake()
     {
+        instance = this;
+
         foreach (Sound s in Sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -32,20 +36,25 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        Play("BackGround");
+        //Play("BackGround");
     }
 
-    //private void Update()
-    //{
-    //    for (int i = 0; i < Sounds.Length; i++)
-    //        Sounds[i].source.transform.position = Sounds[i].Position.transform.position;
-    //}
+    private void Update()
+    {
+        //for (int i = 0; i < Sounds.Length; i++)
+        //    if (Sounds[i].source.transform.position != null)
+        //        Sounds[i].source.transform.position = Sounds[i].Position.transform.position;
+    }
 
     public void Play(string _name)
     {
         Sound s = Array.Find(Sounds, sound => sound.name == _name);
         if (s == null)
+        {
+            print(name);
+            print("Sound not Found");
             return;
+        }
 
         if (!s.source.isPlaying)
         {
