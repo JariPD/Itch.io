@@ -4,46 +4,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
+using System.Linq;
+using Unity.VisualScripting;
 
 public class WarManager : MonoBehaviour
 {
     public static WarManager instance;
 
+    public int placeToSpawn;
     public int diceRoll;
     private bool isPlayerTurn = true;
     private int turnCount = 0;
+    private int count = 0;
 
     [Header("References")]
     [SerializeField] private Transform[] cardSpawnPos;                   //spawn positions for cards
     [SerializeField] private GameObject card, opponentCard;              //cards prefabs
-    private WarAI warAI;                                                 
-    private CheckForCardsOnField checkForCardsOnField;                   
-                                                                         
-    [Header("Card Placement")]                                           
-    public List<GameObject> PlayerCardsInField = new List<GameObject>(); //all playercards in field
-    public List<GameObject> enemyCardsInField = new List<GameObject>();  //all enemy cards in field
+    private WarAI warAI;
+    //private CheckForCardsOnField checkForCardsOnField;
+
+    [Header("Card Placement")]
+    public List<GameObject> PlayerCardsInField = new(); //all playercards in field
+    public List<GameObject> enemyCardsInField = new();  //all enemy cards in field
     public GameObject CurrentSelectedCard;                               //reference to the card that is currently selected
     public bool PlacingCard = false;                                     //checks if the card is being placed
     public bool CardSelected = false;                                    //checks if the card is selected
-                                                                         
-    [Header("Grid")]                                                     
+
+    [Header("Grid")]
     [SerializeField] private GameObject gridParent;                      //parent object for the grid
     [SerializeField] private GameObject[] playerGrid;                    //player grid
-                                                                         
+
     [Header("Battling")]
+    public List<GameObject> playersHand;               //players hand - used to keep track of the cards in the players hand
     [SerializeField] private Button attackButton;
-    [SerializeField] private List<GameObject> playersHand;               //players hand - used to keep track of the cards in the players hand
     public GameObject CurrentFocussedCard;                               //reference to current focussed card
     public bool FocussingACard;                                          //is the player currently focussing a card
     public int playerHealth, opponentHealth;                             //health of the player and opponent
-    private readonly int maxPlayerHealth = 10, maxOpponentHealth = 10;   //max health of the player and opponent
-    private int attackTurn = 0;                                          //turn count for attacking
+    private readonly int maxPlayerHealth = 20, maxOpponentHealth = 20;   //max health of the player and opponent
 
     [Header("Movement")]
     [SerializeField] private GameObject vCamOne;
     [SerializeField] private Transform MainCam;
     [SerializeField] private Transform vCamTwo;
-    private bool useCam = true;
 
     private void Awake()
     {
@@ -52,23 +55,39 @@ public class WarManager : MonoBehaviour
 
         //gets components
         warAI = GetComponent<WarAI>();
-        checkForCardsOnField = GetComponent<CheckForCardsOnField>();
+        //checkForCardsOnField = GetComponent<CheckForCardsOnField>();
 
         //sets health
         playerHealth = maxPlayerHealth;
         opponentHealth = maxOpponentHealth;
+
+        UIManager.instance.UpdateWarHealth(playerHealth, opponentHealth);
     }
 
     private void Update()
     {
-        SeeCards();
-
-        //debug function to clear playerprefs
-        if (Input.GetKeyDown(KeyCode.Q))
-            ClearPlayerPrefs();
+        //move camera above playing field when placing card
+        if (CardSelected)
+            StartCoroutine(SeeCards());
+        else
+        {
+            if (MainCam.position == vCamTwo.position)
+                vCamOne.SetActive(true);
+        }
 
         if (CurrentSelectedCard == null)
             CardSelected = false;
+
+        //health check
+        if (opponentHealth <= 0)
+        {
+            StartCoroutine(WonGame());
+        }
+        if (playerHealth <= 0)
+        {
+            //play fade animation
+            SceneManager.LoadScene(0);
+        }
     }
 
     /// <summary>
@@ -76,16 +95,17 @@ public class WarManager : MonoBehaviour
     /// </summary>
     public void StartDiceThrow()
     {
-        gridParent.SetActive(true);
-        StartCoroutine(ThrowDice());
+        //gridParent.SetActive(true);
+        StartCoroutine(ThrowDice(true));
     }
 
-    IEnumerator ThrowDice()
+    IEnumerator ThrowDice(bool placeCards)
     {
         turnCount++;
+        count++;
 
         //get random dice roll to spawn cards
-        diceRoll = Random.Range(2, 3);
+        diceRoll = count <= 2 ? Random.Range(2, 3) : 1;
 
         //------------------------------------------------------------------- player dice logic -------------------------------------------------------------------\\
 
@@ -93,7 +113,28 @@ public class WarManager : MonoBehaviour
         {
             //loop trough the dice roll and give cards to the player
             for (int i = 0; i < diceRoll; i++)
-                playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[i].position.x, cardSpawnPos[i].position.y - .2f, cardSpawnPos[i].position.z), cardSpawnPos[i].rotation));
+            {
+                if (diceRoll >= 2)
+                {
+                    //if diceroll is 2 or more spawn cards based on count
+                    placeToSpawn = playersHand.Count;
+                }
+                else
+                {
+                    for (int a = 0; a < cardSpawnPos.Length; a++) //loops trough the possible spawn positions
+                    {
+                        if (!cardSpawnPos[a].GetComponent<CardCheck>().HasCard) //check if place to spawn does not already have a card
+                        {
+                            //sets spawn pos to current pos in the loop
+                            placeToSpawn = a;
+                            break;
+                        }
+                    }
+                }
+
+                //instantiates players cards
+                playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[placeToSpawn].position.x, cardSpawnPos[placeToSpawn].position.y - .2f, cardSpawnPos[placeToSpawn].position.z), cardSpawnPos[placeToSpawn].rotation));
+            }
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -105,7 +146,7 @@ public class WarManager : MonoBehaviour
         {
             //loop trough the dice roll and give cards to the opponent
             for (int i = 0; i < diceRoll; i++)
-                warAI.opponentsHand.Add(Instantiate(opponentCard, warAI.opponentHandSpawnPos[i].position, warAI.opponentHandSpawnPos[i].rotation));
+                warAI.opponentsHand.Add(Instantiate(opponentCard, new Vector3(warAI.opponentHandSpawnPos[i].position.x, (warAI.opponentHandSpawnPos[i].position.y - .2f), warAI.opponentHandSpawnPos[i].position.z), warAI.opponentHandSpawnPos[i].rotation));
 
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
@@ -118,7 +159,8 @@ public class WarManager : MonoBehaviour
                 UIManager.instance.TurnButton(true);*/
 
             //places oppenent cards
-            StartCoroutine(warAI.AICardPlacement());
+            if (placeCards)
+                StartCoroutine(warAI.AICardPlacement());
         }
 
         yield return new WaitForSeconds(3);
@@ -128,28 +170,29 @@ public class WarManager : MonoBehaviour
         if (turnCount == 2)
             yield return null;
         else
-            StartCoroutine(ThrowDice());
+            StartCoroutine(ThrowDice(true));
     }
 
     #region Battle
 
-    private void SeeCards()
+    /// <summary>
+    /// function that moves the camera above the playing field
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SeeCards()
     {
-        if (useCam)
+        if (vCamOne.activeInHierarchy)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (vCamOne.activeInHierarchy)
-                {
-                    if (MainCam.position == vCamOne.transform.position)
-                        vCamOne.SetActive(false);
-                }
-                else
-                {
-                    if (MainCam.position == vCamTwo.position)
-                        vCamOne.SetActive(true);
-                }
-            }
+            if (MainCam.position == vCamOne.transform.position)
+                vCamOne.SetActive(false);
+        }
+
+        yield return new WaitForSeconds(.1f);
+
+        if (!CardSelected)
+        {
+            if (MainCam.position == vCamTwo.position)
+                vCamOne.SetActive(true);
         }
     }
 
@@ -179,9 +222,21 @@ public class WarManager : MonoBehaviour
     /// </summary>
     public void AttackTurn()
     {
-        if (PlayerCardsInField.Count > 0 && enemyCardsInField.Count > 0)
+        if (PlayerCardsInField.Count > 0 || enemyCardsInField.Count > 0)
             StartCoroutine(TradingAttack());
     }
+
+    /*private IEnumerator AttackInterval(List<GameObject> playerCards)
+    {
+        foreach (var item in playerCards)
+        {
+            item.GetComponent<PlayerCard>().AttackForward();
+
+            yield return new WaitForSeconds(1);
+        }
+
+        StartCoroutine(AttackInterval(PlayerCardsInField));
+    }*/
 
     /// <summary>
     /// first player can attack then opponent can attack
@@ -193,112 +248,42 @@ public class WarManager : MonoBehaviour
         if (usable)
         {
             for (int i = 0; i < PlayerCardsInField.Count; i++)
+            {
+                //StartCoroutine(AttackInterval(PlayerCardsInField));
                 PlayerCardsInField[i].GetComponent<PlayerCard>().AttackForward();
-            
-            usable = false;
+            }
         }
+
+        //update player and enemy UI 
+        UIManager.instance.UpdateWarHealth(playerHealth, opponentHealth);
+
         yield return new WaitForSeconds(2);
 
         usable = true;
         if (usable)
         {
-            print("AttackForEnemy");
             for (int i = 0; i < enemyCardsInField.Count; i++)
                 enemyCardsInField[i].GetComponent<OpponentCard>().AttackForward();
+        }
 
-            usable = false;
+        //update player and enemy UI 
+        UIManager.instance.UpdateWarHealth(playerHealth, opponentHealth);
+
+        if (PlayerCardsInField.Count < 4)
+        {
+            isPlayerTurn = true;
+            turnCount = 0;
+            StartCoroutine(ThrowDice(false));
+        }
+        else if (enemyCardsInField.Count < 4)
+        {
+            isPlayerTurn = false;
+            turnCount = 1;
+            StartCoroutine(ThrowDice(true));
         }
     }
 
     #endregion
-
-    /*#region Battle System
-
-    public void StartTurn()
-    {
-        StartCoroutine(TurnSystem());
-    }
-
-    IEnumerator TurnSystem()
-    {
-
-        UIManager.instance.TurnButton(false);
-
-        //starts card placement
-        StartCoroutine(warAI.AICardPlacement());
-
-        //show tutorial about focussing cards
-        StartCoroutine(UIManager.instance.FocusTutorial());
-
-        //checks players card for later calculations
-        checkForCardsOnField.CheckForPlayer();
-
-
-        StartCoroutine(Attack());
-
-        if (PlayerPrefs.GetInt("FocusTutorial") <= 0)
-        {
-            yield return new WaitForSeconds(7.5f);
-        }
-        else
-        {
-            yield return new WaitForSeconds(1.75f);
-        }
-
-        isPlayerTurn = true;
-
-
-        if (isPlayerTurn)
-        {
-            UIManager.instance.TurnButton(true);
-            checkForCardsOnField.CheckForAI();
-        }
-    }
-
-    IEnumerator Attack()
-    {
-        //------------------------------------------------------------------- player battle logic -------------------------------------------------------------------\\
-
-        attackTurn++;
-
-        //calculate power
-        int playerAttackPower = checkForCardsOnField.AttackingCount;
-        int opponentAttackPower = checkForCardsOnField.AIAttackingCount;
-
-        //if a card is selected attack selected card
-        if (CurrentFocussedCard != null)
-        {
-            CurrentFocussedCard.GetComponent<OpponentCard>().health -= playerAttackPower;
-            CurrentFocussedCard.GetComponent<OpponentCard>().UpdateCardUI();
-        }
-
-        yield return new WaitForSeconds(1.25f);
-
-        //------------------------------------------------------------------- enemy battle logic -------------------------------------------------------------------\\
-
-        checkForCardsOnField.CheckForAI();
-        if (checkForCardsOnField.AIAttackingCount >= 1)
-        {
-            //get random card from players hand
-            int randomPlayerCard = Random.Range(0, playersHand.Count);
-            
-            //subract opponents attacking power from card and update card UI
-            playersHand[randomPlayerCard].GetComponent<PlayerCard>().health -= opponentAttackPower;
-            playersHand[randomPlayerCard].GetComponent<PlayerCard>().UpdateCardUI();
-
-            if (playersHand[randomPlayerCard].GetComponent<PlayerCard>().health <= 0)
-                playersHand.RemoveAt(randomPlayerCard);
-        }
-
-        //wait for cards to be destroyed
-        yield return new WaitForSeconds(1.25f);
-
-        //check if there are still cards left on the field
-        if (attackTurn >= 2)
-            StartCoroutine(checkForCardsOnField.WarWinCheck());
-    }
-
-    #endregion*/
 
     /// <summary>
     /// function that places a selected card on a tile in the grid
@@ -310,12 +295,26 @@ public class WarManager : MonoBehaviour
         {
             PlacingCard = true;
             CurrentSelectedCard.transform.position = pos;
+            CurrentSelectedCard.GetComponent<BoxCollider>().enabled = true;
             CurrentSelectedCard = null;
         }
     }
 
-    public void ClearPlayerPrefs()
+    private IEnumerator WonGame()
     {
-        PlayerPrefs.DeleteAll();
+        print("You Win");
+        //do animation or transition
+
+        yield return new WaitForSeconds(5);
+        //switch scene
+
+        int index = 1;
+        int loadedScene = index;
+        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+        index = 2;
+        SceneManager.UnloadSceneAsync(loadedScene);
+        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+
+        yield return null;
     }
 }
