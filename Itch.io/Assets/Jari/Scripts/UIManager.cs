@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI warGameResults;
     [SerializeField] private TextMeshProUGUI diceRollText;
     [SerializeField] private TextMeshProUGUI opponentDiceRollText;
-    [SerializeField] private TextMeshProUGUI playerWinCountText, AIWinCountText;
+    [SerializeField] private TextMeshProUGUI playerHealth, enemyHealth;
 
     [Header("War Tutorial")]
     [SerializeField] private GameObject focusPanel;
@@ -42,8 +42,6 @@ public class UIManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
-        UpdateWarWinCountText();
     }
 
     void Update()
@@ -78,14 +76,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void WarGameResults(bool playerWon)
+    public void UpdateWarHealth(int player, int enemy)
     {
-        if (playerWon)
-            warGameResults.text = "You won the war!";
-        else
-            warGameResults.text = "You lost the war!";
-
-        StartCoroutine(TurnOffText(warGameResults, 3));
+        playerHealth.text = "Player Health: - " + player;
+        enemyHealth.text = "??? Health: - " + enemy;
     }
 
     public void TurnButton(bool active)
@@ -95,17 +89,29 @@ public class UIManager : MonoBehaviour
 
     public void DisableThrowDiceButton()
     {
-        Destroy(throwDiceButton.gameObject);
+        if (throwDiceButton != null)
+            Destroy(throwDiceButton.gameObject);
     }
-    
-    public void UpdateWarWinCountText()
+
+
+    /*public void WarGameResults(bool playerWon)
+    {
+        if (playerWon)
+            warGameResults.text = "You won the war!";
+        else
+            warGameResults.text = "You lost the war!";
+
+        StartCoroutine(TurnOffText(warGameResults, 3));
+    }*/
+
+    /*public void UpdateWarWinCountText()
     {
         if (playerWinCountText != null)
             playerWinCountText.text = "Player won: " + PlayerPrefs.GetInt("PlayerWinCount");
 
         if (AIWinCountText != null)
             AIWinCountText.text = "AI won: " + PlayerPrefs.GetInt("AIWinCount");
-    }
+    }*/
 
     /*#region Tutorial
     public IEnumerator WarTutorialRows()
@@ -180,7 +186,7 @@ public class UIManager : MonoBehaviour
         text.enabled = false;
     }
 
-    private IEnumerator TurnOffUIElements(float timer)
+    /*private IEnumerator TurnOffUIElements(float timer)
     {
         //match points
         playerWinCountText.enabled = false;
@@ -195,5 +201,5 @@ public class UIManager : MonoBehaviour
         //match points
         playerWinCountText.enabled = true;
         AIWinCountText.enabled = true;
-    }
+    }*/
 }

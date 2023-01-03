@@ -32,6 +32,9 @@ public class OpponentCard : Card
         //gets random health value
         health = Random.Range(1, 4);
 
+        //gets random attack value
+        attack = Random.Range(1, 3);
+
         //update text
         attackText.text = attack.ToString();
         healthText.text = health.ToString();
@@ -46,7 +49,7 @@ public class OpponentCard : Card
             //turns off text
             attackText.enabled = false;
             healthText.enabled = false;
-            
+
             outline.SetActive(false);
 
             //starts disolving the card
@@ -60,35 +63,35 @@ public class OpponentCard : Card
         }
     }
 
-    //private void OnMouseDown()
-    //{
-    //    if (!WarManager.instance.FocussingACard)
-    //    {
-    //        WarManager.instance.FocussingACard = true;
-    //        WarManager.instance.CurrentFocussedCard = gameObject;
-    //        outline.SetActive(true);
-    //    }
-    //    else if (WarManager.instance.FocussingACard)
-    //    {
-    //        for (int i = 0; i < ai.opponentsHand.Count; i++)
-    //            ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
-    //        //if (!WarManager.instance.FocussingACard)
-    //        //{
-    //        //    WarManager.instance.FocussingACard = true;
-    //        //    WarManager.instance.CurrentFocussedCard = gameObject;
-    //        //    outline.SetActive(true);
-    //        //}
-    //        //else if (WarManager.instance.FocussingACard)
-    //        //{
-    //        //    for (int i = 0; i < ai.opponentsHand.Count; i++)
-    //        //        ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
+    /*private void OnMouseDown()
+    {
+        if (!WarManager.instance.FocussingACard)
+        {
+            WarManager.instance.FocussingACard = true;
+            WarManager.instance.CurrentFocussedCard = gameObject;
+            outline.SetActive(true);
+        }
+        else if (WarManager.instance.FocussingACard)
+        {
+            for (int i = 0; i < ai.opponentsHand.Count; i++)
+                ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
+            //if (!WarManager.instance.FocussingACard)
+            //{
+            //    WarManager.instance.FocussingACard = true;
+            //    WarManager.instance.CurrentFocussedCard = gameObject;
+            //    outline.SetActive(true);
+            //}
+            //else if (WarManager.instance.FocussingACard)
+            //{
+            //    for (int i = 0; i < ai.opponentsHand.Count; i++)
+            //        ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
 
-    //        WarManager.instance.CurrentFocussedCard = gameObject;
-    //        outline.SetActive(true);
-    //        //    WarManager.instance.CurrentFocussedCard = gameObject;
-    //        //    outline.SetActive(true);
-    //        }
-    //    }
+            WarManager.instance.CurrentFocussedCard = gameObject;
+            outline.SetActive(true);
+            //    WarManager.instance.CurrentFocussedCard = gameObject;
+            //    outline.SetActive(true);
+        }
+    }*/
 
     public void UpdateCardUI()
     {
@@ -102,14 +105,16 @@ public class OpponentCard : Card
     /// </summary>
     public void AttackForward()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 3, layerToHit))
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 3, layerToHit))
         {
             objectToAttack = hit.transform;
             StartCoroutine(Curve(transform.position, hit.transform.position, false, hit));
         }
         else if (!Physics.Raycast(transform.position, -transform.up, out hit, 3, layerToHit))
+        {
             WarManager.instance.playerHealth -= attack;
+            StartCoroutine(Curve(transform.position, new Vector3(0.8f, 7.5f, -20), false, hit));
+        }
     }
 
     public IEnumerator Curve(Vector3 start, Vector3 target, bool on, RaycastHit damage)
@@ -134,7 +139,9 @@ public class OpponentCard : Card
             {
                 if (transform.position == end)
                 {
-                    damage.transform.gameObject.GetComponent<PlayerCard>().health -= attack;
+                    if (damage.transform != null)
+                        damage.transform.gameObject.GetComponent<PlayerCard>().health -= attack;
+
                     VirtualCameraSettings.instance.Hit(0.1f);
                     StartCoroutine(Curve(transform.position, nowPos, true, damage));
                     used = true;

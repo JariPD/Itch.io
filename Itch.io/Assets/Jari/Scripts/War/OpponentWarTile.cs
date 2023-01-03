@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OpponentWarTile : MonoBehaviour
@@ -11,13 +9,12 @@ public class OpponentWarTile : MonoBehaviour
     private void Update()
     {
         //get card info
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position, transform.up);
+        Ray ray = new(transform.position, transform.up);
         if (Physics.Raycast(ray, 0.25f))
         {
             if (!HasCard)
             {
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     WarManager.instance.enemyCardsInField.Add(hit.transform.gameObject);
                     CardOn = hit.transform.gameObject;

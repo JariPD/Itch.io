@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class PlayerCard : Card
@@ -15,14 +14,12 @@ public class PlayerCard : Card
     public WarTile posIn;
     [Header("Card Follow")]
     [SerializeField] private float offset;
-    
+
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI attackText;
     [SerializeField] private TextMeshProUGUI healthText;
 
     [SerializeField] private LayerMask layerToHit;
-
-    private bool goAttack = false;
 
     [SerializeField] private Transform objectToAttack;
 
@@ -35,7 +32,9 @@ public class PlayerCard : Card
         //sets cards starting position
         startPos = transform.position;
         //gets random health value
-        health = Random.Range(1, 4);
+        health = Random.Range(2, 6);
+        //gets random attack value
+        attack = Random.Range(1, 3);
         //update text
         attackText.text = attack.ToString();
         healthText.text = health.ToString();
@@ -47,16 +46,18 @@ public class PlayerCard : Card
         if (health <= 0)
         {
             health = 0;
+
             //turns off text
             attackText.enabled = false;
             healthText.enabled = false;
+
             WarManager.instance.CardSelected = false;
-            
+
             //starts disolving the card
             StartCoroutine(Disolve());
         }
-       /* if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-            StartCoroutine(ResetCardPosition(true));*/
+        /* if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
+             StartCoroutine(ResetCardPosition(true));*/
         if (WarManager.instance.PlacingCard)
             StartCoroutine(ResetCardPosition(false));
         if (posIn != null)
@@ -64,13 +65,20 @@ public class PlayerCard : Card
         else if (posIn == null && WarManager.instance.CurrentSelectedCard == this.gameObject)
             anim.SetBool("CardSelected", true);
     }
+
     private void OnMouseDown()
     {
-        if (posIn != null)
+        /* if (posIn != null)
+         {
+             posIn = null;
+         }*/
+
+        //If card is in field and clicked on destroy card
+        if (WarManager.instance.PlayerCardsInField.Contains(gameObject))
         {
-            posIn = null;
+            health = 0;
         }
-        if (!WarManager.instance.CardSelected)
+        else if (!WarManager.instance.CardSelected)
         {
             WarManager.instance.CardSelected = true;
             //set reference to current selected card
@@ -80,7 +88,10 @@ public class PlayerCard : Card
             //move up the card to indicate it being selected
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
-        else if (WarManager.instance.CurrentSelectedCard == this.gameObject)
+
+        
+        
+        /*else if (WarManager.instance.CurrentSelectedCard == this.gameObject)
         {
             WarManager.instance.CardSelected = false;
             //set reference to current selected card
@@ -89,7 +100,7 @@ public class PlayerCard : Card
             anim.SetBool("CardSelected", false);
             //move up the card to indicate it being selected
             transform.position = startPos;
-        }
+        }*/
     }
 
     public void UpdateText()
@@ -101,7 +112,6 @@ public class PlayerCard : Card
     IEnumerator ResetCardPosition(bool resetCardPos)
     {
         WarManager.instance.CardSelected = false;
-        print("reset" + this.gameObject.name);
         //set animation state
         anim.SetBool("CardSelected", false);
         //sets card back to default position
@@ -118,14 +128,16 @@ public class PlayerCard : Card
     /// </summary>
     public void AttackForward()
     {
-        RaycastHit hit;
-        if (Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out hit, 3, layerToHit))
+        if (Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out RaycastHit hit, 3, layerToHit))
         {
             objectToAttack = hit.transform;
             StartCoroutine(Curve(transform.position, hit.transform.position, false, hit));
         }
         else if (!Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out hit, 3, layerToHit))
+        {
             WarManager.instance.opponentHealth -= attack;
+            StartCoroutine(Curve(transform.position, new Vector3(0.4f, 7.5f, -8.2f), false, hit));
+        }
     }
 
     /// <summary>
@@ -136,12 +148,6 @@ public class PlayerCard : Card
         //update text
         attackText.text = attack.ToString();
         healthText.text = health.ToString();
-    }
-
-    private void OnDrawGizmos()
-    {
-        Vector3 forward = transform.TransformDirection(Vector3.up) * 3f;
-        Debug.DrawRay(transform.position, forward, Color.red);
     }
 
     public IEnumerator Curve(Vector3 start, Vector3 target, bool on, RaycastHit damage)
@@ -166,7 +172,9 @@ public class PlayerCard : Card
             {
                 if (transform.position == end)
                 {
-                    damage.transform.gameObject.GetComponent<OpponentCard>().health -= attack;
+                    if (damage.transform != null)
+                        damage.transform.gameObject.GetComponent<OpponentCard>().health -= attack;
+
                     VirtualCameraSettings.instance.Hit(0.1f);
                     StartCoroutine(Curve(transform.position, nowPos, true, damage));
                     used = true;
@@ -174,5 +182,11 @@ public class PlayerCard : Card
             }
             yield return null;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 forward = transform.TransformDirection(Vector3.up) * 3f;
+        Debug.DrawRay(transform.position, forward, Color.red);
     }
 }
