@@ -29,12 +29,15 @@ public class PlayerCard : Card
     private void Start()
     {
         anim = GetComponent<Animator>();
+
         //sets cards starting position
         startPos = transform.position;
+
         //gets random health value
-        health = Random.Range(2, 6);
+        health = Random.Range(2, 7);
         //gets random attack value
         attack = Random.Range(1, 3);
+
         //update text
         attackText.text = attack.ToString();
         healthText.text = health.ToString();
@@ -56,8 +59,7 @@ public class PlayerCard : Card
             //starts disolving the card
             StartCoroutine(Disolve());
         }
-        /* if (Input.GetMouseButtonDown(1) && WarManager.instance.CardSelected)
-             StartCoroutine(ResetCardPosition(true));*/
+
         if (WarManager.instance.PlacingCard)
             StartCoroutine(ResetCardPosition(false));
         if (posIn != null)
@@ -68,11 +70,6 @@ public class PlayerCard : Card
 
     private void OnMouseDown()
     {
-        /* if (posIn != null)
-         {
-             posIn = null;
-         }*/
-
         //If card is in field and clicked on destroy card
         if (WarManager.instance.PlayerCardsInField.Contains(gameObject))
         {
@@ -88,19 +85,6 @@ public class PlayerCard : Card
             //move up the card to indicate it being selected
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
-
-        
-        
-        /*else if (WarManager.instance.CurrentSelectedCard == this.gameObject)
-        {
-            WarManager.instance.CardSelected = false;
-            //set reference to current selected card
-            WarManager.instance.CurrentSelectedCard = null;
-            //set animation states
-            anim.SetBool("CardSelected", false);
-            //move up the card to indicate it being selected
-            transform.position = startPos;
-        }*/
     }
 
     public void UpdateText()
@@ -135,8 +119,8 @@ public class PlayerCard : Card
         }
         else if (!Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out hit, 3, layerToHit))
         {
-            WarManager.instance.opponentHealth -= attack;
             StartCoroutine(Curve(transform.position, new Vector3(0.4f, 7.5f, -8.2f), false, hit));
+            WarManager.instance.opponentHealth -= attack;
         }
     }
 
@@ -174,6 +158,11 @@ public class PlayerCard : Card
                 {
                     if (damage.transform != null)
                         damage.transform.gameObject.GetComponent<OpponentCard>().health -= attack;
+
+                    if (damage.transform != null && damage.transform.gameObject.GetComponent<OpponentCard>().health != 0)
+                        WarManager.instance.audioManager.Play("CardHit");
+                    else if (Vector3.Distance(transform.position, new Vector3(0.4f, 7.5f, -8.2f)) <= 0.1f)
+                        WarManager.instance.audioManager.Play("CardHit");
 
                     VirtualCameraSettings.instance.Hit(0.1f);
                     StartCoroutine(Curve(transform.position, nowPos, true, damage));

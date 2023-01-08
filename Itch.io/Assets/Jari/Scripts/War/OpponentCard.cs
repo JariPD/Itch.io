@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class OpponentCard : Card
 {
-
     [SerializeField] private AnimationCurve movementCurve;
-    [SerializeField] private GameObject outline;
     private WarAI ai;
     public OpponentWarTile posIn;
 
@@ -30,8 +28,7 @@ public class OpponentCard : Card
         ai = FindObjectOfType<WarAI>();
 
         //gets random health value
-        health = Random.Range(1, 4);
-
+        health = Random.Range(1, 7);
         //gets random attack value
         attack = Random.Range(1, 3);
 
@@ -50,48 +47,10 @@ public class OpponentCard : Card
             attackText.enabled = false;
             healthText.enabled = false;
 
-            outline.SetActive(false);
-
             //starts disolving the card
             StartCoroutine(Disolve());
         }
-
-        if (WarManager.instance.CurrentFocussedCard == null)
-        {
-            for (int i = 0; i < ai.opponentsHand.Count; i++)
-                ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
-        }
     }
-
-    /*private void OnMouseDown()
-    {
-        if (!WarManager.instance.FocussingACard)
-        {
-            WarManager.instance.FocussingACard = true;
-            WarManager.instance.CurrentFocussedCard = gameObject;
-            outline.SetActive(true);
-        }
-        else if (WarManager.instance.FocussingACard)
-        {
-            for (int i = 0; i < ai.opponentsHand.Count; i++)
-                ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
-            //if (!WarManager.instance.FocussingACard)
-            //{
-            //    WarManager.instance.FocussingACard = true;
-            //    WarManager.instance.CurrentFocussedCard = gameObject;
-            //    outline.SetActive(true);
-            //}
-            //else if (WarManager.instance.FocussingACard)
-            //{
-            //    for (int i = 0; i < ai.opponentsHand.Count; i++)
-            //        ai.opponentsHand[i].GetComponent<OpponentCard>().outline.SetActive(false);
-
-            WarManager.instance.CurrentFocussedCard = gameObject;
-            outline.SetActive(true);
-            //    WarManager.instance.CurrentFocussedCard = gameObject;
-            //    outline.SetActive(true);
-        }
-    }*/
 
     public void UpdateCardUI()
     {
@@ -142,6 +101,11 @@ public class OpponentCard : Card
                     if (damage.transform != null)
                         damage.transform.gameObject.GetComponent<PlayerCard>().health -= attack;
 
+                    if (damage.transform != null && damage.transform.gameObject.GetComponent<PlayerCard>().health != 0)
+                        WarManager.instance.audioManager.Play("CardHit");
+                    else if (Vector3.Distance(transform.position, new Vector3(0.8f, 7.5f, -20)) <= 0.1f)
+                        WarManager.instance.audioManager.Play("CardHit");
+                    
                     VirtualCameraSettings.instance.Hit(0.1f);
                     StartCoroutine(Curve(transform.position, nowPos, true, damage));
                     used = true;

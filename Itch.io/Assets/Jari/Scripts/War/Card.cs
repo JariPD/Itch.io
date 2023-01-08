@@ -6,8 +6,8 @@ public class Card : MonoBehaviour
     protected Animator anim;
 
     [Header("Card Info")]
-    public int attack = 1;
-    public int health = 2;
+    public int attack;
+    public int health;
 
     /// <summary>
     /// IEnumerator that disolves the card
@@ -15,10 +15,8 @@ public class Card : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator Disolve()
     {
-        //clear focused card reference and set focused bool to false
-        WarManager.instance.CurrentFocussedCard = null;
-        WarManager.instance.FocussingACard = false;
-
+        WarManager.instance.audioManager.Play("CardDisolve");
+        
         //set animation states
         anim.SetBool("CardSelected", false);
         anim.SetTrigger("Disolve");
