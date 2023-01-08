@@ -4801,7 +4801,7 @@ MonoBehaviour:
     PlayOnAwake: 0
     source: {fileID: 0}
   - name: CardHit
-    clip: {fileID: 8300000, guid: d543805ecdcf26f469e1a023fb7c710f, type: 3}
+    clip: {fileID: 8300000, guid: 41ff57c5dffa90a4fae9d347cc2b89a2, type: 3}
     Position: {fileID: 0}
     Volume: 0.8
     Pitch: 0.8
