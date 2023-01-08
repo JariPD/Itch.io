@@ -42,14 +42,7 @@ public class OpponentCard : Card
         UpdateCardUI();
 
         if (health <= 0)
-        {
-            //turns off text
-            attackText.enabled = false;
-            healthText.enabled = false;
-
-            //starts disolving the card
-            StartCoroutine(Disolve());
-        }
+            StartCoroutine(Disolve()); //starts disolving the card
     }
 
     public void UpdateCardUI()

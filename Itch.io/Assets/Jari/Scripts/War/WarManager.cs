@@ -303,10 +303,15 @@ public class WarManager : MonoBehaviour
     {
         if (CurrentSelectedCard != null)
         {
-            audioManager.Play("Hover");
+            audioManager.Play("CardHover");
             CurrentSelectedCard.transform.position = newPos;
             CurrentSelectedCard.GetComponent<BoxCollider>().enabled = false;
         }
+    }
+
+    public void PlaySound(string name)
+    {
+        audioManager.Play(name);
     }
 
     private IEnumerator WonGame()

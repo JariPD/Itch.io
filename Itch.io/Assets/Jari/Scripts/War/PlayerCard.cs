@@ -50,10 +50,6 @@ public class PlayerCard : Card
         {
             health = 0;
 
-            //turns off text
-            attackText.enabled = false;
-            healthText.enabled = false;
-
             WarManager.instance.CardSelected = false;
 
             //starts disolving the card
@@ -77,11 +73,14 @@ public class PlayerCard : Card
         }
         else if (!WarManager.instance.CardSelected)
         {
+            //play sound
+            AudioManager.instance.Play("CardPickup");
+            //set animation states
+            anim.SetBool("CardSelected", true);
             WarManager.instance.CardSelected = true;
             //set reference to current selected card
             WarManager.instance.CurrentSelectedCard = gameObject;
-            //set animation states
-            anim.SetBool("CardSelected", true);
+            
             //move up the card to indicate it being selected
             transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         }
