@@ -8,10 +8,8 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [Header("References")]
-    [SerializeField] private AudioManager audioManager;
     [SerializeField] private BlackJackManager blackJackManager;
     [SerializeField] private WarManager warManager;
-    [SerializeField] private CheckForCardsOnField checkForCardsOnField;
 
     [Header("Black Jack Text Objects")]
     [SerializeField] private TextMeshProUGUI userCardValueText;
@@ -72,14 +70,14 @@ public class UIManager : MonoBehaviour
         else
         {
             StartCoroutine(TurnOffText(opponentDiceRollText, 3));
-            opponentDiceRollText.text = "Opponent rolled: " + diceValue.ToString();
+            opponentDiceRollText.text = "??? rolled: " + diceValue.ToString();
         }
     }
 
     public void UpdateWarHealth(int player, int enemy)
     {
-        playerHealth.text = "Player Health: - " + player;
-        enemyHealth.text = "??? Health: - " + enemy;
+        playerHealth.text = "" + player;
+        enemyHealth.text = "" + enemy;
     }
 
     public void TurnButton(bool active)
@@ -92,92 +90,7 @@ public class UIManager : MonoBehaviour
         if (throwDiceButton != null)
             Destroy(throwDiceButton.gameObject);
     }
-
-
-    /*public void WarGameResults(bool playerWon)
-    {
-        if (playerWon)
-            warGameResults.text = "You won the war!";
-        else
-            warGameResults.text = "You lost the war!";
-
-        StartCoroutine(TurnOffText(warGameResults, 3));
-    }*/
-
-    /*public void UpdateWarWinCountText()
-    {
-        if (playerWinCountText != null)
-            playerWinCountText.text = "Player won: " + PlayerPrefs.GetInt("PlayerWinCount");
-
-        if (AIWinCountText != null)
-            AIWinCountText.text = "AI won: " + PlayerPrefs.GetInt("AIWinCount");
-    }*/
-
-    /*#region Tutorial
-    public IEnumerator WarTutorialRows()
-    {
-        warRowsCount = PlayerPrefs.GetInt("WarTutorialRows", warRowsCount);
-
-        if (warRowsCount <= 0)
-        {
-            StartCoroutine(TurnOffUIElements(20));
-
-            //play defending row voiceline
-            audioManager.Play("Defending");
-            defendingRowPanel.SetActive(true);
-
-            yield return new WaitForSeconds(7.5f);
-
-            defendingRowPanel.SetActive(false);
-
-            //play attacking row voiceline
-            audioManager.Play("Attacking");
-            attackingRowPanel.SetActive(true);
-
-            yield return new WaitForSeconds(7.5f);
-
-            attackingRowPanel.SetActive(false);
-
-            audioManager.Play("Placing");
-            placeCardText.SetActive(true);
-
-            yield return new WaitForSeconds(5f);
-            
-            placeCardText.SetActive(false);
-
-            TurnButton(true);
-
-            warRowsCount++;
-            PlayerPrefs.SetInt("WarTutorialRows", warRowsCount);
-        }
-    }
-
-    public IEnumerator FocusTutorial()
-    {
-        //set playerpref
-        focusTextCount = PlayerPrefs.GetInt("FocusTutorial", focusTextCount);
-        if (focusTextCount <= 0)
-        {
-            audioManager.Play("Focus");
-            focusPanel.SetActive(true);
-
-            //starts coroutine to turn off ui elements to make tutorial more clear
-            StartCoroutine(TurnOffUIElements(10));
-
-            yield return new WaitForSeconds(5);
-
-            audioManager.Play("Lose");
-
-            yield return new WaitForSeconds(5);
-
-            focusPanel.SetActive(false);
-        }
-
-        focusTextCount++;
-        PlayerPrefs.SetInt("FocusTutorial", focusTextCount);
-    }
-
-    #endregion*/
+    
     #endregion
 
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
@@ -185,21 +98,4 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(time);
         text.enabled = false;
     }
-
-    /*private IEnumerator TurnOffUIElements(float timer)
-    {
-        //match points
-        playerWinCountText.enabled = false;
-        AIWinCountText.enabled = false;
-
-        //dice roll text
-        opponentDiceRollText.enabled = false;
-        diceRollText.enabled = false;
-
-        yield return new WaitForSeconds(timer);
-
-        //match points
-        playerWinCountText.enabled = true;
-        AIWinCountText.enabled = true;
-    }*/
 }

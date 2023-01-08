@@ -4,9 +4,7 @@ using UnityEngine;
 public class WarTile : MonoBehaviour
 {
     public bool HasCard = false;
-    [SerializeField] private GameObject CardOn;
-
-    private Vector3 startPos;
+    private GameObject CardOn;
 
     private void Update()
     {
@@ -18,11 +16,6 @@ public class WarTile : MonoBehaviour
             {
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
-                    /*for (int i = WarManager.instance.playersHand.IndexOf(hit.transform.gameObject); i > WarManager.instance.playersHand.Count; i++)
-                    {
-                        WarManager.instance.placeToSpawn = i;
-                    }*/
-                    
                     WarManager.instance.playersHand.Remove(hit.transform.gameObject);
                     WarManager.instance.PlayerCardsInField.Add(hit.transform.gameObject);
                     CardOn = hit.transform.gameObject;
@@ -47,32 +40,16 @@ public class WarTile : MonoBehaviour
         if (!HasCard)
         {
             //places card on tile if card is selected
-            if (WarManager.instance.CardSelected)
-            {
-                WarManager.instance.PlacePlayerCard(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
-                StartCoroutine(ResetPlacingCard());
-            }
+            WarManager.instance.PlacePlayerCard(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
+            StartCoroutine(ResetPlacingCard());
         }
     }
 
     private void OnMouseEnter()
     {
-        if (WarManager.instance.CurrentSelectedCard != null && !HasCard)
-        {
-            startPos = WarManager.instance.CurrentSelectedCard.transform.position;
-
-            WarManager.instance.CurrentSelectedCard.transform.position = new Vector3(transform.position.x, transform.position.y + .2f, transform.position.z);
-            WarManager.instance.CurrentSelectedCard.GetComponent<BoxCollider>().enabled = false; 
-        }
+        if (!HasCard)
+            WarManager.instance.PlayerTileHover(new Vector3(transform.position.x, transform.position.y + .2f, transform.position.z));
     }
-
-    /*private void OnMouseExit()
-    {
-        if (WarManager.instance.CurrentSelectedCard != null)
-        {
-            WarManager.instance.CurrentSelectedCard.transform.position = startPos;
-        }
-    }*/
 
     IEnumerator ResetPlacingCard()
     {
