@@ -5,7 +5,7 @@ using UnityEngine;
 public class OpponentCard : Card
 {
     [SerializeField] private AnimationCurve movementCurve;
-    private WarAI ai;
+    private WarOpponentCardPlace ai;
     public OpponentWarTile posIn;
 
     [Header("Text")]
@@ -25,10 +25,10 @@ public class OpponentCard : Card
 
     private void Start()
     {
-        ai = FindObjectOfType<WarAI>();
+        ai = FindObjectOfType<WarOpponentCardPlace>();
 
         //gets random health value
-        health = Random.Range(1, 7);
+        health = Random.Range(1, 6);
         //gets random attack value
         attack = Random.Range(1, 3);
 

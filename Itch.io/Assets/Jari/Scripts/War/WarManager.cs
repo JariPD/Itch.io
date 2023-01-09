@@ -13,7 +13,8 @@ public class WarManager : MonoBehaviour
     public AudioManager audioManager;
     [SerializeField] private Transform[] cardSpawnPos;                   //spawn positions for cards
     [SerializeField] private GameObject card, opponentCard;              //cards prefabs
-    private WarAI warAI;
+    [SerializeField] private GameObject[] allObjectsInScene;
+    private WarOpponentCardPlace warAI;
 
     [Header("Card Placement")]
     public List<GameObject> PlayerCardsInField = new(); //all playercards in field
@@ -24,6 +25,7 @@ public class WarManager : MonoBehaviour
     public int placeToSpawn;
     public int diceRoll;
 
+    private bool winCoroutine = true;
     private bool isPlayerTurn = true;
     private int turnCount = 0;
     private int count = 0;
@@ -45,7 +47,7 @@ public class WarManager : MonoBehaviour
         instance = this;
 
         //gets components
-        warAI = GetComponent<WarAI>();
+        warAI = GetComponent<WarOpponentCardPlace>();
         //checkForCardsOnField = GetComponent<CheckForCardsOnField>();
 
         //sets health
@@ -76,7 +78,9 @@ public class WarManager : MonoBehaviour
         if (opponentHealth <= 0)
         {
             opponentHealth = 0;
-            StartCoroutine(WonGame());
+
+            if (winCoroutine)
+                StartCoroutine(WonGame());
         }
         if (playerHealth <= 0)
         {
@@ -105,34 +109,31 @@ public class WarManager : MonoBehaviour
 
         //------------------------------------------------------------------- player dice logic -------------------------------------------------------------------\\
 
-        if (isPlayerTurn)
+        if (isPlayerTurn && playersHand.Count < 6 && winCoroutine) //check if it is the players turn and the player does not have a full hand
         {
-            if (playersHand.Count < 6) //check if players hand is not already full
+            //loop trough the dice roll and give cards to the player
+            for (int i = 0; i < diceRoll; i++)
             {
-                //loop trough the dice roll and give cards to the player
-                for (int i = 0; i < diceRoll; i++)
+                if (diceRoll >= 2)
                 {
-                    if (diceRoll >= 2)
+                    //if diceroll is 2 or more spawn cards based on count
+                    placeToSpawn = playersHand.Count;
+                }
+                else
+                {
+                    for (int a = 0; a < cardSpawnPos.Length; a++) //loops trough the possible spawn positions
                     {
-                        //if diceroll is 2 or more spawn cards based on count
-                        placeToSpawn = playersHand.Count;
-                    }
-                    else
-                    {
-                        for (int a = 0; a < cardSpawnPos.Length; a++) //loops trough the possible spawn positions
+                        if (!cardSpawnPos[a].GetComponent<CardCheck>().HasCard) //check if place to spawn does not already have a card
                         {
-                            if (!cardSpawnPos[a].GetComponent<CardCheck>().HasCard) //check if place to spawn does not already have a card
-                            {
-                                //sets spawn pos to current pos in the loop
-                                placeToSpawn = a;
-                                break;
-                            }
+                            //sets spawn pos to current pos in the loop
+                            placeToSpawn = a;
+                            break;
                         }
                     }
-
-                    //instantiates players cards
-                    playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[placeToSpawn].position.x, cardSpawnPos[placeToSpawn].position.y - .2f, cardSpawnPos[placeToSpawn].position.z), cardSpawnPos[placeToSpawn].rotation));
                 }
+
+                //instantiates players cards
+                playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[placeToSpawn].position.x, cardSpawnPos[placeToSpawn].position.y - .2f, cardSpawnPos[placeToSpawn].position.z), cardSpawnPos[placeToSpawn].rotation));
             }
 
             //updates the dice roll text
@@ -143,7 +144,7 @@ public class WarManager : MonoBehaviour
         }
         else if (!isPlayerTurn)  //-------------------------------------------- opponent dice logic ---------------------------------------------\\
         {
-            if (enemyCardsInField.Count != 4)
+            if (enemyCardsInField.Count != 4 && winCoroutine)
             {
                 //loop trough the dice roll and give cards to the opponent
                 for (int i = 0; i < diceRoll; i++)
@@ -221,18 +222,6 @@ public class WarManager : MonoBehaviour
             StartCoroutine(TradingAttack());
     }
 
-    /*private IEnumerator AttackInterval(List<GameObject> playerCards)
-    {
-        foreach (var item in playerCards)
-        {
-            item.GetComponent<PlayerCard>().AttackForward();
-
-            yield return new WaitForSeconds(1);
-        }
-
-        StartCoroutine(AttackInterval(PlayerCardsInField));
-    }*/
-
     /// <summary>
     /// first player can attack then opponent can attack
     /// </summary>
@@ -255,7 +244,7 @@ public class WarManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         usable = true;
-        if (usable)
+        if (usable && winCoroutine)
         {
             for (int i = 0; i < enemyCardsInField.Count; i++)
                 enemyCardsInField[i].GetComponent<OpponentCard>().AttackForward();
@@ -316,18 +305,39 @@ public class WarManager : MonoBehaviour
 
     private IEnumerator WonGame()
     {
-        print("You Win");
+        winCoroutine = false;
         //do animation or transition
+
+        yield return new WaitForSeconds(5);
+
+        for (int i = 0; i < playersHand.Count; i++)
+            playersHand[i].GetComponent<PlayerCard>().health = 0;
+
+        for (int i = 0; i < PlayerCardsInField.Count; i++)
+            PlayerCardsInField[i].GetComponent<PlayerCard>().health = 0;
+
+        for (int i = 0; i < warAI.opponentsHand.Count; i++)
+            warAI.opponentsHand[i].GetComponent<OpponentCard>().health = 0;
+
+        for (int i = 0; i < enemyCardsInField.Count; i++)
+            enemyCardsInField[i].GetComponent<OpponentCard>().health = 0;
+
+        yield return new WaitForSeconds(5f);
+
+        for (int i = 0; i < allObjectsInScene.Length; i++)
+            allObjectsInScene[i].SetActive(false);
+
+        isPlayerTurn = true;
 
         yield return new WaitForSeconds(5);
         //switch scene
 
-        int index = 1;
+        int index = 3;
         int loadedScene = index;
         SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
-        index = 2;
-        SceneManager.UnloadSceneAsync(loadedScene);
-        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+        ///*index*/ = 3;
+        //SceneManager.UnloadSceneAsync(loadedScene);
+        //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
 
         yield return null;
     }

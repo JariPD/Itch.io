@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WarAI : MonoBehaviour
+public class WarOpponentCardPlace : MonoBehaviour
 {
-    [Header("AI")]
+    [Header("Settings")]
     public Transform[] opponentHandSpawnPos;
     public GameObject[] enemyGrid;
     public List<GameObject> opponentsHand;

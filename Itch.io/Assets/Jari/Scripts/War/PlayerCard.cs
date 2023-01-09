@@ -34,7 +34,7 @@ public class PlayerCard : Card
         startPos = transform.position;
 
         //gets random health value
-        health = Random.Range(2, 7);
+        health = Random.Range(3, 7);
         //gets random attack value
         attack = Random.Range(1, 3);
 

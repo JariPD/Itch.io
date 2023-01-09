@@ -11040,6 +11040,17 @@ MonoBehaviour:
   card: {fileID: 1498674024420648602, guid: 80858b235152988428edc6d8cd6e0628, type: 3}
   opponentCard: {fileID: 1498674024420648602, guid: c2c8f7003ee676c4788b327d9d47447d,
     type: 3}
+  allObjectsInScene:
+  - {fileID: 2043269439}
+  - {fileID: 902858823}
+  - {fileID: 294919400}
+  - {fileID: 1267410883}
+  - {fileID: 146446873}
+  - {fileID: 2077512744}
+  - {fileID: 1591373406}
+  - {fileID: 100201321}
+  - {fileID: 1292321252}
+  - {fileID: 278691945}
   PlayerCardsInField: []
   enemyCardsInField: []
   CurrentSelectedCard: {fileID: 0}
