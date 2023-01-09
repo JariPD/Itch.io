@@ -27,8 +27,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject focusPanel;
     [SerializeField] private GameObject attackingRowPanel, defendingRowPanel;
     [SerializeField] private GameObject placeCardText;
-    private int focusTextCount = 0;
-    private int warRowsCount = 0;
 
     [Header("Buttons")]
     [SerializeField] private Button throwDiceButton;
