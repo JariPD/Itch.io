@@ -14,7 +14,7 @@ public class Glow : MonoBehaviour
             glow.SetActive(false);
     }
 
-    private void OnMouseEnter()
+    private void OnMouseOver()
     {
         if (interactable.interactable == true)
             glow.SetActive(true);

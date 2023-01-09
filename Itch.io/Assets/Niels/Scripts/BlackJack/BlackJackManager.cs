@@ -12,6 +12,7 @@ public class BlackJackManager : MonoBehaviour
     [Header("Game Info")]
     public int PlayerPoints = 0;
     public int OpponentPoints = 0;
+    [SerializeField] private Animator room;
     [SerializeField] private List<GameObject> objectsOff = new List<GameObject>();
 
     [Header("Movement")]
@@ -100,7 +101,7 @@ public class BlackJackManager : MonoBehaviour
                 for (int i = 0; i < cheatCards.Count; i++)
                     cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
-        if (PlayerPoints == 1)
+        if (PlayerPoints == 5)
         {
             StartCoroutine(WonGame());
             PlayerPoints = 6;
@@ -266,20 +267,42 @@ public class BlackJackManager : MonoBehaviour
     {
         print("You Win");
         //do animation or transition
+        room.SetBool("Next", true);
+
+        for (int i = 0; i < playerDeckObj.Count; i++)
+            playerDeckObj[i].SetActive(false);
+
+        for (int i = 0; i < OpponentDeckObj.Count; i++)
+        {
+            OpponentDeckObj[i].GetComponent<Animator>().Play("CardDissolve");
+        }
+
+        buttonMove.SetBool("State", true);
+
+        deckAnim.Play("DissolveDeck");
+
+        for (int i = 0; i < cheatCards.Count; i++)
+        {
+            cheatCards[i].GetComponent<Animator>().Play("CardDissolve");
+        }
 
         yield return new WaitForSeconds(5);
+
         //switch scene
-
-        int index = 1;
-        int lodedScene = index;
+        int index = 2;
+        //int lodedScene = index;
         SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
-        index = 2;
-        SceneManager.UnloadSceneAsync(lodedScene);
-        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+        //index = 2;
+        //SceneManager.UnloadSceneAsync(lodedScene);
+        //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
 
-        ////turn off all objects in last scene
-        //for (int i = 0; i < objectsOff.Count; i++)
-        //    objectsOff[i].SetActive(false);
+
+
+        //turn off all objects in last scene
+        for (int i = 0; i < objectsOff.Count; i++)
+        {
+            objectsOff[i].SetActive(false);
+        }
 
         yield return null;
     }
