@@ -228,7 +228,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4691422}
-  m_LocalRotation: {x: 0.0046324083, y: 0.9704527, z: 0.2412432, w: -0.0013318144}
+  m_LocalRotation: {x: 0.0046322597, y: 0.9704528, z: 0.24124315, w: -0.0013317725}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1076,7 +1076,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 896556692}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 50
+    FieldOfView: 75
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1998,7 +1998,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286061192}
-  m_LocalRotation: {x: 0.004548109, y: 0.98270917, z: 0.18509331, w: -0.0015956927}
+  m_LocalRotation: {x: 0.0045482917, y: 0.98270917, z: 0.18509331, w: -0.0015957569}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13178,8 +13178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 0.5
-  m_FrequencyGain: 0.5
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 0
   mNoiseOffsets: {x: 915.83105, y: -678.6771, z: 76.63736}
 --- !u!114 &622509110
 MonoBehaviour:
@@ -13203,7 +13203,7 @@ MonoBehaviour:
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
     m_InvertInput: 1
-    m_MinValue: 18.5
+    m_MinValue: 22.5
     m_MaxValue: 70
     m_Wrap: 0
     m_Recentering:
@@ -14060,8 +14060,8 @@ MonoBehaviour:
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
     m_InvertInput: 1
-    m_MinValue: 60
-    m_MaxValue: 70
+    m_MinValue: 89
+    m_MaxValue: 100
     m_Wrap: 0
     m_Recentering:
       m_enabled: 0
@@ -14114,8 +14114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 0.5
-  m_FrequencyGain: 0.5
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 0
   mNoiseOffsets: {x: 915.83105, y: -678.6771, z: 76.63736}
 --- !u!114 &766110686
 MonoBehaviour:
@@ -21932,7 +21932,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1398023901
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22297,7 +22297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1511291547
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23656,7 +23656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1745373404
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29645,7 +29645,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113768185}
-  m_LocalRotation: {x: 0.004592222, y: 0.97696406, z: 0.2133494, w: -0.0014639003}
+  m_LocalRotation: {x: 0.0045924233, y: 0.97696406, z: 0.2133494, w: -0.0014639643}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
