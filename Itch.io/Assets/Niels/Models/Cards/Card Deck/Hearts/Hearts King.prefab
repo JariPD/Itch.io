@@ -111,9 +111,9 @@ GameObject:
   - component: {fileID: 9025660359057681070}
   - component: {fileID: 2695767379563235493}
   - component: {fileID: 3080658455441434929}
-  - component: {fileID: -6745792377844721196}
+  - component: {fileID: -7098304167095159899}
   m_Layer: 0
-  m_Name: Hearts 4
+  m_Name: Hearts King
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,7 +163,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a9b4706e55388ec4594d89ecbc0ed9c5, type: 2}
+  - {fileID: 2100000, guid: b01ae0f958c124c44bdaa70429b15c7a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,7 +230,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-6745792377844721196
+--- !u!114 &-7098304167095159899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -242,4 +242,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0dfd4825ab0ab42b45c997ffa2e0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardNumberValue: 4
+  CardNumberValue: 10
