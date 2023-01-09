@@ -64,11 +64,16 @@ public class WarManager : MonoBehaviour
     {
         //move camera above playing field when placing card
         if (CardSelected)
+        {
             StartCoroutine(SeeCards());
+            attackButton.interactable = false;
+        }
         else
         {
             if (MainCam.position == vCamTwo.position)
                 vCamOne.SetActive(true);
+
+            attackButton.interactable = true;
         }
 
         if (CurrentSelectedCard == null)

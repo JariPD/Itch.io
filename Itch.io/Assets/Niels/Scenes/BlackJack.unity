@@ -846,10 +846,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f1f7c123931a14da54a18c4c75b376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
   blackJackManager: {fileID: 1148896275}
   warManager: {fileID: 0}
-  checkForCardsOnField: {fileID: 0}
   userCardValueText: {fileID: 776825133}
   opponentCardValueText: {fileID: 602561551}
   opponentMatchPoints: {fileID: 1940056786}
@@ -14904,7 +14902,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982195262}
-  m_LocalRotation: {x: 0.00075072673, y: 0.98950344, z: 0.14450167, w: -0.0012589344}
+  m_LocalRotation: {x: 0.00075070537, y: 0.98950344, z: 0.1445017, w: -0.0012588984}
   m_LocalPosition: {x: 0.06, y: -5.49, z: 18.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
