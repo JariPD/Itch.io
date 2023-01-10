@@ -40,6 +40,15 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        if (opponentMatchPoints != null && playerMatchPoints != null)
+        {
+            opponentMatchPoints.text = "Opponent Points: " + blackJackManager.PlayerPoints;
+            playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
+        }
+    }
+
     void Update()
     {
         //updates total card values text
@@ -49,10 +58,22 @@ public class UIManager : MonoBehaviour
             opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
         }
 
-        if (opponentMatchPoints != null && playerMatchPoints != null)
+        //if (opponentMatchPoints != null && playerMatchPoints != null)
+        //{
+        //    opponentMatchPoints.text = "Opponent Points: " + blackJackManager.OpponentPoints;
+        //    playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
+        //}
+    }
+
+    public void UpdateScore(bool PlayerOpponnent)
+    {
+        if (PlayerOpponnent)
         {
-            opponentMatchPoints.text = "Opponent Points: " + blackJackManager.OpponentPoints;
-            playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
+            StartCoroutine(PlayerScoreChange());
+        }
+        else
+        {
+            StartCoroutine(OpponentScoreChange());
         }
     }
 
@@ -95,5 +116,26 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         text.enabled = false;
+    }
+
+    private IEnumerator PlayerScoreChange()
+    {
+        playerMatchPoints.gameObject.GetComponent<Animator>().Play("ScoreChange");
+        yield return new WaitForSeconds(0.5f);
+        if (opponentMatchPoints != null && playerMatchPoints != null)
+        {
+            playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
+        }
+    }   
+
+    private IEnumerator OpponentScoreChange()
+    {
+        yield return new WaitForSeconds(0.5f);
+        opponentMatchPoints.gameObject.GetComponent<Animator>().Play("ScoreChange");
+        yield return new WaitForSeconds(0.5f);
+        if (opponentMatchPoints != null && playerMatchPoints != null)
+        {
+            opponentMatchPoints.text = "Opponent Points: " + blackJackManager.OpponentPoints;
+        }
     }
 }
