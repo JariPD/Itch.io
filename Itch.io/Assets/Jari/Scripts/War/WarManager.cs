@@ -34,7 +34,7 @@ public class WarManager : MonoBehaviour
     public List<GameObject> playersHand;               //players hand - used to keep track of the cards in the players hand
     public int playerHealth, opponentHealth;                             //health of the player and opponent
     [SerializeField] private Button attackButton;
-    private readonly int maxPlayerHealth = 20, maxOpponentHealth = 20;   //max health of the player and opponent
+    private readonly int maxPlayerHealth = 25, maxOpponentHealth = 25;   //max health of the player and opponent
 
     [Header("Movement")]
     [SerializeField] private GameObject vCamOne;
