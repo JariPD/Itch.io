@@ -41,9 +41,9 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        //for (int i = 0; i < Sounds.Length; i++)
-        //    if (Sounds[i].source.transform.position != null)
-        //        Sounds[i].source.transform.position = Sounds[i].Position.transform.position;
+        for (int i = 0; i < Sounds.Length; i++)
+            if (Sounds[i].source.transform.position != null)
+                Sounds[i].source.transform.position = Sounds[i].Position.transform.position;
     }
 
     public void Play(string _name)

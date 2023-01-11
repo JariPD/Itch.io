@@ -76,6 +76,7 @@ public class BlackJackManager : MonoBehaviour
     private int cheatCardAmount = 0;
 
     private bool cheatInfo = true;
+    private bool cheatAudio = false;
 
     private void Awake()
     {
@@ -296,8 +297,6 @@ public class BlackJackManager : MonoBehaviour
         //SceneManager.UnloadSceneAsync(lodedScene);
         //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
 
-
-
         //turn off all objects in last scene
         for (int i = 0; i < objectsOff.Count; i++)
         {
@@ -325,11 +324,13 @@ public class BlackJackManager : MonoBehaviour
     /// </summary>
     public void Win()
     {
+        print("Win");
         StartCoroutine(RestartGame());
         PlayerPoints++;
         win.SetActive(true);
         ButtonSwitch();
         useCam = true;
+        UIManager.instance.UpdateScore(true);
     }
 
     /// <summary>
@@ -337,6 +338,7 @@ public class BlackJackManager : MonoBehaviour
     /// </summary>
     private void Draw()
     {
+        print("draw");
         StartCoroutine(RestartGame());
         draw.SetActive(true);
         ButtonSwitch();
@@ -348,11 +350,13 @@ public class BlackJackManager : MonoBehaviour
     /// </summary>
     private void Lose()
     {
+        print("lose");
         StartCoroutine(RestartGame());
         OpponentPoints++;
         lose.SetActive(true);
         ButtonSwitch();
         useCam = true;
+        UIManager.instance.UpdateScore(false);
     }
 
     /// <summary>
@@ -375,7 +379,7 @@ public class BlackJackManager : MonoBehaviour
 
         //if player has equal points as opponent: draw match
         if (UserTotalCardValue == OpponentTotalCardValue && UserTotalCardValue < totalMaxValue && OpponentTotalCardValue < totalMaxValue)
-            Draw();
+            Lose();
 
         //check if opponent and player are below max value
         if (OpponentTotalCardValue < totalMaxValue && UserTotalCardValue < totalMaxValue)
@@ -507,7 +511,7 @@ public class BlackJackManager : MonoBehaviour
             CheatPos.localPosition = new Vector3(-3.02983499f, -0.420009136f, 7.08006763f);
         }
         useCam = false;
-        ButtonSwitch();
+        InteractableSwitch();
 
         //if opponent has more then 17 total points he choses if he plays on after player has folded out
         if (OpponentTotalCardValue > 17)
@@ -533,6 +537,12 @@ public class BlackJackManager : MonoBehaviour
     {
         if (cheatCardChance == 0)
         {
+            if (cheatAudio == false)
+            {
+                AudioManager.instance.Play("CheatCard");
+                cheatAudio = true;
+            }
+
             StartCoroutine(CheatCardAddDeck());
             if (cheatInfo)
             {
