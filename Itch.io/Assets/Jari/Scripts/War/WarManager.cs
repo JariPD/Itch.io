@@ -48,7 +48,6 @@ public class WarManager : MonoBehaviour
 
         //gets components
         warAI = GetComponent<WarOpponentCardPlace>();
-        //checkForCardsOnField = GetComponent<CheckForCardsOnField>();
 
         //sets health
         playerHealth = maxPlayerHealth;
@@ -237,10 +236,7 @@ public class WarManager : MonoBehaviour
         if (usable)
         {
             for (int i = 0; i < PlayerCardsInField.Count; i++)
-            {
-                //StartCoroutine(AttackInterval(PlayerCardsInField));
                 PlayerCardsInField[i].GetComponent<PlayerCard>().AttackForward();
-            }
         }
 
         //update player and enemy UI 
@@ -303,6 +299,10 @@ public class WarManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// function to play a sound from the sound manager. Used in a button
+    /// </summary>
+    /// <param name="name"></param>
     public void PlaySound(string name)
     {
         audioManager.Play(name);
@@ -315,6 +315,7 @@ public class WarManager : MonoBehaviour
 
         yield return new WaitForSeconds(5);
 
+        #region Deactivation
         for (int i = 0; i < playersHand.Count; i++)
             playersHand[i].GetComponent<PlayerCard>().health = 0;
 
@@ -331,8 +332,7 @@ public class WarManager : MonoBehaviour
 
         for (int i = 0; i < allObjectsInScene.Length; i++)
             allObjectsInScene[i].SetActive(false);
-
-        isPlayerTurn = true;
+        #endregion
 
         yield return new WaitForSeconds(5);
         //switch scene
