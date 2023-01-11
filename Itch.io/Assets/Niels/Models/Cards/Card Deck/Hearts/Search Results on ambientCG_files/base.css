@@ -1,0 +1,41 @@
+/*Fonts*/
+@import url('/css/base.font.css');
+@import url('/css/base.links.css');
+@import url('/css/theme.php');
+
+/*General*/
+*{
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+
+}
+
+body{
+	font-family: 'Inter',sans-serif;
+    margin:0 auto;
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+.SvgIcon{
+    display: inline-flex;
+    align-self: center;
+    height:1em;
+    vertical-align:middle;
+}
+  
+.SvgIcon svg{
+    height:1em;
+    width:1em;
+    position: relative;
+}
+
+:root{
+	--reduced-width: max(calc(100% - 300px),1100px);
+    --global-width: 100%;
+
+}

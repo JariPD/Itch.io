@@ -1,0 +1,28 @@
+var headerLinks = document.getElementById("HeaderLinks");
+var lastHeaderState = window.innerWidth > 870;
+function setHeaderState(open){
+	if (open) {
+		headerLinks.style.display = "inline-flex";
+	} else {
+		headerLinks.style.display = "none";
+	}
+}
+function toggleHeaderLinks() {
+	if (headerLinks.style.display == "none" || headerLinks.style.display == "") {
+		lastHeaderState = true;
+		setHeaderState(true);
+	} else {
+		lastHeaderState = false;
+		setHeaderState(false);
+	}
+}
+function windowResize(){
+	if (window.innerWidth > 870) {
+		setHeaderState(true);
+	}else{
+		setHeaderState(lastHeaderState);
+	}
+}
+setHeaderState(lastHeaderState);
+document.getElementById('MenuButton').onclick = toggleHeaderLinks;
+window.onresize = windowResize;
