@@ -8567,6 +8567,56 @@ MonoBehaviour:
     Loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
+  - name: ReaperPlaceCards
+    clip: {fileID: 8300000, guid: bec28b4ed08684041b58c88b81dd5e30, type: 3}
+    Position: {fileID: 756601406}
+    Volume: 0.6
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: ReaperThereYouGo
+    clip: {fileID: 8300000, guid: 289c9573445f05647931d54ec4054713, type: 3}
+    Position: {fileID: 756601406}
+    Volume: 0.6
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: ReaperHealth
+    clip: {fileID: 8300000, guid: ac505dd0a4416d541985759c7660213c, type: 3}
+    Position: {fileID: 756601406}
+    Volume: 0.6
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: ReaperDestroyCard
+    clip: {fileID: 8300000, guid: 5983fcb10fb13cf4ea7167ff6326bae2, type: 3}
+    Position: {fileID: 756601406}
+    Volume: 0.6
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
+  - name: ReaperLose
+    clip: {fileID: 8300000, guid: dd7b391e9988bc441983c8bb2a3c77b3, type: 3}
+    Position: {fileID: 756601406}
+    Volume: 0.6
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
   Reverbs:
     Preset: 0
     source: {fileID: 0}
@@ -21590,6 +21640,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: CardDisolve
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1639375363}
+        m_TargetAssemblyTypeName: WarManager, Assembly-CSharp
+        m_MethodName: PlayPlaceCardsVoiceline
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 100201322}
