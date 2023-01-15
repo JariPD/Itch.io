@@ -14,11 +14,6 @@ public class RouletteAI : MonoBehaviour
         MyTurn = false;
     }
 
-    private void Update()
-    {
-        Debug.Log(MyTurn);
-    }
-    
     public void ON()
     {
         MyTurn = true;
