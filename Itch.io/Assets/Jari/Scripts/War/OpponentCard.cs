@@ -28,7 +28,7 @@ public class OpponentCard : Card
         ai = FindObjectOfType<WarOpponentCardPlace>();
 
         //gets random health value
-        health = Random.Range(1, 6);
+        health = Random.Range(1, 5);
         //gets random attack value
         attack = Random.Range(1, 3);
 

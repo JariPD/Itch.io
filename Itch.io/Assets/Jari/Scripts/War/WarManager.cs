@@ -26,15 +26,18 @@ public class WarManager : MonoBehaviour
     public int diceRoll;
 
     private bool winCoroutine = true;
+    private bool loseCoroutine = true;
     private bool isPlayerTurn = true;
     private int turnCount = 0;
     private int count = 0;
+    private int placeCardCount, AttackCount, destroyCardCount;
+    private bool destroyingcard = false;
 
     [Header("Battling")]
     public List<GameObject> playersHand;               //players hand - used to keep track of the cards in the players hand
     public int playerHealth, opponentHealth;                             //health of the player and opponent
     [SerializeField] private Button attackButton;
-    private readonly int maxPlayerHealth = 20, maxOpponentHealth = 20;   //max health of the player and opponent
+    private readonly int maxPlayerHealth = 25, maxOpponentHealth = 25;   //max health of the player and opponent
 
     [Header("Movement")]
     [SerializeField] private GameObject vCamOne;
@@ -89,8 +92,14 @@ public class WarManager : MonoBehaviour
         if (playerHealth <= 0)
         {
             playerHealth = 0;
-            //play fade animation
-            SceneManager.LoadScene(0);
+
+            if (loseCoroutine)
+                StartCoroutine(LostGame());
+        }
+
+        if (PlayerCardsInField.Count >= 3 && !destroyingcard && audioManager.Sounds[8].source.isPlaying == false)
+        {
+            StartCoroutine(DestroyCardVoiceline());
         }
     }
 
@@ -100,10 +109,10 @@ public class WarManager : MonoBehaviour
     public void StartDiceThrow()
     {
         //gridParent.SetActive(true);
-        StartCoroutine(ThrowDice(true));
+        StartCoroutine(ThrowDice(true, false));
     }
 
-    IEnumerator ThrowDice(bool placeCards)
+    IEnumerator ThrowDice(bool placeCards, bool giveExtraPlayerCard)
     {
         turnCount++;
         count++;
@@ -113,7 +122,7 @@ public class WarManager : MonoBehaviour
 
         //------------------------------------------------------------------- player dice logic -------------------------------------------------------------------\\
 
-        if (isPlayerTurn && playersHand.Count < 6 && winCoroutine) //check if it is the players turn and the player does not have a full hand
+        if (isPlayerTurn && playersHand.Count < 6 && winCoroutine && loseCoroutine) //check if it is the players turn and the player does not have a full hand
         {
             //loop trough the dice roll and give cards to the player
             for (int i = 0; i < diceRoll; i++)
@@ -143,12 +152,12 @@ public class WarManager : MonoBehaviour
             //updates the dice roll text
             UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
 
-            //updates throw dice button
-            UIManager.instance.DisableThrowDiceButton();
+            if (giveExtraPlayerCard)
+                yield return null;
         }
         else if (!isPlayerTurn)  //-------------------------------------------- opponent dice logic ---------------------------------------------\\
         {
-            if (enemyCardsInField.Count != 4 && winCoroutine)
+            if (enemyCardsInField.Count != 4 && winCoroutine && loseCoroutine)
             {
                 //loop trough the dice roll and give cards to the opponent
                 for (int i = 0; i < diceRoll; i++)
@@ -170,7 +179,7 @@ public class WarManager : MonoBehaviour
         if (turnCount == 2)
             yield return null;
         else
-            StartCoroutine(ThrowDice(true));
+            StartCoroutine(ThrowDice(true, false));
     }
 
     #region Battle
@@ -245,7 +254,7 @@ public class WarManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         usable = true;
-        if (usable && winCoroutine)
+        if (usable && winCoroutine && loseCoroutine)
         {
             for (int i = 0; i < enemyCardsInField.Count; i++)
                 enemyCardsInField[i].GetComponent<OpponentCard>().AttackForward();
@@ -258,13 +267,20 @@ public class WarManager : MonoBehaviour
         {
             isPlayerTurn = true;
             turnCount = 0;
-            StartCoroutine(ThrowDice(false));
+            StartCoroutine(ThrowDice(false, false));
         }
         else if (enemyCardsInField.Count < 4)
         {
             isPlayerTurn = false;
             turnCount = 1;
-            StartCoroutine(ThrowDice(true));
+            StartCoroutine(ThrowDice(true, false));
+        }
+
+        yield return new WaitForSeconds(1);
+        if (AttackCount <= 0)
+        {
+            AttackCount++;
+            audioManager.Play("ReaperHealth");
         }
     }
 
@@ -285,6 +301,13 @@ public class WarManager : MonoBehaviour
                 CurrentSelectedCard.transform.position = pos;
                 CurrentSelectedCard.GetComponent<BoxCollider>().enabled = true;
                 CurrentSelectedCard = null;
+
+                if (placeCardCount <= 0)
+                {
+                    placeCardCount++;
+                    audioManager.StopPlaying("ReaperPlaceCards");
+                    audioManager.Play("ReaperThereYouGo");
+                }
             }
         }
     }
@@ -299,6 +322,7 @@ public class WarManager : MonoBehaviour
         }
     }
 
+    #region Audio
     /// <summary>
     /// function to play a sound from the sound manager. Used in a button
     /// </summary>
@@ -308,12 +332,48 @@ public class WarManager : MonoBehaviour
         audioManager.Play(name);
     }
 
+    public void PlayPlaceCardsVoiceline()
+    {
+        StartCoroutine(PlaceCardsVoiceline());
+    }
+
+    private IEnumerator PlaceCardsVoiceline()
+    {
+        yield return new WaitForSeconds(1);
+        audioManager.Play("ReaperPlaceCards");
+    }
+
+    private IEnumerator DestroyCardVoiceline()
+    {
+        attackButton.interactable = false;
+
+        destroyingcard = true;
+        destroyCardCount++;
+        audioManager.Play("ReaperDestroyCard");
+
+        yield return new WaitForSeconds(4f);
+
+        int r = Random.Range(0, PlayerCardsInField.Count);
+        PlayerCardsInField[r].GetComponent<PlayerCard>().health = 0;
+
+        yield return new WaitForSeconds(1f);
+
+        isPlayerTurn = true;
+        StartCoroutine(ThrowDice(false, true));
+
+        attackButton.interactable = true;
+
+        yield return null;
+    }
+    #endregion
+
     private IEnumerator WonGame()
     {
         winCoroutine = false;
-        //do animation or transition
+        
+        yield return new WaitForSeconds(3);
 
-        yield return new WaitForSeconds(5);
+        audioManager.Play("ReaperLose");
 
         #region Deactivation
         for (int i = 0; i < playersHand.Count; i++)
@@ -328,10 +388,12 @@ public class WarManager : MonoBehaviour
         for (int i = 0; i < enemyCardsInField.Count; i++)
             enemyCardsInField[i].GetComponent<OpponentCard>().health = 0;
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(8f);
 
         for (int i = 0; i < allObjectsInScene.Length; i++)
             allObjectsInScene[i].SetActive(false);
+
+        //fade out
         #endregion
 
         yield return new WaitForSeconds(5);
@@ -345,5 +407,48 @@ public class WarManager : MonoBehaviour
         //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
 
         yield return null;
+    }
+
+    IEnumerator LostGame()
+    {
+        loseCoroutine = false;
+
+        yield return new WaitForSeconds(3);
+
+        //audioManager.Play("ReaperLose");
+
+        #region Deactivation
+        for (int i = 0; i < playersHand.Count; i++)
+            playersHand[i].GetComponent<PlayerCard>().health = 0;
+
+        for (int i = 0; i < PlayerCardsInField.Count; i++)
+            PlayerCardsInField[i].GetComponent<PlayerCard>().health = 0;
+
+        for (int i = 0; i < warAI.opponentsHand.Count; i++)
+            warAI.opponentsHand[i].GetComponent<OpponentCard>().health = 0;
+
+        for (int i = 0; i < enemyCardsInField.Count; i++)
+            enemyCardsInField[i].GetComponent<OpponentCard>().health = 0;
+
+        yield return new WaitForSeconds(8f);
+
+        for (int i = 0; i < allObjectsInScene.Length; i++)
+            allObjectsInScene[i].SetActive(false);
+
+        //fade out
+        #endregion
+
+        yield return new WaitForSeconds(5);
+        //switch scene
+
+        int index = 0;
+        int loadedScene = index;
+        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+        ///*index*/ = 3;
+        //SceneManager.UnloadSceneAsync(loadedScene);
+        //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+
+        yield return null;
+
     }
 }

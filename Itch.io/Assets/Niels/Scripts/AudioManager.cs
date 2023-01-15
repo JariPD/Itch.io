@@ -73,6 +73,8 @@ public class AudioManager : MonoBehaviour
             s.source.loop = false;
 
         s.source.volume = Mathf.MoveTowards(s.source.volume, 0, 0.5f * Time.deltaTime);
+
+        s.source.Stop();
     }
 
     public void ReverbPreset(AudioReverbPreset _preset)
