@@ -25,8 +25,8 @@ public class WarManager : MonoBehaviour
     public int placeToSpawn;
     public int diceRoll;
 
-    private bool winCoroutine = true;
-    private bool loseCoroutine = true;
+    [SerializeField] private GameObject room;
+    private bool winCoroutine = true, loseCoroutine = true;
     private bool isPlayerTurn = true;
     private int turnCount = 0;
     private int count = 0;
@@ -370,7 +370,7 @@ public class WarManager : MonoBehaviour
     private IEnumerator WonGame()
     {
         winCoroutine = false;
-        
+
         yield return new WaitForSeconds(3);
 
         audioManager.Play("ReaperLose");
@@ -393,18 +393,20 @@ public class WarManager : MonoBehaviour
         for (int i = 0; i < allObjectsInScene.Length; i++)
             allObjectsInScene[i].SetActive(false);
 
-        //fade out
+        room.GetComponent<Animator>().SetTrigger("DoAnim");
+
         #endregion
 
         yield return new WaitForSeconds(5);
         //switch scene
 
-        int index = 3;
-        int loadedScene = index;
-        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
-        ///*index*/ = 3;
-        //SceneManager.UnloadSceneAsync(loadedScene);
-        //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+        /* int index = 2;
+         int lodedScene = index;
+         index = 3;
+         SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+         SceneManager.UnloadSceneAsync(lodedScene);*/
+        SceneManager.LoadScene(3);
+
 
         yield return null;
     }
@@ -435,7 +437,8 @@ public class WarManager : MonoBehaviour
         for (int i = 0; i < allObjectsInScene.Length; i++)
             allObjectsInScene[i].SetActive(false);
 
-        //fade out
+        room.GetComponent<Animator>().SetTrigger("DoAnim");
+
         #endregion
 
         yield return new WaitForSeconds(5);
