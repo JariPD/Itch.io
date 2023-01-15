@@ -415,7 +415,7 @@ public class WarManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-        //audioManager.Play("ReaperLose");
+        audioManager.Play("ReaperWin");
 
         #region Deactivation
         for (int i = 0; i < playersHand.Count; i++)

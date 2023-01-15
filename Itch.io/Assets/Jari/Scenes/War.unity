@@ -8617,6 +8617,16 @@ MonoBehaviour:
     Loop: 0
     PlayOnAwake: 0
     source: {fileID: 0}
+  - name: ReaperWin
+    clip: {fileID: 8300000, guid: be73659ea9f45d840a1856ce02ac648a, type: 3}
+    Position: {fileID: 756601406}
+    Volume: 0.6
+    Pitch: 1
+    Spatial: 0
+    MaxDistance: 0
+    Loop: 0
+    PlayOnAwake: 0
+    source: {fileID: 0}
   Reverbs:
     Preset: 0
     source: {fileID: 0}
