@@ -39,11 +39,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic:
-        m_Texture: {fileID: 2800000, guid: 65b4cbfd445f7404396903e6f8f2fcfd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 38be540efe8760040bc61a60f54d8a14, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 535c769a1c5f72a42a6a920691823799, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7fe2fa37ae676dd42a701212891e0d57, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxOcclusionMapping_9357c9ebc8234328b29f38c56bfad22d_Heightmap_2:
@@ -67,7 +67,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: 82f5e836767e8a44fba2c45778c34ca3, type: 3}
+        m_Texture: {fileID: 2800000, guid: e9aaad3fc4fc1e54d9781cf6fe74a277, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
