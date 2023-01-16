@@ -32,6 +32,7 @@ public class WarManager : MonoBehaviour
     private int count = 0;
     private int placeCardCount, AttackCount, destroyCardCount;
     private bool destroyingcard = false;
+    private bool resetAttack = false;
 
     [Header("Battling")]
     public List<GameObject> playersHand;               //players hand - used to keep track of the cards in the players hand
@@ -56,13 +57,11 @@ public class WarManager : MonoBehaviour
         playerHealth = maxPlayerHealth;
         opponentHealth = maxOpponentHealth;
 
+        //update health ui
+        UIManager.instance.UpdateWarHealth(playerHealth, opponentHealth);
+
         //play ambience
         audioManager.Play("Ambience");
-    }
-
-    private void Start()
-    {
-        UIManager.instance.UpdateWarHealth(playerHealth, opponentHealth);
     }
 
     private void Update()
@@ -70,6 +69,7 @@ public class WarManager : MonoBehaviour
         //move camera above playing field when placing card
         if (CardSelected)
         {
+            resetAttack = true;
             StartCoroutine(SeeCards());
             attackButton.interactable = false;
         }
@@ -78,7 +78,11 @@ public class WarManager : MonoBehaviour
             if (MainCam.position == vCamTwo.position)
                 vCamOne.SetActive(true);
 
-            attackButton.interactable = true;
+            if (resetAttack)
+            {
+                resetAttack = false;
+                attackButton.interactable = true;
+            }
         }
 
         if (CurrentSelectedCard == null)
@@ -244,6 +248,8 @@ public class WarManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator TradingAttack()
     {
+        attackButton.interactable = false;
+
         //make it so you cant pickup cards
         for (int i = 0; i < playersHand.Count; i++)
             playersHand[i].GetComponent<PlayerCard>().AllowCardPickup = false;
@@ -293,6 +299,8 @@ public class WarManager : MonoBehaviour
         //make it so you cant pickup cards
         for (int i = 0; i < playersHand.Count; i++)
             playersHand[i].GetComponent<PlayerCard>().AllowCardPickup = true;
+
+        attackButton.interactable = true;
     }
 
     #endregion
