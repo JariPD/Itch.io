@@ -62,10 +62,15 @@ public class OpponentCard : Card
             objectToAttack = hit.transform;
             StartCoroutine(Curve(transform.position, hit.transform.position, false, hit));
         }
-        else if (!Physics.Raycast(transform.position, -transform.up, out hit, 3, layerToHit))
+        else if (!Physics.Raycast(transform.position, -transform.up, out hit, 3, layerToHit)) //didnt hit a card
         {
+            //attack main health
             WarManager.instance.playerHealth -= attack;
             StartCoroutine(Curve(transform.position, new Vector3(0.8f, 7.5f, -20), false, hit));
+
+            //make it so health cant go into the minus
+            if (WarManager.instance.playerHealth <= 0)
+                WarManager.instance.playerHealth = 0;
         }
     }
 
