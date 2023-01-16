@@ -5,16 +5,25 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: b3b2f281bdbae3849b5f7e148eba7d9a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Niels/Scenes/BlackJack.unity
     guid: 287e4ca6934cada4db434a5a08e7a350
-  - enabled: 1
+  - enabled: 0
     path: Assets/Jari/Scenes/War.unity
     guid: 404992d9d8e7e9a43b727bb52522fb8f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Niels/Scenes/Russian Roulette.unity
     guid: ee19b959338e86e45917b84958ae29a1
+  - enabled: 0
+    path: Assets/Niels/Scenes/BlackJack Cinematic.unity
+    guid: b96f011e5ba94544a9b41d7bcab2dabc
+  - enabled: 0
+    path: Assets/Niels/Scenes/Russian Roulette Cinematic.unity
+    guid: 7cde348e02c82254b83857186367880c
+  - enabled: 1
+    path: Assets/Jari/Scenes/War Cinematic.unity
+    guid: d20fc0268669e2c419b17a52da672073
   m_configObjects: {}
