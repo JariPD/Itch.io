@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCard : Card
 {
     [Header("Card Movement")]
+    public bool AllowCardPickup;
     [SerializeField] private AnimationCurve movementCurve;
     [SerializeField] private float speed = 0;
 
@@ -41,6 +42,8 @@ public class PlayerCard : Card
         //update text
         attackText.text = attack.ToString();
         healthText.text = health.ToString();
+
+        AllowCardPickup = true;
     }
     private void Update()
     {
@@ -71,7 +74,7 @@ public class PlayerCard : Card
         {
             health = 0;
         }
-        else if (!WarManager.instance.CardSelected)
+        else if (!WarManager.instance.CardSelected && AllowCardPickup)
         {
             //play sound
             AudioManager.instance.Play("CardPickup");

@@ -36,8 +36,6 @@ public class UIManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-        else
-            Destroy(gameObject);
     }
 
     private void Start()
@@ -57,12 +55,6 @@ public class UIManager : MonoBehaviour
             userCardValueText.text = "" + blackJackManager.UserTotalCardValue.ToString();
             opponentCardValueText.text = "Opponents value: " + blackJackManager.OpponentTotalCardValue.ToString();
         }
-
-        //if (opponentMatchPoints != null && playerMatchPoints != null)
-        //{
-        //    opponentMatchPoints.text = "Opponent Points: " + blackJackManager.OpponentPoints;
-        //    playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
-        //}
     }
 
     public void UpdateScore(bool PlayerOpponnent)
@@ -95,8 +87,11 @@ public class UIManager : MonoBehaviour
 
     public void UpdateWarHealth(int player, int enemy)
     {
-        playerHealth.text = "" + player;
-        enemyHealth.text = "" + enemy;
+        if (playerHealth.text != null)
+            playerHealth.text = "" + player;
+
+        if (enemyHealth.text != null)
+            enemyHealth.text = "" + enemy;
     }
 
     public void TurnButton(bool active)
@@ -109,7 +104,7 @@ public class UIManager : MonoBehaviour
         if (throwDiceButton != null)
             Destroy(throwDiceButton.gameObject);
     }
-    
+
     #endregion
 
     private IEnumerator TurnOffText(TextMeshProUGUI text, float time)
@@ -126,7 +121,7 @@ public class UIManager : MonoBehaviour
         {
             playerMatchPoints.text = "Player Points: " + blackJackManager.PlayerPoints;
         }
-    }   
+    }
 
     private IEnumerator OpponentScoreChange()
     {
