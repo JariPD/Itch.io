@@ -56,10 +56,13 @@ public class WarManager : MonoBehaviour
         playerHealth = maxPlayerHealth;
         opponentHealth = maxOpponentHealth;
 
-        UIManager.instance.UpdateWarHealth(playerHealth, opponentHealth);
-
         //play ambience
         audioManager.Play("Ambience");
+    }
+
+    private void Start()
+    {
+        UIManager.instance.UpdateWarHealth(playerHealth, opponentHealth);
     }
 
     private void Update()
@@ -97,7 +100,7 @@ public class WarManager : MonoBehaviour
                 StartCoroutine(LostGame());
         }
 
-        if (PlayerCardsInField.Count >= 3 && !destroyingcard && audioManager.Sounds[8].source.isPlaying == false)
+        if (PlayerCardsInField.Count >= 3 && !destroyingcard && audioManager.Sounds[8].source.isPlaying == false && destroyCardCount == 0)
         {
             StartCoroutine(DestroyCardVoiceline());
         }
@@ -241,6 +244,10 @@ public class WarManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator TradingAttack()
     {
+        //make it so you cant pickup cards
+        for (int i = 0; i < playersHand.Count; i++)
+            playersHand[i].GetComponent<PlayerCard>().AllowCardPickup = false;
+
         bool usable = true;
         if (usable)
         {
@@ -282,6 +289,10 @@ public class WarManager : MonoBehaviour
             AttackCount++;
             audioManager.Play("ReaperHealth");
         }
+
+        //make it so you cant pickup cards
+        for (int i = 0; i < playersHand.Count; i++)
+            playersHand[i].GetComponent<PlayerCard>().AllowCardPickup = true;
     }
 
     #endregion

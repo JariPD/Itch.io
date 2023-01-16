@@ -295,19 +295,20 @@ public class BlackJackManager : MonoBehaviour
 
         yield return new WaitForSeconds(5);
 
-        //switch scene
-        int index = 2;
-        //int lodedScene = index;
-        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
-        //index = 2;
-        //SceneManager.UnloadSceneAsync(lodedScene);
-        //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
-
         //turn off all objects in last scene
         for (int i = 0; i < objectsOff.Count; i++)
         {
             objectsOff[i].SetActive(false);
         }
+
+        //switch scene
+        int index = 2;
+        //int lodedScene = index;
+        SceneManager.LoadScene(index);
+        //index = 2;
+        //SceneManager.UnloadSceneAsync(lodedScene);
+        //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+
         yield return new WaitForSeconds(2);
         MainCam.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
