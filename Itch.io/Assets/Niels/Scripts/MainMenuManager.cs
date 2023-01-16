@@ -23,10 +23,8 @@ public class MainMenuManager : MonoBehaviour
     public void BlackJackStart()
     {
         int index = 0;
-        int lodedScene = index;
         index = 1;
-        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(lodedScene);
+        SceneManager.LoadScene(index);
 
         RenderSettings.fogDensity = 0.02f;
 

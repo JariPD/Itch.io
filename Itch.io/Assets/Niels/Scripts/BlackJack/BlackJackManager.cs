@@ -298,7 +298,7 @@ public class BlackJackManager : MonoBehaviour
         //switch scene
         int index = 2;
         //int lodedScene = index;
-        SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+        SceneManager.LoadScene(index);
         //index = 2;
         //SceneManager.UnloadSceneAsync(lodedScene);
         //SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
@@ -321,7 +321,7 @@ public class BlackJackManager : MonoBehaviour
 
         yield return new WaitForSeconds(5);
         //switch scene
-        SceneManager.LoadScene("BlackJack");
+        SceneManager.LoadScene("MainMenu");
     }
 
     #endregion
