@@ -197,6 +197,8 @@ public class BlackJackManager : MonoBehaviour
         PlayerDeck.instance.ResetState();
         BlackJackOpponent.instance.ResetState();
 
+        buttonMove.SetBool("State", false);
+
         cardAmount = 0;
         opponentCardAmount = 0;
 
@@ -248,7 +250,11 @@ public class BlackJackManager : MonoBehaviour
         fold.interactable = !fold.interactable;
         call.interactable = !call.interactable;
         useCam = !useCam;
-        buttonMove.SetBool("State", !buttonMove.GetBool("State"));
+
+        if (buttonMove.GetBool("State") == true)
+            buttonMove.SetBool("State", false);
+        else if (buttonMove.GetBool("State") == false)
+            buttonMove.SetBool("State", true);
     }
 
     /// <summary>
@@ -302,7 +308,9 @@ public class BlackJackManager : MonoBehaviour
         {
             objectsOff[i].SetActive(false);
         }
-
+        yield return new WaitForSeconds(2);
+        MainCam.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
         yield return null;
     }
 

@@ -16,6 +16,7 @@ public class RussianRoulette : MonoBehaviour
     [SerializeField] private AudioSource click;
     [SerializeField] private AudioSource heartBeat;
     [SerializeField] private AudioSource gunshot;
+    [SerializeField] private AudioClip winSound;
     private bool heartBeatPlaying = false;
     private float heartbeatSpeed = 1;
 
@@ -85,12 +86,22 @@ public class RussianRoulette : MonoBehaviour
                 gunBarrel.barrelSound = null;
                 ending.Play("RussianRouletteEnding");
                 gunBarrel.Shoot[i].Play();
+                AudioLineEnd();
                 gunshot.Play(0);
             }
         else
             click.Play(0);
 
         StartCoroutine(NextTurn());
+    }
+
+    public void AudioLineEnd()
+    {
+        if (RouletteAI.instance.MyTurn == false)
+        {
+            GetComponent<AudioSource>().clip = winSound;
+            GetComponent<AudioSource>().Play();
+        }
     }
 
     private void ChooseBulletHolder()
