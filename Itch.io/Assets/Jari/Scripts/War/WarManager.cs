@@ -12,45 +12,37 @@ public class WarManager : MonoBehaviour
     [Header("References")]
     public AudioManager audioManager;
     [SerializeField] private Transform[] cardSpawnPos;                   //spawn positions for cards
-    [SerializeField] private GameObject[] allObjectsInScene;
-    [SerializeField] private GameObject room;                            //room object
     [SerializeField] private GameObject card, opponentCard;              //cards prefabs
+    [SerializeField] private GameObject[] allObjectsInScene;
     private WarOpponentCardPlace warAI;
 
-    [Header("Camera Movement")]
-    [SerializeField] private GameObject vCamOne;
-    [SerializeField] private Transform MainCam;
-    [SerializeField] private Transform vCamTwo;
-
     [Header("Card Placement")]
-    public List<GameObject> PlayerCardsInField = new();                    //all playercards in field
-    public List<GameObject> enemyCardsInField = new();                    //all enemy cards in field
-    public GameObject CurrentSelectedCard;                                  //reference to the card that is currently selected
-    public bool PlacingCard = false;                                    //checks if the card is being placed
+    public List<GameObject> PlayerCardsInField = new(); //all playercards in field
+    public List<GameObject> enemyCardsInField = new();  //all enemy cards in field
+    public GameObject CurrentSelectedCard;                               //reference to the card that is currently selected
+    public bool PlacingCard = false;                                     //checks if the card is being placed
     public bool CardSelected = false;                                    //checks if the card is selected
-    public int PlaceToSpawnCard;
-    public int DiceRoll;
-    
-    [Header("Battling")]
-    public List<GameObject> playersHand;                                    //players hand - used to keep track of the cards in the players hand
-    public int playerHealth, opponentHealth;                                //health of the player and opponent
-    [SerializeField] private Button attackButton;                           //reference to the attack button
-    private readonly int maxPlayerHealth = 25, maxOpponentHealth = 25;      //max health of the player and opponent
-    private bool resetAttack = false;
+    public int placeToSpawn;
+    public int diceRoll;
+
+    [SerializeField] private GameObject room;
+    private bool winCoroutine = true, loseCoroutine = true;
     private bool isPlayerTurn = true;
     private int turnCount = 0;
     private int count = 0;
-<<<<<<< Updated upstream
     private int placeCardCount, AttackCount, destroyCardCount;
     private bool destroyingcard = false;
-=======
->>>>>>> Stashed changes
 
-    [Header("Voiceline Variables")]
-    private int placeCardCount, AttackCount, destroyCardCount;              //ints not play voicelines multiple times
-    private bool destroyingcard = false;
+    [Header("Battling")]
+    public List<GameObject> playersHand;               //players hand - used to keep track of the cards in the players hand
+    public int playerHealth, opponentHealth;                             //health of the player and opponent
+    [SerializeField] private Button attackButton;
+    private readonly int maxPlayerHealth = 25, maxOpponentHealth = 25;   //max health of the player and opponent
 
-    private bool winCoroutine = true, loseCoroutine = true;
+    [Header("Movement")]
+    [SerializeField] private GameObject vCamOne;
+    [SerializeField] private Transform MainCam;
+    [SerializeField] private Transform vCamTwo;
 
     private void Awake()
     {
@@ -89,7 +81,6 @@ public class WarManager : MonoBehaviour
             attackButton.interactable = true;
         }
 
-        //if no card is selected clear reference
         if (CurrentSelectedCard == null)
             CardSelected = false;
 
@@ -130,19 +121,19 @@ public class WarManager : MonoBehaviour
         count++;
 
         //get random dice roll to spawn cards
-        DiceRoll = count <= 2 ? Random.Range(2, 3) : 1;
+        diceRoll = count <= 2 ? Random.Range(2, 3) : 1;
 
         //------------------------------------------------------------------- player dice logic -------------------------------------------------------------------\\
 
         if (isPlayerTurn && playersHand.Count < 6 && winCoroutine && loseCoroutine) //check if it is the players turn and the player does not have a full hand
         {
             //loop trough the dice roll and give cards to the player
-            for (int i = 0; i < DiceRoll; i++)
+            for (int i = 0; i < diceRoll; i++)
             {
-                if (DiceRoll >= 2)
+                if (diceRoll >= 2)
                 {
                     //if diceroll is 2 or more spawn cards based on count
-                    PlaceToSpawnCard = playersHand.Count;
+                    placeToSpawn = playersHand.Count;
                 }
                 else
                 {
@@ -151,18 +142,18 @@ public class WarManager : MonoBehaviour
                         if (!cardSpawnPos[a].GetComponent<CardCheck>().HasCard) //check if place to spawn does not already have a card
                         {
                             //sets spawn pos to current pos in the loop
-                            PlaceToSpawnCard = a;
+                            placeToSpawn = a;
                             break;
                         }
                     }
                 }
 
                 //instantiates players cards
-                playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[PlaceToSpawnCard].position.x, cardSpawnPos[PlaceToSpawnCard].position.y - .2f, cardSpawnPos[PlaceToSpawnCard].position.z), cardSpawnPos[PlaceToSpawnCard].rotation));
+                playersHand.Add(Instantiate(card, new Vector3(cardSpawnPos[placeToSpawn].position.x, cardSpawnPos[placeToSpawn].position.y - .2f, cardSpawnPos[placeToSpawn].position.z), cardSpawnPos[placeToSpawn].rotation));
             }
 
             //updates the dice roll text
-            UIManager.instance.UpdateDiceRollText(DiceRoll, isPlayerTurn);
+            UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
 
             if (giveExtraPlayerCard)
                 yield return null;
@@ -172,11 +163,11 @@ public class WarManager : MonoBehaviour
             if (enemyCardsInField.Count != 4 && winCoroutine && loseCoroutine)
             {
                 //loop trough the dice roll and give cards to the opponent
-                for (int i = 0; i < DiceRoll; i++)
+                for (int i = 0; i < diceRoll; i++)
                     warAI.opponentsHand.Add(Instantiate(opponentCard, new Vector3(warAI.opponentHandSpawnPos[i].position.x, warAI.opponentHandSpawnPos[i].position.y - .2f, warAI.opponentHandSpawnPos[i].position.z), warAI.opponentHandSpawnPos[i].rotation));
 
                 //updates the dice roll text
-                UIManager.instance.UpdateDiceRollText(DiceRoll, isPlayerTurn);
+                UIManager.instance.UpdateDiceRollText(diceRoll, isPlayerTurn);
 
                 //places oppenent cards
                 if (placeCards)

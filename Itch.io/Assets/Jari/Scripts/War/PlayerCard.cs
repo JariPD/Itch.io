@@ -119,15 +119,10 @@ public class PlayerCard : Card
             objectToAttack = hit.transform;
             StartCoroutine(Curve(transform.position, hit.transform.position, false, hit));
         }
-        else if (!Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out hit, 3, layerToHit)) //didnt hit a card
+        else if (!Physics.SphereCast(transform.localPosition, 0.1f, transform.up, out hit, 3, layerToHit))
         {
-            //attack main health
             StartCoroutine(Curve(transform.position, new Vector3(0.4f, 7.5f, -8.2f), false, hit));
             WarManager.instance.opponentHealth -= attack;
-
-            //make it so health cant go into the minus
-            if (WarManager.instance.opponentHealth <= 0)
-                WarManager.instance.opponentHealth = 0;
         }
     }
 
