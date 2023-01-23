@@ -104,9 +104,10 @@ public class WarManager : MonoBehaviour
                 StartCoroutine(LostGame());
         }
 
-        if (PlayerCardsInField.Count >= 3 && !destroyingcard && audioManager.Sounds[8].source.isPlaying == false && destroyCardCount == 0)
+        if (PlayerCardsInField.Count >= 3 && !destroyingcard && destroyCardCount == 0)
         {
-            StartCoroutine(DestroyCardVoiceline());
+            if (audioManager.Sounds[8].source.isPlaying == false)
+                StartCoroutine(DestroyCardVoiceline());
         }
     }
 
@@ -115,7 +116,6 @@ public class WarManager : MonoBehaviour
     /// </summary>
     public void StartDiceThrow()
     {
-        //gridParent.SetActive(true);
         StartCoroutine(ThrowDice(true, false));
     }
 
