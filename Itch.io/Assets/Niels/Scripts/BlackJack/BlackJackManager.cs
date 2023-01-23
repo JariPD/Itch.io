@@ -102,12 +102,12 @@ public class BlackJackManager : MonoBehaviour
                 for (int i = 0; i < cheatCards.Count; i++)
                     cheatCards[i].GetComponent<CheatCard>().UseAble = false;
 
-        if (PlayerPoints == 5)
+        if (PlayerPoints == 3)
         {
             StartCoroutine(WonGame());
-            PlayerPoints = 6;
+            PlayerPoints = 4;
         }
-        else if (OpponentPoints == 5)
+        else if (OpponentPoints == 3)
             StartCoroutine(LoseGame());
     }
 
